@@ -4,9 +4,9 @@ part of 'app_button.dart';
 /// Created by Sunil Kumar from Boiler plate
 ///
 class AppBackButton extends StatelessWidget {
-  final Color color;
-  final EdgeInsets padding;
-  final VoidCallback onPressed;
+  final Color? color;
+  final EdgeInsets? padding;
+  final VoidCallback? onPressed;
   const AppBackButton({this.color, this.padding, this.onPressed});
 
   @override

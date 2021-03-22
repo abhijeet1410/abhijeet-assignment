@@ -13,7 +13,7 @@ import 'package:image_picker/image_picker.dart';
 ///
 
 class PhotoChooser extends StatelessWidget {
-  final String title;
+  final String? title;
   const PhotoChooser({this.title});
 
   @override
@@ -122,7 +122,7 @@ class PhotoChooser extends StatelessWidget {
                     title: 'Crop Your Image',
                     aspectRatioLockEnabled: true,
                     showCancelConfirmationDialog: true))
-            .then((File value) {
+            .then((File? value) {
           if (value != null && value.path != null && value.path.isNotEmpty) {
             Navigator.pop(context, value);
           }

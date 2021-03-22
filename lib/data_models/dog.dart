@@ -5,9 +5,9 @@ class Dog {
     this.age,
   });
 
-  int id;
-  String name;
-  int age;
+  int? id;
+  String? name;
+  int? age;
 
   factory Dog.fromJson(Map<String, dynamic> json) => Dog(
         id: json["id"],

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AppErrorWidget extends StatelessWidget {
-  final String title, subtitle, buttonText, assetPath;
-  final VoidCallback onRetry;
-  final Color textColor;
+  final String? title, subtitle, buttonText, assetPath;
+  final VoidCallback? onRetry;
+  final Color? textColor;
 
   const AppErrorWidget(
       {this.title,
@@ -41,9 +41,9 @@ class AppErrorWidget extends StatelessWidget {
 }
 
 class AppEmptyWidget extends StatelessWidget {
-  final String title, subtitle, buttonText, assetPath;
-  final VoidCallback onReload;
-  final Color textColor;
+  final String? title, subtitle, buttonText, assetPath;
+  final VoidCallback? onReload;
+  final Color? textColor;
 
   const AppEmptyWidget(
       {this.title,
@@ -80,9 +80,9 @@ class AppEmptyWidget extends StatelessWidget {
 }
 
 class AppNoInternetWidget extends StatelessWidget {
-  final String title, subtitle, buttonText, assetPath;
-  final Color textColor;
-  final VoidCallback onRetry;
+  final String? title, subtitle, buttonText, assetPath;
+  final Color? textColor;
+  final VoidCallback? onRetry;
 
   const AppNoInternetWidget(
       {this.title,

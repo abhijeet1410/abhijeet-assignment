@@ -15,8 +15,8 @@ class UserResponse {
     this.user,
   });
 
-  String accessToken;
-  UserDatum user;
+  String? accessToken;
+  UserDatum? user;
 
   factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
         accessToken: json["accessToken"],
@@ -25,13 +25,13 @@ class UserResponse {
 
   Map<String, dynamic> toJson() => {
         "accessToken": accessToken,
-        "user": user.toJson(),
+        "user": user?.toJson(),
       };
 }
 
 class UserDatum {
   UserDatum(
-      {this.id,
+      {required this.id,
       this.status,
       this.email,
       this.role,
@@ -41,13 +41,13 @@ class UserDatum {
       this.name});
 
   String id;
-  int status;
-  String email;
-  int role;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String phone;
-  String name;
+  int? status;
+  String? email;
+  int? role;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? phone;
+  String? name;
   factory UserDatum.fromJson(Map<String, dynamic> json) => UserDatum(
       id: json["_id"],
       status: json["status"] ?? 0,

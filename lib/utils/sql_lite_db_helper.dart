@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter_mobile_template/data_models/cart.dart';
+import 'package:flutter_mobile_template/data_models/dog.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -8,9 +8,9 @@ class DBProvider {
   DBProvider._();
   static final DBProvider db = DBProvider._();
 
-  static Database _database;
+  static Database? _database;
 
-  Future<Database> get database async {
+  Future<Database?> get database async {
     if (_database != null) return _database;
 
     _database = await _initDB();
@@ -31,7 +31,7 @@ class DBProvider {
 
   insertDog(Dog dog) async {
     final db = await database;
-    return await db.insert('dog', dog.toJson(),
+    return await db?.insert('dog', dog.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);
 
     /*
@@ -44,29 +44,30 @@ class DBProvider {
 
   Future<List<Dog>> getAllDogs() async {
     final db = await database;
-    final res = await db.query("Dog").whenComplete(() {
+    final List<Map<String, Object?>>? res =
+        await db?.query("Dog").whenComplete(() {
       print("Completeed featching!");
     });
 
     List<Dog> list =
-        res.isNotEmpty ? res.map((c) => Dog.fromJson(c)).toList() : [];
+        res!.isNotEmpty ? res.map((c) => Dog.fromJson(c)).toList() : [];
     return list;
   }
 
   updateDog(Dog newClient) async {
     final db = await database;
-    var res = await db.update("Dog", newClient.toJson(),
+    var res = await db?.update("Dog", newClient.toJson(),
         where: "id = ?", whereArgs: [newClient.id]);
     return res;
   }
 
   deleteDog(String id) async {
     final db = await database;
-    return db.delete("Dog", where: "id = ?", whereArgs: [id]);
+    return db?.delete("Dog", where: "id = ?", whereArgs: [id]);
   }
 
   deleteAll() async {
     final db = await database;
-    return db.rawDelete("Delete * from People");
+    return db?.rawDelete("Delete * from People");
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoaderOverlay extends ModalRoute<void> {
-  final String message;
+  final String? message;
 
   LoaderOverlay({this.message});
 
@@ -67,11 +67,11 @@ class LoaderOverlay extends ModalRoute<void> {
 }
 
 class AppProgress extends StatefulWidget {
-  final Color color;
-  final double strokeWidth;
-  final Size size;
+  final Color? color;
+  final double? strokeWidth;
+  final Size? size;
   const AppProgress(
-      {Key key, this.strokeWidth, this.color, this.size = const Size(50, 50)})
+      {Key? key, this.strokeWidth, this.color, this.size = const Size(50, 50)})
       : super(key: key);
 
   @override
@@ -80,7 +80,7 @@ class AppProgress extends StatefulWidget {
 
 class _AppProgressState extends State<AppProgress>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
 
   @override
   void initState() {
@@ -122,14 +122,14 @@ class _AppProgressState extends State<AppProgress>
 }
 
 class _CircleProgressBarPainter extends CustomPainter {
-  final double percentage;
+  final double? percentage;
   final double strokeWidth;
-  final Color color;
+  final Color? color;
 
   _CircleProgressBarPainter({
     @required this.color,
     @required this.percentage,
-    double strokeWidth,
+    double? strokeWidth,
   }) : this.strokeWidth = strokeWidth ?? 6;
 
   @override
@@ -138,13 +138,13 @@ class _CircleProgressBarPainter extends CustomPainter {
 
     final shortestSide = Math.min(size.width, size.height);
     final foregroundPaint = Paint()
-      ..color = this.color
+      ..color = this.color!
       ..strokeWidth = this.strokeWidth
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
-    final radius = (shortestSide / 2) - (this.strokeWidth / 2).ceil();
+    final radius = (shortestSide / 2) - ((this.strokeWidth) / 2).ceil();
 
-    final double startAngle = 2 * Math.pi * percentage;
+    final double startAngle = 2 * Math.pi * (percentage??0);
 
     final count = 8;
     final gapSize = 20;
@@ -152,7 +152,7 @@ class _CircleProgressBarPainter extends CustomPainter {
     final double singleAngle = (Math.pi * 2) / count;
 
     final Paint paint = Paint()
-      ..color = color
+      ..color = color!
       ..strokeWidth = strokeWidth - 2
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;

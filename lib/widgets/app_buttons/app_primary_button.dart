@@ -5,8 +5,8 @@ part of 'app_button.dart';
 ///
 class AppButton extends StatefulWidget {
   const AppButton(
-      {@required this.child,
-      Key key,
+      {required this.child,
+      Key? key,
       this.onPressed,
       this.height,
       this.width,
@@ -16,13 +16,13 @@ class AppButton extends StatefulWidget {
       this.padding})
       : super(key: key);
 
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
   final Widget child;
-  final VoidCallback onPressed;
-  final double height, width;
-  final Color color;
-  final TextStyle textStyle;
-  final EdgeInsets padding;
+  final VoidCallback? onPressed;
+  final double? height, width;
+  final Color? color;
+  final TextStyle? textStyle;
+  final EdgeInsets? padding;
   @override
   AppButtonState createState() => AppButtonState();
 }

@@ -6,10 +6,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 /// Created by Sunil Kumar from Boiler plate
 ///
 class UserCircleAvatar extends StatelessWidget {
-  final String userId;
-  final String name;
-  final String imageUrl;
-  final double radius;
+  final String? userId;
+  final String? name;
+  final String? imageUrl;
+  final double? radius;
   const UserCircleAvatar(this.imageUrl, {this.userId, this.name, this.radius});
 
   @override
@@ -42,12 +42,12 @@ class UserCircleAvatar extends StatelessWidget {
 }
 
 class AvatarPlaceholder extends StatelessWidget {
-  final String firstLetter;
-  final double radius;
-  final Color backgroundColor, textColor;
+  final String? firstLetter;
+  final double? radius;
+  final Color? backgroundColor, textColor;
   AvatarPlaceholder(this.firstLetter,
       {this.radius, this.backgroundColor, this.textColor})
-      : assert(firstLetter != null, firstLetter.isNotEmpty);
+      : assert(firstLetter != null, firstLetter?.isNotEmpty);
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
