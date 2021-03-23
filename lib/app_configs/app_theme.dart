@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_template/app_configs/environment.dart';
 import 'app_colors.dart';
 
 ///
@@ -6,6 +7,7 @@ import 'app_colors.dart';
 ///
 mixin AppThemes {
   static final lightTheme = ThemeData(
+    fontFamily: Environment.fontFamily,
     canvasColor: AppColors.brightBackground,
     primarySwatch: AppColors.brightPrimary,
     primaryColor: AppColors.brightPrimary,
@@ -34,6 +36,7 @@ mixin AppThemes {
     // ),
   );
   static final darkTheme = ThemeData(
+      fontFamily: Environment.fontFamily,
       canvasColor: AppColors.darkBackground,
       backgroundColor: AppColors.darkBackground,
       primarySwatch: AppColors.darkprimary,

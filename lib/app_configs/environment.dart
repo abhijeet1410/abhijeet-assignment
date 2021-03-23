@@ -12,4 +12,6 @@ mixin Environment {
   static const googleClientId = environment == 'prod'
       ? ''
       : '';
+
+  static const fontFamily = 'Grandstander';
 }

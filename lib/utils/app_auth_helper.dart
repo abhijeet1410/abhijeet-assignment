@@ -6,6 +6,7 @@ import 'package:flutter_mobile_template/app_configs/api_routes.dart';
 import 'package:flutter_mobile_template/app_configs/environment.dart';
 import 'package:flutter_mobile_template/data_models/social_signin_response.dart';
 import 'package:flutter_mobile_template/data_models/user.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/intro/intro_page.dart';
 import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -269,7 +270,7 @@ class AuthHelper {
       //   Get.offAllNamed(DashboardPage.routeName);
       // }
     } else {
-      // Get.offAllNamed(IntroPage.routeName);
+      Get.offAllNamed(IntroPage.routeName);
     }
   }
 

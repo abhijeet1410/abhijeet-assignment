@@ -1,10 +1,14 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/intro/intro_page.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/login/login_page.dart';
+import 'package:flutter_mobile_template/pages/splash/splash_screen.dart';
 import 'package:get/get.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate
 ///
 class AppPages {
-  static final routes = [
+  static final pages = [
     // GetPage(
     //     name: Routes.HOME,
     //     page: () => HomeView(),
@@ -22,4 +26,9 @@ class AppPages {
     //       ),
     //     ]),
   ];
+  static Map<String, Widget Function(BuildContext)> routes = {
+    SplashPage.routeName: (ctx) => SplashPage(),
+    IntroPage.routeName: (ctx) => IntroPage(),
+    LoginPage.routeName: (ctx) => LoginPage(),
+  };
 }

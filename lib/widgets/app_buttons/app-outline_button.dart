@@ -3,8 +3,8 @@ part of 'app_button.dart';
 ///
 /// Created by Sunil Kumar from Boiler plate
 ///
-class AppPrimaryButton extends StatefulWidget {
-  const AppPrimaryButton(
+class AppOutlineButton extends StatefulWidget {
+  const AppOutlineButton(
       {required this.child,
       Key? key,
       this.onPressed,
@@ -24,10 +24,10 @@ class AppPrimaryButton extends StatefulWidget {
   final TextStyle? textStyle;
   final EdgeInsets? padding;
   @override
-  AppPrimaryButtonState createState() => AppPrimaryButtonState();
+  AppOutlineButtonState createState() => AppOutlineButtonState();
 }
 
-class AppPrimaryButtonState extends State<AppPrimaryButton> {
+class AppOutlineButtonState extends State<AppOutlineButton> {
   bool _isLoading = false;
 
   void showLoader() {
@@ -48,25 +48,33 @@ class AppPrimaryButtonState extends State<AppPrimaryButton> {
 
     return _isLoading
         ? AppProgress(color: widget.color ?? theme.primaryColor)
-        : ElevatedButton(
-            style: ButtonStyle(
-              padding: MaterialStateProperty.all(widget.padding ??
-                  const EdgeInsets.symmetric(vertical: 14, horizontal: 48)),
-              // backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-              //   (Set<MaterialState> states) {
-              //     if (states.contains(MaterialState.pressed))
-              //       return AppColors.brightPrimary.shade800;
-              //     else if (states.contains(MaterialState.disabled))
-              //       return Colors.grey.shade500;
-              //   },
-              // ),
-            ),
+        : OutlinedButton(
             onPressed: widget.onPressed,
+            style: ButtonStyle(
+              padding: MaterialStateProperty.all(
+                widget.padding ??
+                    const EdgeInsets.symmetric(vertical: 14, horizontal: 48),
+              ),
+              textStyle: MaterialStateProperty.resolveWith(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.disabled))
+                  return TextStyle(color: Colors.grey.shade500);
+
+                return TextStyle(color: AppColors.brightPrimary.shade800);
+              }),
+              foregroundColor: MaterialStateProperty.resolveWith<Color?>(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.pressed))
+                    return AppColors.brightPrimary.shade800;
+                  else if (states.contains(MaterialState.disabled))
+                    return Colors.grey.shade500;
+                },
+              ),
+            ),
+
             // disabledTextColor: Color(0xff949494),
             // shape: const StadiumBorder(),
-            // color: widget.color ?? theme.primaryColor,
-
-            //
+            // color: widget.color ?? theme.OutlineColor,
             child: DefaultTextStyle(
                 style: widget.textStyle ??
                     TextStyle(
