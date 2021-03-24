@@ -6,7 +6,7 @@ import 'package:flutter_mobile_template/app_configs/api_routes.dart';
 import 'package:flutter_mobile_template/app_configs/environment.dart';
 import 'package:flutter_mobile_template/data_models/social_signin_response.dart';
 import 'package:flutter_mobile_template/data_models/user.dart';
-import 'package:flutter_mobile_template/pages/authenticaton/presentation/pages/intro/intro_page.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/pages/intro/intro_page.dart';
 import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -25,13 +25,11 @@ class AuthHelper {
   /// On error it will throw [RestError]
   ///
   static Future<UserResponse> userLoginWithEmailOrPhone(
-      String field, String password,
-      {bool isBusinessUser = false}) async {
+      String field, String password) async {
     String path = ApiRoutes.authentication;
 
     final fcmId = await FirebaseMessaging.instance.getToken();
     final resultMap = await ApiCall.post(path,
-        query: {if (isBusinessUser) '\$populate': 'business'},
         body: {
           "strategy": field.isEmail ? "email" : "phone",
           if (field.isEmail) "email": field else "phone": field,
@@ -191,7 +189,7 @@ class AuthHelper {
   ///
   static Future<Map<String, dynamic>> userSignUpWithPhone(
       String name, String phone, String password,
-      {String? email, bool isBusinessUser = false}) async {
+      {String? email}) async {
     // final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
     // final fcmId = await firebaseMessaging.getToken();
     final resultMap = await ApiCall.post(ApiRoutes.signInWithPhone,
@@ -216,21 +214,16 @@ class AuthHelper {
   /// After success it will check for pincode is empty or not. If empty or null it will redirects to [ChooseLocationPage.routeName]
   /// On error it will throw [RestError]
   ///
-  static Future<UserResponse> verifySignUpOtp(Map<String, dynamic> body,
-      {bool isBusinessUser = false}) async {
-    final resultMap = await ApiCall.post(ApiRoutes.user,
-        query: {if (isBusinessUser) '\$populate': 'business'},
-        body: body,
-        isAuthNeeded: false);
+  static Future<UserResponse> verifySignUpOtp(
+    Map<String, dynamic> body,
+  ) async {
+    final resultMap =
+        await ApiCall.post(ApiRoutes.user, body: body, isAuthNeeded: false);
 
     SharedPreferenceHelper.storeAccessToken(resultMap.data['accessToken']);
     final userResponse = UserResponse.fromJson(resultMap.data);
     SharedPreferenceHelper.storeUser(user: userResponse);
 
-    // if (isBusinessUser)
-    // AuthHelper.checkBusinessLevel();
-    // Get.toNamed(BusinessOnboardingPage.routeName);
-    // else
     AuthHelper.checkUserLevel();
     return userResponse;
   }
@@ -261,10 +254,9 @@ class AuthHelper {
   static Future<void> checkUserLevel() async {
     UserResponse? user = SharedPreferenceHelper.user;
     if (user != null) {
-      ///normal user
-      // if (user.user.phone?.isEmpty ?? true) {
+      // if (user.user!.phone?.isEmpty ?? true) {
       //   Get.offAllNamed(OtpVerificationPage.routeName);
-      // } else if (user.user.pinCode?.isEmpty ?? true) {
+      // } else if (user.pinCode?.isEmpty ?? true) {
       //   Get.offAllNamed(ChooseLocationPage.routeName);
       // } else {
       //   Get.offAllNamed(DashboardPage.routeName);

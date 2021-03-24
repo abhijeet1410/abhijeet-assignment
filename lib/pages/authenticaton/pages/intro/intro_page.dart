@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_template/app_configs/app_assets.dart';
 import 'package:flutter_mobile_template/generated/l10n.dart';
-import 'package:flutter_mobile_template/pages/authenticaton/presentation/pages/login/login_page.dart';
-import 'package:flutter_mobile_template/pages/authenticaton/presentation/pages/register/register_page.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/pages/login/login_page.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/pages/register/register_page.dart';
 import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
 import 'package:get/get.dart';
 

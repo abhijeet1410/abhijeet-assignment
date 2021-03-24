@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_template/app_configs/app_assets.dart';
 import 'package:flutter_mobile_template/app_configs/app_decorations.dart';
-import 'package:flutter_mobile_template/pages/authenticaton/presentation/controllers/register_controller.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/controllers/login_controller.dart';
 import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -12,24 +12,24 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 ///
 /// Created by Sunil Kumar from Boiler plate
 ///
-class RegisterPage extends StatefulWidget {
-  static const routeName = '/register';
+class LoginPage extends StatefulWidget {
+  static const String routeName = '/login';
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  late RegisterController _registerController;
+class _LoginPageState extends State<LoginPage> {
+  late LoginController _loginController;
   @override
   void initState() {
     super.initState();
-    _registerController = RegisterController();
-    _registerController.onInit();
+    _loginController = LoginController();
+    _loginController.onInit();
   }
 
   @override
   void dispose() {
-    _registerController.dispose();
+    _loginController.dispose();
     super.dispose();
   }
 
@@ -37,12 +37,12 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register'),
+        title: Text('Login'),
       ),
       body: Obx(
         () => Form(
-          key: _registerController.formKey,
-          autovalidateMode: _registerController.autoValidateMode.value,
+          key: _loginController.formKey,
+          autovalidateMode: _loginController.autoValidateMode.value,
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -50,27 +50,11 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 TextFormField(
                   textInputAction: TextInputAction.next,
-                  onSaved: _registerController.onNameSaved,
-                  onFieldSubmitted: (s) => FocusScope.of(context).nextFocus(),
-                  validator: (value) =>
-                      _registerController.nameValidator(value, context),
-                  decoration:
-                      AppDecorations.textFieldDecoration(context).copyWith(
-                    prefixIcon: Padding(
-                        padding: const EdgeInsets.all(14.0),
-                        child: Icon(Icons.person)),
-                    labelText: 'Name',
-                    hintText: 'John Doe',
-                  ),
-                ),
-                SizedBox(height: 14),
-                TextFormField(
-                  textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
-                  onSaved: _registerController.onEmailSaved,
+                  onSaved: _loginController.onEmailSaved,
                   onFieldSubmitted: (s) => FocusScope.of(context).nextFocus(),
                   validator: (value) =>
-                      _registerController.emailValidator(value, context),
+                      _loginController.emailValidator(value, context),
                   decoration:
                       AppDecorations.textFieldDecoration(context).copyWith(
                     prefixIcon: Padding(
@@ -83,37 +67,35 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(height: 14),
                 TextFormField(
-                  obscureText: _registerController.isObscure.value ?? true,
+                  obscureText: _loginController.isObscure.value ?? true,
                   textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (v) =>
-                      _registerController.registerEmailAddress,
-                  onSaved: _registerController.onPasswordSaved,
-                  validator: _registerController.passwordValidator,
+                  onFieldSubmitted: (v) => _loginController.loginEmailAddress,
+                  onSaved: _loginController.onPasswordSaved,
+                  validator: _loginController.passwordValidator,
                   decoration:
                       AppDecorations.textFieldDecoration(context).copyWith(
                           prefixIcon: Padding(
                             padding: const EdgeInsets.all(14.0),
-                            child: Icon(Icons.email),
+                            child: Icon(Icons.lock),
                           ),
                           labelText: 'Password',
                           hintText: '********',
                           suffixIcon: GestureDetector(
-                            onTap: _registerController.toggleObscure,
-                            child: Icon(
-                                _registerController.isObscure.value ?? true
-                                    ? Icons.visibility_rounded
-                                    : Icons.visibility_off_rounded),
+                            onTap: _loginController.toggleObscure,
+                            child: Icon(_loginController.isObscure.value ?? true
+                                ? Icons.visibility_rounded
+                                : Icons.visibility_off_rounded),
                           )),
                 ),
                 SizedBox(height: 28),
                 AppPrimaryButton(
-                  child: Text('Register'),
-                  onPressed: _registerController.registerEmailAddress,
-                  key: _registerController.buttonKey,
+                  child: Text('Login'),
+                  onPressed: _loginController.loginEmailAddress,
+                  key: _loginController.buttonKey,
                 ),
                 SizedBox(height: 12),
                 Text(
-                  'Or Register using',
+                  'Or Login using',
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                 ),
                 SizedBox(height: 12),
@@ -122,28 +104,26 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     if (Platform.isIOS)
                       AppCircleButton(
-                        onPressed: () => _registerController.socialSignIn(3),
+                        onPressed: () => _loginController.socialSignIn(3),
                         child: SizedBox(
                           height: 28,
                           width: 26,
                           child: CustomPaint(
-                            painter: AppleLogoPainter(
-                              color: Colors.black,
-                            ),
+                            painter: AppleLogoPainter(color: Colors.black),
                           ),
                         ),
                       ),
                     AppCircleButton(
-                      onPressed: () => _registerController.socialSignIn(1),
+                      onPressed: () => _loginController.socialSignIn(1),
                       child: SvgPicture.asset(AppAssets.google),
                     ),
                     AppCircleButton(
-                      onPressed: () => _registerController.socialSignIn(2),
+                      onPressed: () => _loginController.socialSignIn(2),
                       child: SvgPicture.asset(AppAssets.facebook),
                     ),
                     if (!Platform.isIOS)
                       AppCircleButton(
-                        onPressed: () => _registerController.socialSignIn(3),
+                        onPressed: () => _loginController.socialSignIn(3),
                         child: SizedBox(
                           height: 28,
                           width: 26,

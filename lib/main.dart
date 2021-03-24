@@ -9,6 +9,7 @@ import 'package:flutter_mobile_template/pages/splash/splash_screen.dart';
 import 'package:get/get.dart';
 
 import 'generated/l10n.dart';
+import 'pages/dashboard/profile/profile_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,8 +29,9 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
       ],
-      initialRoute: SplashPage.routeName,
-      routes: AppPages.routes,
+      // initialRoute: SplashPage.routeName,
+      // routes: AppPages.routes,
+      home: ProfilePage(),
     );
   }
 }

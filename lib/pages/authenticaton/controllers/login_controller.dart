@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_template/data_models/rest_error.dart';
 import 'package:flutter_mobile_template/data_models/social_signin_response.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/pages/register/register_page.dart';
 import 'package:flutter_mobile_template/utils/app_auth_helper.dart';
 import 'package:flutter_mobile_template/utils/snackbar_helper.dart';
 import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
@@ -78,9 +79,9 @@ class LoginController extends GetxController {
         log('$err $s');
         if (err is RestError) {
           if (err.code == 425) {
-            SnackBarHelper.show('New User', 'Please signup to continue');
-            // Get.toNamed(RegisterPage.routeName,
-            // arguments: {"email": _emailId, "password": _password});
+            SnackBarHelper.show('New User', 'Please sign up to continue');
+            Get.toNamed(RegisterPage.routeName,
+                arguments: {"email": _emailId, "password": _password});
           } else {
             SnackBarHelper.show('Error', '$err');
           }
@@ -109,8 +110,8 @@ class LoginController extends GetxController {
           break;
       }
       if (user != null) {
-        // Get.offAndToNamed(RegisterPage.routeName,
-        // arguments: {"email": user.user.email, "name": user.user.name});
+        Get.offAndToNamed(RegisterPage.routeName,
+            arguments: {"email": user.email, "name": user.name});
       }
     } catch (err, s) {
       Get.key!.currentState!.pop();
