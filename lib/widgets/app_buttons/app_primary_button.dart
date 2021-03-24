@@ -10,10 +10,10 @@ class AppPrimaryButton extends StatefulWidget {
       this.onPressed,
       this.height,
       this.width,
-      this.textStyle,
       this.color,
       this.shape,
-      this.padding})
+      this.padding,
+      this.textStyle})
       : super(key: key);
 
   final ShapeBorder? shape;
@@ -21,8 +21,9 @@ class AppPrimaryButton extends StatefulWidget {
   final VoidCallback? onPressed;
   final double? height, width;
   final Color? color;
-  final TextStyle? textStyle;
   final EdgeInsets? padding;
+  final TextStyle? textStyle;
+
   @override
   AppPrimaryButtonState createState() => AppPrimaryButtonState();
 }
@@ -49,32 +50,42 @@ class AppPrimaryButtonState extends State<AppPrimaryButton> {
     return _isLoading
         ? AppProgress(color: widget.color ?? theme.primaryColor)
         : ElevatedButton(
-            style: ButtonStyle(
-              padding: MaterialStateProperty.all(widget.padding ??
-                  const EdgeInsets.symmetric(vertical: 14, horizontal: 48)),
-              // backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-              //   (Set<MaterialState> states) {
-              //     if (states.contains(MaterialState.pressed))
-              //       return AppColors.brightPrimary.shade800;
-              //     else if (states.contains(MaterialState.disabled))
-              //       return Colors.grey.shade500;
-              //   },
-              // ),
+            // style: ButtonStyle(
+            //   padding: MaterialStateProperty.all(
+            //     widget.padding ??
+            //         const EdgeInsets.symmetric(vertical: 14, horizontal: 48),
+            //   ),
+            //   textStyle: MaterialStateProperty.resolveWith(
+            //       (Set<MaterialState> states) {
+            //     if (states.contains(MaterialState.disabled))
+            //       return TextStyle(color: Colors.grey.shade500);
+
+            //     return TextStyle(color: AppColors.brightPrimary);
+            //   }),
+            //   foregroundColor: MaterialStateProperty.resolveWith<Color?>(
+            //     (Set<MaterialState> states) {
+            //       if (states.contains(MaterialState.pressed))
+            //         return AppColors.brightPrimary.shade800;
+            //       else if (states.contains(MaterialState.disabled))
+            //         return Colors.grey.shade500;
+            //         return AppColors.brightPrimary;
+            //     },
+            //   )
+            // ),
+            style: ElevatedButton.styleFrom(
+              primary: theme.primaryColor,
+              padding: widget.padding ??
+                  const EdgeInsets.symmetric(vertical: 14, horizontal: 48),
+              textStyle: widget.textStyle ??
+                  TextStyle(
+                      fontSize: 18,
+                      fontFamily: Environment.fontFamily,
+                      letterSpacing: 1.4,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500),
             ),
             onPressed: widget.onPressed,
-            // disabledTextColor: Color(0xff949494),
-            // shape: const StadiumBorder(),
-            // color: widget.color ?? theme.primaryColor,
-
-            //
-            child: DefaultTextStyle(
-                style: widget.textStyle ??
-                    TextStyle(
-                        fontSize: 18,
-                        fontFamily: Environment.fontFamily,
-                        letterSpacing: 1.4,
-                        fontWeight: FontWeight.w500),
-                child: widget.child),
+            child: widget.child,
           );
   }
 }

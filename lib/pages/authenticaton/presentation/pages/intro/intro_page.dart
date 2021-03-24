@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_template/app_configs/app_assets.dart';
-import 'package:flutter_mobile_template/pages/authenticaton/intro/controller/intro_controller.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/presentation/pages/login/login_page.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/presentation/pages/register/register_page.dart';
 import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
 import 'package:get/get.dart';
 
@@ -15,26 +16,13 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
-  final IntroController _introController = IntroController();
-  @override
-  void initState() {
-    super.initState();
-    _introController.initController();
-  }
-
-  @override
-  void dispose() {
-    _introController.disposeController();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final introQuotes = [
-      'Best quality\ngrocery at your\ndoorstep!',
-      'Peace of mind,\nsame day\ndelivery or pickup.',
-      'Get quality grocery\non every order.',
-      'Big savings with\nseasonal discounts\non all products.'
+      'Dipped in hues of love and trust has come the festival of Holi.',
+      'Holi is the time to unwind,\nDe-stress and bond with sweets, thandai and colours.\nHappy Holi',
+      'Let the colors of Holi spread the message of peace and happiness.',
+      'HAPPY HOLI TO YOU AND YOUR FAMILY.\nWE WISH YOUR HEALTH, PROSPERITY AND BUSINESS ACHIEVEMENTS AT THIS PRISMIC COLOUR EVE.\nMAY ALLAH BLESS YOU WITH ALL HIS MERCIES!'
     ];
     return Scaffold(
       body: SafeArea(
@@ -46,12 +34,21 @@ class _IntroPageState extends State<IntroPage> {
                 itemBuilder: (context, index) => Column(
                   children: [
                     SizedBox(height: 22),
-                    Text(AppAssets.introAssets[index]),
+                    Expanded(
+                        flex: 2,
+                        child: Image.network(
+                          AppAssets.introAssets[index],
+                        )),
                     SizedBox(height: 12),
-                    Text(
-                      introQuotes[index],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        introQuotes[index],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                     SizedBox(height: 12),
                   ],
@@ -65,14 +62,18 @@ class _IntroPageState extends State<IntroPage> {
                   Expanded(
                     child: AppPrimaryButton(
                       child: Text('Login'),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(LoginPage.routeName);
+                      },
                     ),
                   ),
                   SizedBox(width: 16),
                   Expanded(
                     child: AppOutlineButton(
                       child: Text('Register'),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(RegisterPage.routeName);
+                      },
                     ),
                   ),
                 ],
