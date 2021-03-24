@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_template/app_configs/app_assets.dart';
+import 'package:flutter_mobile_template/generated/l10n.dart';
 import 'package:flutter_mobile_template/pages/authenticaton/presentation/pages/login/login_page.dart';
 import 'package:flutter_mobile_template/pages/authenticaton/presentation/pages/register/register_page.dart';
 import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
@@ -19,10 +20,10 @@ class _IntroPageState extends State<IntroPage> {
   @override
   Widget build(BuildContext context) {
     final introQuotes = [
-      'Dipped in hues of love and trust has come the festival of Holi.',
-      'Holi is the time to unwind,\nDe-stress and bond with sweets, thandai and colours.\nHappy Holi',
-      'Let the colors of Holi spread the message of peace and happiness.',
-      'HAPPY HOLI TO YOU AND YOUR FAMILY.\nWE WISH YOUR HEALTH, PROSPERITY AND BUSINESS ACHIEVEMENTS AT THIS PRISMIC COLOUR EVE.\nMAY ALLAH BLESS YOU WITH ALL HIS MERCIES!'
+      S.of(context).intro1,
+      S.of(context).intro2,
+      S.of(context).intro3,
+      S.of(context).intro4
     ];
     return Scaffold(
       body: SafeArea(

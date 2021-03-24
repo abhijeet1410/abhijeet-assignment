@@ -12,9 +12,9 @@ import 'package:get/get.dart';
 ///
 /// Created by Sunil Kumar from Boiler plate
 ///
-class LoginController extends GetxController {
+class RegisterController extends GetxController {
   late RxBool isObscure;
-  String _emailId = '', _password = '';
+  String _name = '', _emailId = '', _password = '';
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<AppPrimaryButtonState> buttonKey =
       GlobalKey<AppPrimaryButtonState>();
@@ -32,6 +32,16 @@ class LoginController extends GetxController {
     isObscure.close();
     autoValidateMode.close();
     super.dispose();
+  }
+
+  String? nameValidator(String? value, BuildContext context) {
+    if (value == null || value.trim().isEmpty) {
+      return '*required';
+    }
+  }
+
+  void onNameSaved(String? newValue) {
+    _name = newValue!.trim();
   }
 
   String? emailValidator(String? value, BuildContext context) {
@@ -63,7 +73,7 @@ class LoginController extends GetxController {
     isObscure.value = !(isObscure.value ?? false);
   }
 
-  void loginEmailAddress() {
+  void registerEmailAddress() {
     final state = formKey.currentState;
     if (state == null) return;
     if (!state.validate()) {
@@ -72,7 +82,7 @@ class LoginController extends GetxController {
       state.save();
 
       buttonKey.currentState?.showLoader();
-      AuthHelper.userLoginWithEmailOrPhone(_emailId, _password)
+      AuthHelper.userSignUpWithPhone(_name, _emailId, _password)
           .then((response) {})
           .catchError((err, s) {
         log('$err $s');

@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 14),
                 TextFormField(
-                  obscureText: _loginController.isObscure.value,
+                  obscureText: _loginController.isObscure.value ?? true,
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (v) => _loginController.loginEmailAddress,
                   onSaved: _loginController.onPasswordSaved,
@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: '********',
                           suffixIcon: GestureDetector(
                             onTap: _loginController.toggleObscure,
-                            child: Icon(_loginController.isObscure.value
+                            child: Icon(_loginController.isObscure.value ?? true
                                 ? Icons.visibility_rounded
                                 : Icons.visibility_off_rounded),
                           )),

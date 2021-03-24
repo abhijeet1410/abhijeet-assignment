@@ -20,7 +20,7 @@ dependencies:
   flutter_google_places: ^0.2.8
   flutter_svg: ^0.19.3
   #? geolocation: ^1.1.2
-  get: ^3.26.0
+  get: ^4.0.0-nullsafety.2
   google_sign_in: ^5.0.1
   image_cropper: ^1.4.0
   image_picker: null

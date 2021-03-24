@@ -18,7 +18,7 @@ class LoaderOverlay extends ModalRoute<void> {
   bool get barrierDismissible => false;
 
   @override
-  Color get barrierColor => Get.theme.scaffoldBackgroundColor.withOpacity(0.8);
+  Color get barrierColor => Get.theme!.scaffoldBackgroundColor.withOpacity(0.8);
 
   @override
   String get barrierLabel => 'loader-overlay';
@@ -43,7 +43,7 @@ class LoaderOverlay extends ModalRoute<void> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          AppProgress(color: Get.theme.primaryColor),
+          AppProgress(color: Get.theme!.primaryColor),
           Text(
             message ?? 'Please wait...',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
@@ -144,7 +144,7 @@ class _CircleProgressBarPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
     final radius = (shortestSide / 2) - ((this.strokeWidth) / 2).ceil();
 
-    final double startAngle = 2 * Math.pi * (percentage??0);
+    final double startAngle = 2 * Math.pi * (percentage ?? 0);
 
     final count = 8;
     final gapSize = 20;

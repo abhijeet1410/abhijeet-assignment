@@ -112,7 +112,7 @@ class PhotoChooser extends StatelessWidget {
                 ],
                 androidUiSettings: AndroidUiSettings(
                   toolbarTitle: 'Crop Your Image',
-                  toolbarColor: Get.theme.primaryColor,
+                  toolbarColor: Get.theme!.primaryColor,
                   toolbarWidgetColor: Colors.white,
                   // initAspectRatio: CropAspectRatioPreset.square,
                   // lockAspectRatio: true,

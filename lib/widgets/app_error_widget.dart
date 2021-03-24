@@ -32,7 +32,7 @@ class AppErrorWidget extends StatelessWidget {
           MaterialButton(
             onPressed: onRetry,
             textColor: Colors.white,
-            color: Get.theme.primaryColor,
+            color: Get.theme!.primaryColor,
             child: Text(buttonText ?? 'Retry'),
           )
       ],
@@ -70,7 +70,7 @@ class AppEmptyWidget extends StatelessWidget {
         if (onReload != null)
           MaterialButton(
             textColor: Colors.white,
-            color: Get.theme.primaryColor,
+            color: Get.theme!.primaryColor,
             onPressed: onReload,
             child: Text(buttonText ?? 'Reload'),
           )
@@ -119,7 +119,7 @@ class AppNoInternetWidget extends StatelessWidget {
         if (onRetry != null)
           MaterialButton(
             textColor: Colors.white,
-            color: Get.theme.primaryColor,
+            color: Get.theme!.primaryColor,
             onPressed: onRetry,
             child: Text(buttonText ?? 'Retry'),
           )

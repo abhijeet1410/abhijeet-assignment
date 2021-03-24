@@ -83,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(height: 14),
                 TextFormField(
-                  obscureText: _registerController.isObscure.value,
+                  obscureText: _registerController.isObscure.value ?? true,
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (v) =>
                       _registerController.registerEmailAddress,
@@ -99,9 +99,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: '********',
                           suffixIcon: GestureDetector(
                             onTap: _registerController.toggleObscure,
-                            child: Icon(_registerController.isObscure.value
-                                ? Icons.visibility_rounded
-                                : Icons.visibility_off_rounded),
+                            child: Icon(
+                                _registerController.isObscure.value ?? true
+                                    ? Icons.visibility_rounded
+                                    : Icons.visibility_off_rounded),
                           )),
                 ),
                 SizedBox(height: 28),
