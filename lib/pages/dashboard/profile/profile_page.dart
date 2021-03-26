@@ -30,7 +30,7 @@ class ProfilePage extends StatelessWidget {
                       id: '12423', name: 'Kumar', email: 'sk@gmail.com'));
                 }),
           ],
-            ),
+        ),
       ),
     );
   }
