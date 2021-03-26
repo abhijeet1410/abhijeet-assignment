@@ -1,9 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_template/app_configs/app_assets.dart';
 import 'package:flutter_mobile_template/generated/l10n.dart';
 import 'package:flutter_mobile_template/pages/authenticaton/pages/login/login_page.dart';
 import 'package:flutter_mobile_template/pages/authenticaton/pages/register/register_page.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_outline_button.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
 
 ///
@@ -30,32 +32,45 @@ class _IntroPageState extends State<IntroPage> {
         child: Column(
           children: [
             Expanded(
-              child: PageView.builder(
-                itemCount: introQuotes.length,
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    SizedBox(height: 22),
-                    Expanded(
-                        flex: 2,
-                        child: Image.network(
-                          AppAssets.introAssets[index],
-                        )),
-                    SizedBox(height: 12),
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        introQuotes[index],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                  ],
-                ),
-              ),
-            ),
+                child: CarouselSlider(
+              items: List.generate(
+                  introQuotes.length,
+                  (index) => Column(
+                        children: [
+                          SizedBox(height: 22),
+                          Expanded(
+                              flex: 2,
+                              child: Image.network(
+                                AppAssets.introAssets[index],
+                              )),
+                          SizedBox(height: 12),
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              introQuotes[index],
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                        ],
+                      )),
+              options: CarouselOptions(
+                  // height: 400,
+                  aspectRatio: 1,
+                  viewportFraction: 1,
+                  initialPage: 0,
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 5),
+                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enlargeCenterPage: true,
+                  scrollDirection: Axis.horizontal),
+            )),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Row(

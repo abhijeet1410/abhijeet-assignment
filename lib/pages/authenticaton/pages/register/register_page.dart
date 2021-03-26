@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile_template/app_configs/app_assets.dart';
 import 'package:flutter_mobile_template/app_configs/app_decorations.dart';
 import 'package:flutter_mobile_template/pages/authenticaton/controllers/register_controller.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_circle_button.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -14,6 +15,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 ///
 class RegisterPage extends StatefulWidget {
   static const routeName = '/register';
+
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }

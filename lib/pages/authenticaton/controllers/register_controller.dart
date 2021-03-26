@@ -5,7 +5,7 @@ import 'package:flutter_mobile_template/data_models/rest_error.dart';
 import 'package:flutter_mobile_template/data_models/social_signin_response.dart';
 import 'package:flutter_mobile_template/utils/app_auth_helper.dart';
 import 'package:flutter_mobile_template/utils/snackbar_helper.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:flutter_mobile_template/widgets/app_loader.dart';
 import 'package:get/get.dart';
 

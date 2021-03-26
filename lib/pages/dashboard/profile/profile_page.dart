@@ -1,54 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/pages/dashboard/controllers/profile_controller.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
+import 'package:flutter_mobile_template/data_models/user.dart';
+import 'package:flutter_mobile_template/global_controllers/user_controller.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
 
 ///
 /// Created by Kumar Sunil from Boiler plate
 ///
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   static const routeName = '/profile';
-  @override
-  _ProfilePageState createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  final ProfileController _profileController = ProfileController();
-  @override
-  void initState() {
-    _profileController.onInit();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _profileController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
+    final userController = Get.find<UserController>();
+
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.toNamed(ProfilePage.routeName);
-        },
-      ),
-      body: Obx(
-        () => Column(
+      body: userController.obx(
+        (state) => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(child: Text('${_profileController.count}')),
-            SizedBox(height: 12),
+            ListTile(
+              title: Text('${state?.name}'),
+              subtitle: Text('${state?.email}'),
+            ),
             AppPrimaryButton(
-                child: Text('Increment'),
-                onPressed: _profileController.increment),
-            SizedBox(height: 12),
-            AppOutlineButton(
-                child: Text('Decrement'),
-                onPressed: _profileController.decrement),
+                child: Text('Update user'),
+                onPressed: () {
+                  userController.updateUser(UserDatum(
+                      id: '12423', name: 'Kumar', email: 'sk@gmail.com'));
+                }),
           ],
-        ),
+            ),
       ),
     );
   }

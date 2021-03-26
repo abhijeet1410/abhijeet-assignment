@@ -5,7 +5,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_mobile_template/app_configs/api_routes.dart';
 import 'package:flutter_mobile_template/app_configs/environment.dart';
 import 'package:flutter_mobile_template/data_models/rest_error.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/pages/intro/intro_page.dart';
 import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
+import 'package:get/route_manager.dart';
 import 'package:http_parser/http_parser.dart' as p;
 
 ///
@@ -64,7 +66,9 @@ class ApiCall {
           throw 'Server unreachable';
         } else {
           final restError = RestError.fromJson(error.response.data);
-          if (restError.code == 401) {}
+          if (restError.code == 401) {
+            Get.offAndToNamed(IntroPage.routeName);
+          }
           throw restError;
         }
       } else {

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-Future<bool?> showLocalStoreAlertDialog(
+Future<bool?> showAppAlertDialog(
     {String title = '',
     String? description,
     String positiveText = 'Ok',
@@ -14,13 +14,13 @@ Future<bool?> showLocalStoreAlertDialog(
       title: Text(title),
       content: description != null ? Text(description) : null,
       actions: [
-        FlatButton(
+        TextButton(
           child: Text(negativeText),
           onPressed: () {
             Get.back(result: false);
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text(positiveText),
           onPressed: () => Get.back(result: true),
         ),

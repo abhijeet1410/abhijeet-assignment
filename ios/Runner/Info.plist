@@ -42,4 +42,14 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
+    <key>NSCameraUsageDescription</key>
+	<string>Allow camera permission to capture photo?</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>We Get Your Location to Customise your feeds</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>We Get Your Location to Customise your feeds</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We Get Your Location to Customise your feeds</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>You must agree with the photo album to see your pictures</string>
 </plist>

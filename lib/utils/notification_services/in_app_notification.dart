@@ -1,9 +1,11 @@
-import 'dart:developer';
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_mobile_template/app_configs/app_colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -30,6 +32,8 @@ class InAppNotification {
       {bool reqAlert = true,
       bool reqBadge = true,
       bool reqSound = true}) async {
+    await Firebase.initializeApp();
+
     notificationAppLaunchDetails =
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
     var initializationSettingsAndroid =
@@ -40,15 +44,13 @@ class InAppNotification {
         requestSoundPermission: reqSound,
         onDidReceiveLocalNotification:
             (int id, String? title, String? body, String? payload) async {
-          // onNotificationTapped(ActivityDatum.fromJson(json.decode(payload)));
+          if (payload != null) onNotificationTapped(json.decode(payload));
         });
     var initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      // onSelectNotification: (payload) async =>
-      //     onNotificationTapped(ActivityDatum.fromJson(json.decode(payload)))
-    );
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: (payload) async =>
+            {if (payload != null) onNotificationTapped(json.decode(payload))});
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true,
@@ -65,6 +67,12 @@ class InAppNotification {
           channelDescription,
           importance: Importance.high,
         ));
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
 
     // FirebaseMessaging.instance.configure(
     //     onMessage: backgroundMessageHandler,
@@ -114,43 +122,45 @@ class InAppNotification {
         );
   }
 
-//   ///Shows notification from anywhere ...For more customization check AndroidNotificationDetails() below
-//   static Future<void> showNotification(
-//       {String title = 'Alap',
-//       String description = 'New notification.',
-//       String imageUrl = 'http://via.placeholder.com/128x128/00FF00/000000',
-//       ActivityDatum data}) async {
-//     var largeIconPath = await _downloadAndSaveFile(imageUrl, 'largeIcon');
-//
-//     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-//         channelId, channelName, channelDescription,
-//         icon: '@mipmap/launcher_icon',
-//         largeIcon: FilePathAndroidBitmap(largeIconPath),
-//         styleInformation: DefaultStyleInformation(true, true),
-//         importance: Importance.Max,
-//         priority: Priority.Max,
-//         ticker: notificationTicker,
-//         enableLights: true,
-//         color: ColorUtils.primary,
-//         ledColor: ColorUtils.primary,
-//         ledOnMs: 1000,
-//         ledOffMs: 500);
-//     var iOSPlatformChannelSpecifics = IOSNotificationDetails(
-//         presentSound: true,
-//         presentAlert: true,
-//         presentBadge: true,
-//         badgeNumber: 1);
-//     var platformChannelSpecifics = NotificationDetails(
-//         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-//     try {
-//       await flutterLocalNotificationsPlugin.show(
-//           0, title, description, platformChannelSpecifics,
-//           payload: json.encode(data.toJson()));
-//     } catch (e, s) {
-//       debugPrint('$e $s');
-//     }
-//   }
-//
+  static Future<void> showNotification(
+      {String title = 'Demo',
+      String description = 'Demo notification.',
+      String imageUrl = 'http://via.placeholder.com/128x128/00FF00/000000',
+      dynamic data}) async {
+    final String? largeIconPath =
+        await _downloadAndSaveFile(imageUrl, 'largeIcon');
+
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        channelId, channelName, channelDescription,
+        icon: '@mipmap/ic_launcher',
+        largeIcon:
+            largeIconPath == null ? null : FilePathAndroidBitmap(largeIconPath),
+        styleInformation: DefaultStyleInformation(true, true),
+        importance: Importance.max,
+        priority: Priority.max,
+        ticker: notificationTicker,
+        enableLights: true,
+        color: AppColors.brightPrimary,
+        ledColor: AppColors.brightPrimary,
+        ledOnMs: 1000,
+        ledOffMs: 500);
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+        presentSound: true,
+        presentAlert: true,
+        presentBadge: true,
+        badgeNumber: 1);
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+    try {
+      await flutterLocalNotificationsPlugin.show(
+          data.hashCode, title, description, platformChannelSpecifics,
+          payload: json.encode(data));
+    } catch (e, s) {
+      debugPrint('$e $s');
+    }
+  }
+
 //   static Future<void> showMessagingNotification(MessageDatum data) async {
 //     List<Message> messages = List();
 //

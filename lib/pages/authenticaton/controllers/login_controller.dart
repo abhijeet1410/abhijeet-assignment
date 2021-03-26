@@ -1,12 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/data_models/rest_error.dart';
 import 'package:flutter_mobile_template/data_models/social_signin_response.dart';
+import 'package:flutter_mobile_template/data_models/user.dart';
+import 'package:flutter_mobile_template/global_controllers/user_controller.dart';
 import 'package:flutter_mobile_template/pages/authenticaton/pages/register/register_page.dart';
+import 'package:flutter_mobile_template/pages/dashboard/dashboard_page.dart';
 import 'package:flutter_mobile_template/utils/app_auth_helper.dart';
-import 'package:flutter_mobile_template/utils/snackbar_helper.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:flutter_mobile_template/widgets/app_loader.dart';
 import 'package:get/get.dart';
 
@@ -71,24 +72,31 @@ class LoginController extends GetxController {
       autoValidateMode.value = AutovalidateMode.always;
     } else {
       state.save();
-
-      buttonKey.currentState?.showLoader();
-      AuthHelper.userLoginWithEmailOrPhone(_emailId, _password)
-          .then((response) {})
-          .catchError((err, s) {
-        log('$err $s');
-        if (err is RestError) {
-          if (err.code == 425) {
-            SnackBarHelper.show('New User', 'Please sign up to continue');
-            Get.toNamed(RegisterPage.routeName,
-                arguments: {"email": _emailId, "password": _password});
-          } else {
-            SnackBarHelper.show('Error', '$err');
-          }
-        } else {
-          SnackBarHelper.show('Error', '$err');
-        }
-      }).whenComplete(() => {buttonKey.currentState?.hideLoader()});
+      final userController = Get.find<UserController>();
+      userController.updateUser(UserDatum(
+          id: '12',
+          status: 1,
+          email: 'a@a.com',
+          phone: '123456',
+          name: 'Sunil'));
+      Get.toNamed(DashboardPage.routeName);
+      // buttonKey.currentState?.showLoader();
+      // AuthHelper.userLoginWithEmailOrPhone(_emailId, _password)
+      //     .then((response) {})
+      //     .catchError((err, s) {
+      //   log('$err $s');
+      //   if (err is RestError) {
+      //     if (err.code == 425) {
+      //       SnackBarHelper.show('New User', 'Please sign up to continue');
+      //       Get.toNamed(RegisterPage.routeName,
+      //           arguments: {"email": _emailId, "password": _password});
+      //     } else {
+      //       SnackBarHelper.show('Error', '$err');
+      //     }
+      //   } else {
+      //     SnackBarHelper.show('Error', '$err');
+      //   }
+      // }).whenComplete(() => {buttonKey.currentState?.hideLoader()});
     }
   }
 

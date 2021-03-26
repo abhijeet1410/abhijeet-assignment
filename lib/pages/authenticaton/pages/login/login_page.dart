@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile_template/app_configs/app_assets.dart';
 import 'package:flutter_mobile_template/app_configs/app_decorations.dart';
 import 'package:flutter_mobile_template/pages/authenticaton/controllers/login_controller.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/pages/reset_password/forgot_password_page.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_circle_button.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -14,6 +16,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 ///
 class LoginPage extends StatefulWidget {
   static const String routeName = '/login';
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -87,7 +90,14 @@ class _LoginPageState extends State<LoginPage> {
                                 : Icons.visibility_off_rounded),
                           )),
                 ),
-                SizedBox(height: 28),
+                Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                        onPressed: () {
+                          Get.toNamed(ForgotPasswordPage.routeName);
+                        },
+                        child: Text('Forgot password?'))),
+                SizedBox(height: 22),
                 AppPrimaryButton(
                   child: Text('Login'),
                   onPressed: _loginController.loginEmailAddress,

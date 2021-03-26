@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_template/app_configs/app_decorations.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/controllers/forgot_password_controller.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/get_utils/get_utils.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate
@@ -16,24 +15,33 @@ class ForgotPasswordPage extends StatefulWidget {
 }
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey();
-  final GlobalKey<AppPrimaryButtonState> _buttonKey = GlobalKey();
-  bool _autoValidate = false;
-  String? _field;
+  late ForgotPasswordController _forgotPasswordController;
+
+  @override
+  void initState() {
+    super.initState();
+    _forgotPasswordController = ForgotPasswordController();
+    _forgotPasswordController.onInit();
+  }
+
+  @override
+  void dispose() {
+    _forgotPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Text('Forgot password'),
+      ),
       body: SafeArea(
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Form(
-                key: _formKey,
-                autovalidateMode: _autoValidate
-                    ? AutovalidateMode.always
-                    : AutovalidateMode.disabled,
+          child: Obx(() => Form(
+                key: _forgotPasswordController.formKey,
+                autovalidateMode:
+                    _forgotPasswordController.autoValidateMode.value,
                 child: Column(
                   children: [
                     Spacer(),
@@ -55,44 +63,21 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               textInputAction: TextInputAction.next,
                               onFieldSubmitted: (s) =>
                                   FocusScope.of(context).nextFocus(),
-                              onSaved: (s) {
-                                _field = s?.trim();
-                              },
+                              onSaved: _forgotPasswordController.onFieldSaved,
                               keyboardType: TextInputType.emailAddress,
-                              validator: (s) {
-                                if (s == null || s.trim().isEmpty) {
-                                  return '*required';
-                                } else if (!GetUtils.isEmail(s.trim()) &&
-                                    !GetUtils.isPhoneNumber(s.trim())) {
-                                  return 'Not a valid email address or phone.';
-                                }
-                                return null;
-                              },
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white),
+                              validator: (s) => _forgotPasswordController
+                                  .emailValidator(s, context),
                               decoration:
                                   AppDecorations.textFieldDecoration(context)
                                       .copyWith(
-                                          // hintStyle: TextStyle(
-                                          // color: MyColors.lightGrey),
                                           hintText: 'Email ID or Phone',
-                                          prefixIcon: Padding(
-                                            padding: const EdgeInsets.all(3),
-                                            child: Material(
-                                                type: MaterialType.circle,
-                                                color: Colors.white,
-                                                child: Center(
-                                                  widthFactor: 0,
-                                                  child: Icon(Icons.email,
-                                                      size: 18),
-                                                )),
-                                          )),
+                                          prefixIcon: Icon(Icons.email)),
                             ),
                             SizedBox(height: 14),
                             AppPrimaryButton(
-                                key: _buttonKey,
+                                key: _forgotPasswordController.buttonKey,
                                 child: Text('CONTINUE'),
-                                onPressed: _checkUser),
+                                onPressed: _forgotPasswordController.checkUser),
                             SizedBox(height: 16),
                           ],
                         ),
@@ -112,29 +97,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     Spacer(flex: 5),
                   ],
                 ),
-              ),
-            )
-          ],
-        ),
-      ),
+              ))),
     );
-  }
-
-  void _checkUser() {
-    // final state = _formKey.currentState;
-    // if (!state.validate()) {
-    //   setState(() {
-    //     _autoValidate = true;
-    //   });
-    // } else {
-    //   state.save();
-
-    //   _buttonKey.currentState.showLoader();
-    //   AuthHelper.checkForgotUser(_field).then((value) {
-    //     Get.toNamed(ForgotPasswordOptionPage.routeName, arguments: value);
-    //   }).catchError((err, s) {
-    //     SnackBarHelper.show('Error', '$err');
-    //   }).whenComplete(() => {_buttonKey.currentState.hideLoader()});
-    // }
   }
 }

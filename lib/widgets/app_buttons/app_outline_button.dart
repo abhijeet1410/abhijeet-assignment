@@ -1,4 +1,7 @@
-part of 'app_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_mobile_template/app_configs/environment.dart';
+
+import '../app_loader.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate

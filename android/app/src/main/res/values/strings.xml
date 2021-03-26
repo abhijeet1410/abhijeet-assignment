@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Flutter Template</string>
+    <string name="facebook_app_id">730196564210794</string>
+    <string name="fb_login_protocol_scheme">fb730196564210794</string>
+</resources>

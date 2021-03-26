@@ -1,17 +1,16 @@
 import 'dart:developer';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_template/app_configs/environment.dart';
 import 'package:flutter_mobile_template/utils/app_auth_helper.dart';
 import 'package:flutter_mobile_template/utils/check_permissions.dart';
 import 'package:flutter_mobile_template/utils/snackbar_helper.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_button.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:flutter_mobile_template/widgets/app_loader.dart';
 import 'package:flutter_mobile_template/widgets/place_picker.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_webservice/geocoding.dart';
-import 'package:collection/collection.dart';
 import 'package:location/location.dart' as myLocation;
 
 ///

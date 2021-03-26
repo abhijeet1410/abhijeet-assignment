@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_mobile_template/api_services/base_api.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_mobile_template/app_configs/api_routes.dart';
 import 'package:flutter_mobile_template/app_configs/environment.dart';
 import 'package:flutter_mobile_template/data_models/social_signin_response.dart';
 import 'package:flutter_mobile_template/data_models/user.dart';
+import 'package:flutter_mobile_template/global_controllers/user_controller.dart';
 import 'package:flutter_mobile_template/pages/authenticaton/pages/intro/intro_page.dart';
 import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
 import 'package:get/get.dart';
@@ -41,8 +43,8 @@ class AuthHelper {
     SharedPreferenceHelper.storeAccessToken(resultMap.data['accessToken']);
     final userResponse = UserResponse.fromJson(resultMap.data);
     SharedPreferenceHelper.storeUser(user: userResponse);
-    // UserBloc().add(LoadUserEvent(user: userResponse.user));
-
+    final userController = Get.find<UserController>();
+    userController.updateUser(userResponse.user);
     AuthHelper.checkUserLevel();
     return userResponse;
   }
@@ -73,7 +75,9 @@ class AuthHelper {
         SharedPreferenceHelper.storeAccessToken(resultMap.data['accessToken']);
         final userResponse = UserResponse.fromJson(resultMap.data);
         SharedPreferenceHelper.storeUser(user: userResponse);
-        // UserBloc().add(LoadUserEvent(user: userResponse.user));
+
+        final userController = Get.find<UserController>();
+        userController.updateUser(userResponse.user);
 
         AuthHelper.checkUserLevel();
         return null;
@@ -121,8 +125,8 @@ class AuthHelper {
               resultMap.data['accessToken']);
           final userResponse = UserResponse.fromJson(resultMap.data);
           SharedPreferenceHelper.storeUser(user: userResponse);
-          // UserBloc().add(LoadUserEvent(user: userResponse.user));
-
+          final userController = Get.find<UserController>();
+          userController.updateUser(userResponse.user);
           AuthHelper.checkUserLevel();
           return null;
         } else {
@@ -161,7 +165,8 @@ class AuthHelper {
         SharedPreferenceHelper.storeAccessToken(resultMap.data['accessToken']);
         final userResponse = UserResponse.fromJson(resultMap.data);
         SharedPreferenceHelper.storeUser(user: userResponse);
-
+        final userController = Get.find<UserController>();
+        userController.updateUser(userResponse.user);
         AuthHelper.checkUserLevel();
         return null;
       } else {
@@ -223,7 +228,8 @@ class AuthHelper {
     SharedPreferenceHelper.storeAccessToken(resultMap.data['accessToken']);
     final userResponse = UserResponse.fromJson(resultMap.data);
     SharedPreferenceHelper.storeUser(user: userResponse);
-
+    final userController = Get.find<UserController>();
+    userController.updateUser(userResponse.user);
     AuthHelper.checkUserLevel();
     return userResponse;
   }
@@ -245,6 +251,8 @@ class AuthHelper {
     final user = SharedPreferenceHelper.user;
     user!.user = userResponse;
     SharedPreferenceHelper.storeUser(user: user);
+    final userController = Get.find<UserController>();
+    userController.updateUser(user.user);
     return userResponse;
   }
 
@@ -321,7 +329,8 @@ class AuthHelper {
     u.user = user;
     SharedPreferenceHelper.storeUser(user: u);
 
-    // UserBloc().add(EditUserEvent(user: user));
+    final userController = Get.find<UserController>();
+    userController.updateUser(user);
     return user;
   }
 }

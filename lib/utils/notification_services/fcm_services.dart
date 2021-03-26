@@ -21,7 +21,7 @@ Future<dynamic> backgroundMessageHandler(RemoteMessage message) async {
   }
 }
 
-// void onNotificationTapped(ActivityDatum activityDatum) {
+void onNotificationTapped(dynamic activityDatum) {
 //   // String type = activityDatum.action.trim();
 //   debugPrint('onNotificationTapped ${activityDatum.toJson()}');
 //
@@ -74,4 +74,4 @@ Future<dynamic> backgroundMessageHandler(RemoteMessage message) async {
 //         }
 //       }
 //   }
-// }
+}
