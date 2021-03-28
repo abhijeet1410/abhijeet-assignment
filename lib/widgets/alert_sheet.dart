@@ -19,52 +19,59 @@ class AlertSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 6),
-              child: Material(
-                child: SizedBox(height: 4, width: 100),
-                color: Colors.grey.shade300,
-                shape: StadiumBorder(),
+      child: Material(
+        clipBehavior: Clip.antiAlias,
+        color: theme.backgroundColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 6),
+                child: Material(
+                  child: SizedBox(height: 4, width: 100),
+                  color: Colors.grey.shade300,
+                  shape: StadiumBorder(),
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-            ),
-          ),
-          if (description.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
               child: Text(
-                description,
+                title,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
             ),
-          SizedBox(height: 16),
-          AppPrimaryButton(
-            child: Text(positiveText),
-            onPressed: () => Get.back(result: true),
-          ),
-          SizedBox(height: 16),
-          TextButton(
-            onPressed: () => Get.back(result: false),
-            child: Text(negativeText),
-          ),
-          SizedBox(height: 22),
-        ],
+            if (description.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(
+                  description,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+              ),
+            SizedBox(height: 16),
+            AppPrimaryButton(
+              child: Text(positiveText),
+              onPressed: () => Get.back(result: true),
+            ),
+            SizedBox(height: 16),
+            TextButton(
+              onPressed: () => Get.back(result: false),
+              child: Text(negativeText),
+            ),
+            SizedBox(height: 22),
+          ],
+        ),
       ),
     );
   }

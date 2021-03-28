@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile_template/global_controllers/user_controller.dart';
 import 'package:flutter_mobile_template/pages/dashboard/controllers/dashboard_controller.dart';
 import 'package:flutter_mobile_template/utils/notification_services/in_app_notification.dart';
+import 'package:flutter_mobile_template/widgets/alert_sheet.dart';
 import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
 
@@ -39,6 +40,18 @@ class HomePage extends GetView<UserController> {
                 onPressed: () {
                   final dashboardController = Get.find<DashboardController>();
                   dashboardController.onTapBottomNav(1);
+                }),
+          ),
+          Center(
+            child: AppPrimaryButton(
+                child: Text('Bottom sheet'),
+                onPressed: () {
+                  Get.bottomSheet(
+                    AlertSheet(
+                      title: 'Title',
+                      description: 'Description',
+                    ),
+                  );
                 }),
           ),
         ],
