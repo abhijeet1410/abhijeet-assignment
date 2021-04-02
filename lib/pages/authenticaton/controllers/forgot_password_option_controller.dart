@@ -40,9 +40,9 @@ class ForgotPasswordOptionController extends GetxController {
     final selectedColor = isDarkMode ? Colors.grey.shade800 : Colors.white;
 
     if (isFieldEmail) {
-      return isEmailChecked.value ?? false ? selectedColor : Colors.transparent;
+      return isEmailChecked.value ? selectedColor : Colors.transparent;
     } else {
-      return isEmailChecked.value ?? false ? Colors.transparent : selectedColor;
+      return isEmailChecked.value ? Colors.transparent : selectedColor;
     }
   }
 

@@ -62,7 +62,7 @@ class LoginController extends GetxController {
   }
 
   void toggleObscure() {
-    isObscure.value = !(isObscure.value ?? false);
+    isObscure.value = !(isObscure.value);
   }
 
   void loginEmailAddress() {

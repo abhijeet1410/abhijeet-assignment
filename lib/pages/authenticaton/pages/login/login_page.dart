@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 14),
                 TextFormField(
-                  obscureText: _loginController.isObscure.value ?? true,
+                  obscureText: _loginController.isObscure.value,
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (v) => _loginController.loginEmailAddress,
                   onSaved: _loginController.onPasswordSaved,
