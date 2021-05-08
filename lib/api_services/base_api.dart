@@ -49,7 +49,7 @@ class ApiCall {
           break;
         case RequestMethod.remove:
           response =
-          await _dio.delete('$basePath/$path/$id', queryParameters: query);
+              await _dio.delete('$basePath/$path/$id', queryParameters: query);
           break;
         default:
           throw ArgumentError('Invalid RequestMethod $requestMethod');

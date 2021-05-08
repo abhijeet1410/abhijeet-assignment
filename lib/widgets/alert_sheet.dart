@@ -11,10 +11,11 @@ class AlertSheet extends StatelessWidget {
   final String description;
   final String positiveText, negativeText;
 
-  AlertSheet({this.title = 'Alert',
-    this.positiveText = 'Ok',
-    this.description = '',
-    this.negativeText = 'Cancel'});
+  AlertSheet(
+      {this.title = 'Alert',
+      this.positiveText = 'Ok',
+      this.description = '',
+      this.negativeText = 'Cancel'});
 
   @override
   Widget build(BuildContext context) {

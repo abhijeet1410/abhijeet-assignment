@@ -20,7 +20,7 @@ class AppBackButton extends StatelessWidget {
       type: MaterialType.circle,
       child: InkWell(
         onTap: onPressed ??
-                () {
+            () {
               FocusScope.of(context).unfocus();
               Navigator.maybePop(context);
             },
