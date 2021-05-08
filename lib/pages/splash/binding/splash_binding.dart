@@ -1,4 +1,4 @@
-import 'package:flutter_mobile_template/global_controllers/user_controller.dart';
+import 'package:ausicare_doctor/global_controllers/user_controller.dart';
 import 'package:get/get.dart';
 
 ///

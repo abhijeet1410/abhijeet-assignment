@@ -24,7 +24,7 @@ class RestError {
       className: json["className"] ?? '',
       result: json['result'] ?? false);
   @override
-  String toString() => message??'Some error occurred';
+  String toString() => message ?? 'Some error occurred';
 
   Map<String, dynamic> toJson() => {
         "name": name,
@@ -36,5 +36,5 @@ class RestError {
 
 class NoInternetError {
   @override
-  String toString() => 'NoInternetError';
+  String toString() => 'No internet connection';
 }

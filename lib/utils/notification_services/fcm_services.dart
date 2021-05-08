@@ -1,23 +1,27 @@
+import 'dart:developer';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+
+import 'in_app_notification.dart';
 
 Future<dynamic> backgroundMessageHandler(RemoteMessage message) async {
   try {
-    // await Firebase.initializeApp();
+    await Firebase.initializeApp();
     RemoteNotification? notification = message.notification;
     //
-    // log('data  --> $message ');
+    log('notification data  --> ${message.data}');
     // ActivityDatum notificationData = ActivityDatum.fromJson(
     //     Map<String, dynamic>.from(Platform.isAndroid ? message['data'] : data));
     //
-    // return InAppNotification.showNotification(
-    //   title: Platform.isAndroid ? notification['title'] : data['title'],
-    //   description: Platform.isAndroid ? notification['body'] : data['body'],
-    //   imageUrl: notificationData.user.avatar,
-    //   data: notificationData,
-    // );
+    return InAppNotification.showNotification(
+      title: notification?.title ?? 'Title',
+      description: notification?.body ?? 'Description',
+      // imageUrl: notificationData.user.avatar,
+      data: '{}',
+    );
   } catch (e, s) {
-    debugPrint('Notification StackTrace $e $s');
+    log('Notification StackTrace $e $s');
   }
 }
 

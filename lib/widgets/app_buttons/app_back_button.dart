@@ -1,5 +1,5 @@
+import 'package:ausicare_doctor/app_configs/app_assets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/app_configs/app_assets.dart';
 import 'package:flutter_svg/svg.dart';
 
 ///
@@ -20,7 +20,7 @@ class AppBackButton extends StatelessWidget {
       type: MaterialType.circle,
       child: InkWell(
         onTap: onPressed ??
-            () {
+                () {
               FocusScope.of(context).unfocus();
               Navigator.maybePop(context);
             },

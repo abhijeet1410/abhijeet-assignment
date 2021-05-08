@@ -6,23 +6,27 @@ import 'package:flutter/material.dart';
 mixin AppColors {
   static const brightBackground = Color(0xfff8f8f8);
   static const darkBackground = Color(0xff3e3e3e);
-  
-
+  static const borderColor = Color(0xffCEDCE5);
+  static const brightSecondaryColor = Color(0xff3E9AFF);
+  static const green = Color(0xff56AB18);
+  static const divider = Color(0xffF1F1F1);
+  static const darkGrey = Color(0xff676F75);
+  static const prescriptionEnabled = Color(0xff24A7FF);
 
   static const MaterialColor brightPrimary =
       MaterialColor(_brightPrimaryValue, <int, Color>{
-    50: Color(0xFFE0F8FF),
-    100: Color(0xFFB3EEFE),
-    200: Color(0xFF80E3FD),
-    300: Color(0xFF4DD7FC),
-    400: Color(0xFF26CFFC),
+    50: Color(0xFF284796),
+    100: Color(0xFF284796),
+    200: Color(0xFF284796),
+    300: Color(0xFF284796),
+    400: Color(0xFF284796),
     500: Color(_brightPrimaryValue),
-    600: Color(0xFF00C0FA),
-    700: Color(0xFF00B9FA),
-    800: Color(0xFF00B1F9),
-    900: Color(0xFF00A4F8),
+    600: Color(0xFF284796),
+    700: Color(0xFF284796),
+    800: Color(0xFF284796),
+    900: Color(0xFF284796),
   });
-  static const int _brightPrimaryValue = 0xFF00C6FB;
+  static const int _brightPrimaryValue = 0xFF284796;
 
   static const MaterialColor brightAccent =
       MaterialColor(_brightAccentValue, <int, Color>{

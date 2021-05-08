@@ -2,19 +2,19 @@
 /// Created by Sunil Kumar from Boiler plate
 ///
 mixin AppAssets {
-  static const String backArrow = '';
+  static const String backArrow = 'assets/icons/back_arrow.svg';
 
   static const String userProfile = 'assets/icons/user_profile.svg';
 
-  static const String google = 'assets/icons/google.svg';
-  static const String facebook = 'assets/icons/facebook.svg';
-
-  static const List<String> introAssets = [
-    'https://image.freepik.com/free-vector/watercolor-holi-festival_23-2148829339.jpg?size=626&ext=jpg',
-    'https://img.freepik.com/free-vector/realistic-colorful-holi-gulal_23-2148850113.jpg?size=626&ext=jpg',
-    'https://img.freepik.com/free-vector/flat-holi-festival-illustration_23-2148872856.jpg?size=626&ext=jpg',
-    'https://img.freepik.com/free-vector/hand-drawn-holi-festival-illustration_23-2148864721.jpg?size=626&ext=jpg',
-  ];
-
-  static const String logo = 'assets/icons/logo.png';
+  static const String google = 'assets/icons/google_icon.svg';
+  static const String facebook = 'assets/icons/facebook_icon.svg';
+  static const String phone = 'assets/icons/phone_icon.svg';
+  static const String apple = 'assets/icons/apple_icon.svg';
+  static const String logo = 'assets/icons/logo.svg';
+  static const String loginVector = 'assets/icons/login_vector.svg';
+  static const String user = 'assets/icons/user.svg';
+  static const String calendar = 'assets/icons/calendar.svg';
+  static const String female = 'assets/icons/female.svg';
+  static const String male = 'assets/icons/male.svg';
+  static const String others = 'assets/icons/others.svg';
 }

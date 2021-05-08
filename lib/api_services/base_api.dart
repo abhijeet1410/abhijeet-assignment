@@ -1,13 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:ausicare_doctor/app_configs/api_routes.dart';
+import 'package:ausicare_doctor/app_configs/environment.dart';
+import 'package:ausicare_doctor/data_models/rest_error.dart';
+import 'package:ausicare_doctor/utils/shared_preference_helper.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_mobile_template/app_configs/api_routes.dart';
-import 'package:flutter_mobile_template/app_configs/environment.dart';
-import 'package:flutter_mobile_template/data_models/rest_error.dart';
-import 'package:flutter_mobile_template/pages/authenticaton/pages/intro/intro_page.dart';
-import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
-import 'package:get/route_manager.dart';
 import 'package:http_parser/http_parser.dart' as p;
 
 ///
@@ -16,8 +14,6 @@ import 'package:http_parser/http_parser.dart' as p;
 enum RequestMethod { get, create, patch, remove }
 
 class ApiCall {
-  static Dio _dio = Dio();
-
   static Future<Response> _generalApiCall(
     String path,
     RequestMethod requestMethod, {
@@ -27,10 +23,15 @@ class ApiCall {
     dynamic body = const {},
     bool isAuthNeeded = true,
   }) async {
+    final Dio _dio = Dio();
     _dio.options.contentType = 'application/json';
-    if (isAuthNeeded && SharedPreferenceHelper.accessToken != null)
+    if (isAuthNeeded &&
+        SharedPreferenceHelper.user != null &&
+        SharedPreferenceHelper.user!.accessToken != null)
       _dio.options.headers['Authorization'] =
-          SharedPreferenceHelper.accessToken;
+          SharedPreferenceHelper.user!.accessToken;
+    else
+      _dio.options.headers.remove('Authorization');
     try {
       Response response;
       switch (requestMethod) {
@@ -48,7 +49,7 @@ class ApiCall {
           break;
         case RequestMethod.remove:
           response =
-              await _dio.delete('$basePath/$path/$id', queryParameters: query);
+          await _dio.delete('$basePath/$path/$id', queryParameters: query);
           break;
         default:
           throw ArgumentError('Invalid RequestMethod $requestMethod');
@@ -57,17 +58,18 @@ class ApiCall {
     } on SocketException {
       throw NoInternetError();
     } catch (error, s) {
-      log('ERROR URL $basePath/$path/$id', error: '$error', stackTrace: s);
+      log('ERROR URL $isAuthNeeded $basePath/$path/$id',
+          error: '$error', stackTrace: s);
       if ((error as dynamic).response == null) {
         throw NoInternetError();
       }
       if (error is DioError) {
-        if (error.response.statusCode == 502) {
+        if (error.response!.statusCode == 502) {
           throw 'Server unreachable';
         } else {
-          final restError = RestError.fromJson(error.response.data);
+          final restError = RestError.fromJson(error.response!.data);
           if (restError.code == 401) {
-            Get.offAndToNamed(IntroPage.routeName);
+            // Get.offAndToNamed(IntroPage.routeName);
           }
           throw restError;
         }
@@ -129,23 +131,24 @@ class ApiCall {
   }
 
   /// Single file upload
-  static Future<String?> singleFileUpload(File file,
+  static Future<String?> singleFileUpload(File file, String purpose,
       {String path = ApiRoutes.upload}) async {
     try {
-      if (SharedPreferenceHelper.accessToken == null ||
-          SharedPreferenceHelper.accessToken!.isEmpty) {
+      if (SharedPreferenceHelper.user == null ||
+          SharedPreferenceHelper.user!.accessToken == null) {
         return null;
       } else {
         final Dio dio = Dio();
         dio.options.headers['Authorization'] =
-            SharedPreferenceHelper.accessToken;
+            SharedPreferenceHelper.user!.accessToken;
         Response response = await dio.post('${ApiRoutes.baseUrl}/$path',
             data: FormData.fromMap({
+              "purpose": purpose,
               "photo": await MultipartFile.fromFile(file.path,
                   filename: file.path.split('/').last,
                   contentType: p.MediaType('image', 'jpeg'))
             }));
-        return response.data['file'];
+        return response.data['imagePath'];
       }
     } on SocketException {
       throw NoInternetError();
@@ -154,10 +157,10 @@ class ApiCall {
         throw NoInternetError();
       }
       if (error is DioError) {
-        if (error.response.statusCode == 502) {
+        if (error.response!.statusCode == 502) {
           throw 'Server unreachable';
         } else {
-          final restError = RestError.fromJson(error.response.data);
+          final restError = RestError.fromJson(error.response!.data);
           if (restError.code == 401) {}
           throw restError;
         }
@@ -168,37 +171,40 @@ class ApiCall {
   }
 
   /// Multiple file upload
-  static Future<List<String>?> multiFileUpload(List<File> files,
+  static Future<List<String>?> multiFileUpload(List<File> files, String purpose,
       {String path = ApiRoutes.upload}) async {
     try {
-      if (SharedPreferenceHelper.accessToken == null ||
-          SharedPreferenceHelper.accessToken!.isEmpty) {
+      if (SharedPreferenceHelper.user == null ||
+          SharedPreferenceHelper.user!.accessToken == null) {
         return null;
       } else {
         final Dio dio = Dio();
         dio.options.headers['Authorization'] =
-            SharedPreferenceHelper.accessToken;
+            SharedPreferenceHelper.user!.accessToken;
 
-        Map<String, MultipartFile> body = {};
+        Map<String, dynamic> body = {};
 
         for (int i = 0; i < files.length; i++) {
           body['photo$i'] = await MultipartFile.fromFile(files[i].path,
               contentType: p.MediaType('image', 'jpeg'));
         }
+        body['purpose'] = purpose;
 
         Response response = await dio.post('${ApiRoutes.baseUrl}/$path',
             data: FormData.fromMap(body));
 
-        return List<String>.from(response.data.map((x) => x));
+        return response.data is List
+            ? List<String>.from(response.data.map((x) => x['imagePath']))
+            : [response.data['imagePath']];
       }
     } on SocketException {
       throw NoInternetError();
     } catch (error) {
       if (error is DioError) {
-        if (error.response.statusCode == 502) {
+        if (error.response!.statusCode == 502) {
           throw 'Server unreachable';
         } else {
-          final restError = RestError.fromJson(error.response.data);
+          final restError = RestError.fromJson(error.response!.data);
           if (restError.code == 401) {}
           throw restError;
         }

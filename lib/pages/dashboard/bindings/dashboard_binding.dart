@@ -1,4 +1,4 @@
-import 'package:flutter_mobile_template/pages/dashboard/controllers/dashboard_controller.dart';
+import 'package:ausicare_doctor/pages/dashboard/controllers/dashboard_controller.dart';
 import 'package:get/get.dart';
 
 ///

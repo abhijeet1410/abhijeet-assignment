@@ -1,5 +1,6 @@
+import 'package:ausicare_doctor/app_configs/environment.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/app_configs/environment.dart';
+
 import 'app_colors.dart';
 
 ///

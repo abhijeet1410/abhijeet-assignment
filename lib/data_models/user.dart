@@ -16,11 +16,11 @@ class UserResponse {
   });
 
   String? accessToken;
-  UserDatum? user;
+  User? user;
 
   factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
         accessToken: json["accessToken"],
-        user: UserDatum.fromJson(json["user"]),
+        user: json["user"] != null ? User.fromJson(json["user"]) : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -29,52 +29,131 @@ class UserResponse {
       };
 }
 
-class UserDatum {
-  UserDatum(
+class User {
+  User(
       {required this.id,
-      this.status,
-      this.email,
+      this.name,
+      this.phone,
       this.role,
+      this.status,
       this.createdAt,
       this.updatedAt,
-      this.phone,
-      this.name});
+      this.userDetails,
+      this.newUserLogin,
+      this.email,
+      this.avatar});
 
   String id;
-  int? status;
-  String? email;
+  String? name;
+  String? phone;
   int? role;
+  int? status;
   DateTime? createdAt;
   DateTime? updatedAt;
-  String? phone;
-  String? name;
-  factory UserDatum.fromJson(Map<String, dynamic> json) => UserDatum(
-      id: json["_id"],
-      status: json["status"] ?? 0,
-      email: json["email"] ?? '',
-      role: json["role"] ?? 0,
-      createdAt:
-          json["createdAt"] != null ? DateTime.parse(json["createdAt"]).toLocal() : null,
-      updatedAt:
-          json["updatedAt"] != null ? DateTime.parse(json["updatedAt"]).toLocal() : null,
-      phone: json["phone"] ?? '',
-      name: json["name"] ?? '');
+  UserDetails? userDetails;
+  bool? newUserLogin;
+  String? email;
+  String? avatar;
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json["_id"],
+        name: json["name"] ?? '',
+        phone: json["phone"] ?? '',
+        role: json["role"] ?? 1,
+        status: json["status"] ?? 1,
+        createdAt: json["createdAt"] != null
+            ? DateTime.parse(json["createdAt"]).toLocal()
+            : null,
+        updatedAt: json["updatedAt"] != null
+            ? DateTime.parse(json["updatedAt"]).toLocal()
+            : null,
+        userDetails:
+            json["userDetails"] != null && json['userDetails'] is! String
+                ? UserDetails.fromJson(json["userDetails"])
+                : null,
+        newUserLogin: json["newUserLogin"] ?? false,
+        email: json["email"] ?? '',
+        avatar: json["avatar"] ?? '',
+      );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "status": status,
-        "email": email,
+        "name": name,
+        "phone": phone,
         "role": role,
+        "status": status,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
-        "phone": phone,
-        'name': name
+        "userDetails": userDetails?.toJson(),
+        "newUserLogin": newUserLogin,
+        "email": email,
+        'avatar': avatar
       };
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UserDatum && runtimeType == other.runtimeType && id == other.id;
+      other is User && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
+}
+
+class UserDetails {
+  UserDetails(
+      {required this.id,
+      this.user,
+      this.gender,
+      this.dob,
+      this.createdAt,
+      this.updatedAt,
+      this.height,
+      this.weight,
+      this.bloodGroup});
+
+  String id;
+  String? user;
+  int? gender;
+  DateTime? dob;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  double? height;
+  double? weight;
+  String? bloodGroup;
+
+  factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
+      id: json["_id"],
+      user: json["user"] ?? '',
+      gender: json["gender"] ?? 0,
+      dob: json["dob"] != null ? DateTime.parse(json["dob"]) : null,
+      createdAt: json["createdAt"] != null
+          ? DateTime.parse(json["createdAt"]).toLocal()
+          : null,
+      updatedAt: json["updatedAt"] != null
+          ? DateTime.parse(json["updatedAt"]).toLocal()
+          : null,
+      height: json["height"] ?? 0.0,
+      weight: json["weight"] ?? 0.0,
+      bloodGroup: json["bloodGroup"] ?? '');
+
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "user": user,
+        "gender": gender,
+        "dob": dob?.toIso8601String(),
+        "createdAt": createdAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
+        "height": height,
+        "weight": weight,
+        "bloodGroup": bloodGroup
+      };
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserDetails &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
 
   @override
   int get hashCode => id.hashCode;

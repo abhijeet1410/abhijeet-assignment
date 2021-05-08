@@ -1,109 +1,79 @@
 import 'dart:developer';
 
+import 'package:ausicare_doctor/data_models/user.dart';
+import 'package:ausicare_doctor/pages/authenticaton/pages/onboarding/otp_verification_page.dart';
+import 'package:ausicare_doctor/utils/app_auth_helper.dart';
+import 'package:ausicare_doctor/utils/snackbar_helper.dart';
+import 'package:ausicare_doctor/widgets/app_buttons/app_primary_button.dart';
+import 'package:ausicare_doctor/widgets/app_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/data_models/social_signin_response.dart';
-import 'package:flutter_mobile_template/data_models/user.dart';
-import 'package:flutter_mobile_template/global_controllers/user_controller.dart';
-import 'package:flutter_mobile_template/pages/authenticaton/pages/register/register_page.dart';
-import 'package:flutter_mobile_template/pages/dashboard/dashboard_page.dart';
-import 'package:flutter_mobile_template/utils/app_auth_helper.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
-import 'package:flutter_mobile_template/widgets/app_loader.dart';
 import 'package:get/get.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate
 ///
 class LoginController extends GetxController {
-  late RxBool isObscure;
-  String _emailId = '', _password = '';
+  String _phone = '';
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<AppPrimaryButtonState> buttonKey =
       GlobalKey<AppPrimaryButtonState>();
   late Rx<AutovalidateMode> autoValidateMode;
+  String? _parentPath;
 
   @override
   void onInit() {
     super.onInit();
-    isObscure = RxBool(false);
     autoValidateMode = Rx<AutovalidateMode>(AutovalidateMode.disabled);
+    final Map<String, dynamic>? map = Get.arguments as Map<String, dynamic>;
+    if (map != null) {
+      _parentPath = map['parent'];
+    }
   }
 
   @override
   void dispose() {
-    isObscure.close();
     autoValidateMode.close();
     super.dispose();
   }
 
-  String? emailValidator(String? value, BuildContext context) {
+  String? phoneValidator(String? value, {BuildContext? context}) {
     if (value == null || value.trim().isEmpty) {
       return '*required';
     } else {
-      if (!GetUtils.isEmail(value.trim())) {
-        return 'Not a valid email id.';
-      }
+      if (!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)').hasMatch(value)) {
+        return 'Not a valid phone number.';
+      } else
+        return null;
     }
   }
 
-  void onEmailSaved(String? newValue) {
-    _emailId = newValue!.trim();
+  void onPhoneSaved(String? newValue) {
+    _phone = newValue!.trim();
   }
 
-  String? passwordValidator(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return '*required';
-    }
-    return null;
-  }
-
-  void onPasswordSaved(String? newValue) {
-    _password = newValue!.trim();
-  }
-
-  void toggleObscure() {
-    isObscure.value = !(isObscure.value);
-  }
-
-  void loginEmailAddress() {
+  void loginPhoneNumber() {
     final state = formKey.currentState;
     if (state == null) return;
     if (!state.validate()) {
       autoValidateMode.value = AutovalidateMode.always;
     } else {
       state.save();
-      final userController = Get.find<UserController>();
-      userController.updateUser(UserDatum(
-          id: '12',
-          status: 1,
-          email: 'a@a.com',
-          phone: '123456',
-          name: 'Sunil'));
-      Get.toNamed(DashboardPage.routeName);
-      // buttonKey.currentState?.showLoader();
-      // AuthHelper.userLoginWithEmailOrPhone(_emailId, _password)
-      //     .then((response) {})
-      //     .catchError((err, s) {
-      //   log('$err $s');
-      //   if (err is RestError) {
-      //     if (err.code == 425) {
-      //       SnackBarHelper.show('New User', 'Please sign up to continue');
-      //       Get.toNamed(RegisterPage.routeName,
-      //           arguments: {"email": _emailId, "password": _password});
-      //     } else {
-      //       SnackBarHelper.show('Error', '$err');
-      //     }
-      //   } else {
-      //     SnackBarHelper.show('Error', '$err');
-      //   }
-      // }).whenComplete(() => {buttonKey.currentState?.hideLoader()});
+      buttonKey.currentState?.showLoader();
+      AuthHelper.userLoginWithPhone(_phone).then((value) {
+        SnackBarHelper.show("", "OTP sent to $_phone}");
+        Get.toNamed(OtpVerificationPage.routeName,
+            arguments: {'phone': _phone, 'parent': _parentPath});
+      }).catchError((e, s) {
+        log("loginPhoneNumber", error: e, stackTrace: s);
+        SnackBarHelper.show('', e.toString());
+      }).whenComplete(() => buttonKey.currentState?.hideLoader());
     }
   }
 
   void socialSignIn(int type) async {
-    Get.key!.currentState!.push(LoaderOverlay());
+    Get.key.currentState!.push(LoaderOverlay());
     try {
-      SocialSignInResponse? user;
+      UserResponse? user;
       switch (type) {
         case 1:
           user = await AuthHelper.userLoginWithGoogle();
@@ -118,13 +88,13 @@ class LoginController extends GetxController {
           break;
       }
       if (user != null) {
-        Get.offAndToNamed(RegisterPage.routeName,
-            arguments: {"email": user.email, "name": user.name});
+        AuthHelper.checkUserLevel();
+      } else {
+        Get.key.currentState!.pop();
       }
     } catch (err, s) {
-      Get.key!.currentState!.pop();
+      Get.key.currentState!.pop();
       log('$err $s');
-      // SnackBarHelper.show('Error', '$err');
     }
   }
 }

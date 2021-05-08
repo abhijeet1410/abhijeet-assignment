@@ -1,8 +1,8 @@
+import 'package:ausicare_doctor/app_configs/app_theme.dart';
+import 'package:ausicare_doctor/pages/splash/splash_screen.dart';
+import 'package:ausicare_doctor/utils/shared_preference_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_mobile_template/app_configs/app_theme.dart';
-import 'package:flutter_mobile_template/pages/splash/splash_screen.dart';
-import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,7 +28,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    InAppNotification.requestIOSPermissions();
     // initDynamicLinks();
   }
 
@@ -55,9 +54,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Mobile Template',
+      title: 'AusiCare Doctor',
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,
       localizationsDelegates: [

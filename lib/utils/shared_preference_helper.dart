@@ -1,17 +1,17 @@
-import 'dart:convert';
-import 'package:flutter_mobile_template/data_models/user.dart';
+import 'package:ausicare_doctor/data_models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceHelper {
   static const ACCESS_TOKEN_KEY = 'accessToken';
   static const USER_KEY = 'user';
   static const LOCATION_KEY = 'location';
-  static const FIRST_TIME_KEY = 'first-time';
 
   static SharedPreferences? preferences;
 
-  static void storeAccessToken(String accessToken) {
-    preferences?.setString(ACCESS_TOKEN_KEY, accessToken);
+  static void storeAccessToken(String? token) {
+    if (token != null) {
+      preferences?.setString(ACCESS_TOKEN_KEY, token);
+    }
   }
 
   static String? get accessToken => preferences?.getString(ACCESS_TOKEN_KEY);
@@ -25,17 +25,19 @@ class SharedPreferenceHelper {
     preferences?.remove(USER_KEY);
   }
 
-  static void storeLocation(List<double> coordinates) {
-    preferences?.setString(LOCATION_KEY,
-        json.encode(List<dynamic>.from(coordinates.map((x) => x))));
-  }
-
-  static List<double> get location =>
-      preferences?.getString(LOCATION_KEY)?.isEmpty ?? true
-          ? []
-          : List<double>.from(json.decode(preferences?.getString(LOCATION_KEY)??''))
-              .map((x) => x)
-              .toList();
+  //
+  // static void storeLocation(List<double> coordinates) {
+  //   preferences?.setString(LOCATION_KEY,
+  //       json.encode(List<dynamic>.from(coordinates.map((x) => x))));
+  // }
+  //
+  // static List<double> get location =>
+  //     preferences?.getString(LOCATION_KEY)?.isEmpty ?? true
+  //         ? []
+  //         : List<double>.from(
+  //                 json.decode(preferences?.getString(LOCATION_KEY) ?? ''))
+  //             .map((x) => x)
+  //             .toList();
 
   static void storeUser({UserResponse? user, String? response}) {
     if (user != null)
@@ -50,11 +52,5 @@ class SharedPreferenceHelper {
 
   static UserResponse? get user => preferences?.getString(USER_KEY) == null
       ? null
-      : userResponseFromJson(preferences?.getString(USER_KEY)??'');
-
-  static void storeFirstTime() {
-    preferences?.setBool(FIRST_TIME_KEY, false);
-  }
-
-  static void get isFirstTime => preferences?.getBool(FIRST_TIME_KEY) ?? true;
+      : userResponseFromJson(preferences?.getString(USER_KEY) ?? '');
 }

@@ -1,18 +1,26 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:ausicare_doctor/api_services/base_api.dart';
+import 'package:ausicare_doctor/app_configs/api_routes.dart';
+import 'package:ausicare_doctor/app_configs/environment.dart';
+import 'package:ausicare_doctor/data_models/user.dart';
+import 'package:ausicare_doctor/global_controllers/user_controller.dart';
+import 'package:ausicare_doctor/pages/authenticaton/pages/login/login_page.dart';
+import 'package:ausicare_doctor/pages/authenticaton/pages/onboarding/onboarding_page.dart';
+import 'package:ausicare_doctor/pages/dashboard/dashboard_page.dart';
+import 'package:ausicare_doctor/utils/check_permissions.dart';
+import 'package:ausicare_doctor/utils/shared_preference_helper.dart';
+import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:flutter_mobile_template/api_services/base_api.dart';
-import 'package:flutter_mobile_template/app_configs/api_routes.dart';
-import 'package:flutter_mobile_template/app_configs/environment.dart';
-import 'package:flutter_mobile_template/data_models/social_signin_response.dart';
-import 'package:flutter_mobile_template/data_models/user.dart';
-import 'package:flutter_mobile_template/global_controllers/user_controller.dart';
-import 'package:flutter_mobile_template/pages/authenticaton/pages/intro/intro_page.dart';
-import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
+import 'snackbar_helper.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate
@@ -20,70 +28,108 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 class AuthHelper {
   ///
   /// Normal user and business user login
-  /// The [field] is for email or password
-  /// The [password] is for password
-  /// After success if normal user it will check for pincode is empty or not. If empty or null it will redirects to [ChooseLocationPage.routeName]
-  /// if business user will check for business details and redirects to business on-boarding pages
+  /// The [phone] is for phone number
   /// On error it will throw [RestError]
   ///
-  static Future<UserResponse> userLoginWithEmailOrPhone(
-      String field, String password) async {
-    String path = ApiRoutes.authentication;
-
-    final fcmId = await FirebaseMessaging.instance.getToken();
-    final resultMap = await ApiCall.post(path,
-        body: {
-          "strategy": field.isEmail ? "email" : "phone",
-          if (field.isEmail) "email": field else "phone": field,
-          "password": password,
-          "fcmId": fcmId
-        },
+  static Future<dynamic> userLoginWithPhone(String phone) async {
+    final result = await ApiCall.post(ApiRoutes.phoneVerification,
+        body: {"phone": phone, "action": "authentication"},
+        query: {'\$populate': 'userDetails'},
         isAuthNeeded: false);
+    log('OTP result $result');
+    print('OTP result $result');
+    SnackBarHelper.show("", "OTP ${result.data['otp']}}");
+    return result.data;
+  }
 
-    SharedPreferenceHelper.storeAccessToken(resultMap.data['accessToken']);
-    final userResponse = UserResponse.fromJson(resultMap.data);
-    SharedPreferenceHelper.storeUser(user: userResponse);
-    final userController = Get.find<UserController>();
-    userController.updateUser(userResponse.user);
-    AuthHelper.checkUserLevel();
-    return userResponse;
+  static Future<UserResponse> verifyLoginOtp(String phone, String otp) async {
+    // final fcmId = await FirebaseMessaging.instance.getToken();
+    final Position latLng = await CheckPermissions.getCurrentLocation();
+
+    final deviceInfo = await getDeviceDetails();
+    final fcmId = await FirebaseMessaging.instance.getToken();
+
+    final result = await ApiCall.post(ApiRoutes.authenticatePhone,
+        body: {
+          "phone": phone,
+          "otp": otp,
+          "action": "authentication",
+          "fcmId": fcmId,
+          "deviceId": deviceInfo['deviceId'],
+          "deviceType": deviceInfo['deviceType'],
+          "deviceName": deviceInfo['deviceName'],
+          "coordinates": [latLng.longitude, latLng.latitude],
+          "role": 1
+        },
+        query: {'\$populate': 'userDetails'},
+        isAuthNeeded: false);
+    return UserResponse.fromJson(result.data);
+  }
+
+  static Future<Map<String, dynamic>> getDeviceDetails() async {
+    String? deviceName;
+    String? identifier;
+    int? deviceType;
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    try {
+      if (Platform.isAndroid) {
+        deviceType = 1;
+        final build = await deviceInfoPlugin.androidInfo;
+        deviceName = build.model;
+        //deviceVersion = build.version.toString();
+        identifier = build.androidId; //UUID for Android
+      } else if (Platform.isIOS) {
+        deviceType = 2;
+        final data = await deviceInfoPlugin.iosInfo;
+        deviceName = data.name;
+        //deviceVersion = data.systemVersion;
+        identifier = data.identifierForVendor; //UUID for iOS
+      }
+    } on PlatformException {
+      throw 'Failed to get platform version';
+    }
+    return {
+      "deviceId": Platform.isAndroid ? 1 : 2,
+      "deviceName": deviceName,
+      "deviceType": deviceType
+    };
   }
 
   ///
   /// Normal user Google login
-  /// After success it will check for pincode is empty or not. If empty or null it will redirects to [ChooseLocationPage.routeName]
   /// On error it will throw [RestError]
   /// If cancelled it will return null
   ///
-  static Future<SocialSignInResponse?> userLoginWithGoogle() async {
+  static Future<UserResponse?> userLoginWithGoogle() async {
     GoogleSignIn _googleSignIn =
         GoogleSignIn(scopes: ['email'], clientId: Environment.googleClientId);
     try {
+      final Position latLng = await CheckPermissions.getCurrentLocation();
+
+      final deviceInfo = await getDeviceDetails();
       final fcmId = await FirebaseMessaging.instance.getToken();
-      GoogleSignInAccount result = (await _googleSignIn.signIn())!;
+      GoogleSignInAccount? result = await _googleSignIn.signIn();
       if (result == null) {
         return null;
       }
       GoogleSignInAuthentication googleAuth = await result.authentication;
+      log('TOKEN ${googleAuth.accessToken}');
       final resultMap = await ApiCall.post(ApiRoutes.signInWithGoogle,
-          query: {'\$populate': 'business'},
-          body: {"accessToken": googleAuth.accessToken, "fcmId": fcmId},
+          query: {'\$populate': 'userDetails'},
+          body: {
+            "accessToken": googleAuth.accessToken,
+            "fcmId": fcmId,
+            "deviceId": deviceInfo['deviceId'],
+            "deviceType": deviceInfo['deviceType'],
+            "deviceName": deviceInfo['deviceName'],
+            "coordinates": [latLng.longitude, latLng.latitude],
+            "role": 1
+          },
           isAuthNeeded: false);
-      log('TOKEN ${googleAuth.accessToken} ${resultMap.data}');
-
-      if (resultMap.data['accessToken'] != null) {
-        SharedPreferenceHelper.storeAccessToken(resultMap.data['accessToken']);
-        final userResponse = UserResponse.fromJson(resultMap.data);
-        SharedPreferenceHelper.storeUser(user: userResponse);
-
-        final userController = Get.find<UserController>();
-        userController.updateUser(userResponse.user);
-
-        AuthHelper.checkUserLevel();
-        return null;
-      } else {
-        return SocialSignInResponse.fromJson(resultMap.data);
-      }
+      final userResponse = UserResponse.fromJson(resultMap.data);
+      SharedPreferenceHelper.storeUser(user: userResponse);
+      SharedPreferenceHelper.storeAccessToken(userResponse.accessToken);
+      return userResponse;
     } catch (e) {
       rethrow;
     } finally {
@@ -97,8 +143,10 @@ class AuthHelper {
   /// On error it will throw [RestError]
   /// If cancelled it will return null
   ///
-  static Future<SocialSignInResponse?> userLoginWithFacebook() async {
+  static Future<UserResponse?> userLoginWithFacebook() async {
     final fcmId = await FirebaseMessaging.instance.getToken();
+    final Position latLng = await CheckPermissions.getCurrentLocation();
+    final deviceInfo = await getDeviceDetails();
 
     final facebookLogin = FacebookLogin();
     final facebookLoginResult = await facebookLogin.logIn(['email']);
@@ -114,24 +162,21 @@ class AuthHelper {
             query: {'\$populate': 'business'},
             body: {
               "accessToken": facebookLoginResult.accessToken.token,
-              "fcmId": fcmId
+              "fcmId": fcmId,
+              "deviceId": deviceInfo['deviceId'],
+              "deviceType": deviceInfo['deviceType'],
+              "deviceName": deviceInfo['deviceName'],
+              "coordinates": [latLng.longitude, latLng.latitude],
+              "role": 1
             },
             isAuthNeeded: false);
 
         await facebookLogin.logOut();
 
-        if (resultMap.data['accessToken'] != null) {
-          SharedPreferenceHelper.storeAccessToken(
-              resultMap.data['accessToken']);
-          final userResponse = UserResponse.fromJson(resultMap.data);
-          SharedPreferenceHelper.storeUser(user: userResponse);
-          final userController = Get.find<UserController>();
-          userController.updateUser(userResponse.user);
-          AuthHelper.checkUserLevel();
-          return null;
-        } else {
-          return SocialSignInResponse.fromJson(resultMap.data);
-        }
+        final userResponse = UserResponse.fromJson(resultMap.data);
+        SharedPreferenceHelper.storeUser(user: userResponse);
+        SharedPreferenceHelper.storeAccessToken(userResponse.accessToken);
+        return userResponse;
       default:
         return null;
     }
@@ -143,8 +188,10 @@ class AuthHelper {
   /// On error it will throw [RestError]
   /// If cancelled it will return null
   ///
-  static Future<SocialSignInResponse?> userLoginWithApple() async {
+  static Future<UserResponse?> userLoginWithApple() async {
     final fcmId = await FirebaseMessaging.instance.getToken();
+    final Position latLng = await CheckPermissions.getCurrentLocation();
+    final deviceInfo = await getDeviceDetails();
     try {
       final credential = await SignInWithApple.getAppleIDCredential(
         // TODO: set client id and redirect url
@@ -158,20 +205,21 @@ class AuthHelper {
       );
       final resultMap = await ApiCall.post(ApiRoutes.signInWithApple,
           query: {'\$populate': 'business'},
-          body: {"accessToken": credential.identityToken, "fcmId": fcmId},
+          body: {
+            "accessToken": credential.identityToken,
+            "fcmId": fcmId,
+            "deviceId": deviceInfo['deviceId'],
+            "deviceType": deviceInfo['deviceType'],
+            "deviceName": deviceInfo['deviceName'],
+            "coordinates": [latLng.longitude, latLng.latitude],
+            "role": 1
+          },
           isAuthNeeded: false);
 
-      if (resultMap.data['accessToken'] != null) {
-        SharedPreferenceHelper.storeAccessToken(resultMap.data['accessToken']);
-        final userResponse = UserResponse.fromJson(resultMap.data);
-        SharedPreferenceHelper.storeUser(user: userResponse);
-        final userController = Get.find<UserController>();
-        userController.updateUser(userResponse.user);
-        AuthHelper.checkUserLevel();
-        return null;
-      } else {
-        return SocialSignInResponse.fromJson(resultMap.data);
-      }
+      final userResponse = UserResponse.fromJson(resultMap.data);
+      SharedPreferenceHelper.storeUser(user: userResponse);
+      SharedPreferenceHelper.storeAccessToken(userResponse.accessToken);
+      return userResponse;
     } catch (e) {
       if (e is SignInWithAppleAuthorizationException) {
         switch (e.code) {
@@ -186,151 +234,122 @@ class AuthHelper {
   }
 
   ///
-  /// Normal user sign up
-  /// The [name] is for name, [phone] is for mobile number
-  /// The [password] is for password and optional [email]
-  /// After success it will send otp to phone number and redirects to [OtpVerificationOtpPage.routeName]
-  /// On error it will throw [RestError]
-  ///
-  static Future<Map<String, dynamic>> userSignUpWithPhone(
-      String name, String phone, String password,
-      {String? email}) async {
-    // final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
-    // final fcmId = await firebaseMessaging.getToken();
-    final resultMap = await ApiCall.post(ApiRoutes.signInWithPhone,
-        body: {
-          if (email?.isNotEmpty ?? false) "email": email,
-          "password": password,
-          "role": 1,
-          "name": name,
-          'phone': phone
-          // 'fcmId': fcmId
-        },
-        isAuthNeeded: false);
-
-    log("OTP ${resultMap.data['otp']}");
-    // SnackBarHelper.show("OTP ${resultMap.data['otp']}", "");
-    return resultMap.data;
-  }
-
-  ///
-  /// Verify signup OTP
-  /// The [phone] is for phone number, [otp] is for entered otp
-  /// After success it will check for pincode is empty or not. If empty or null it will redirects to [ChooseLocationPage.routeName]
-  /// On error it will throw [RestError]
-  ///
-  static Future<UserResponse> verifySignUpOtp(
-    Map<String, dynamic> body,
-  ) async {
-    final resultMap =
-        await ApiCall.post(ApiRoutes.user, body: body, isAuthNeeded: false);
-
-    SharedPreferenceHelper.storeAccessToken(resultMap.data['accessToken']);
-    final userResponse = UserResponse.fromJson(resultMap.data);
-    SharedPreferenceHelper.storeUser(user: userResponse);
-    final userController = Get.find<UserController>();
-    userController.updateUser(userResponse.user);
-    AuthHelper.checkUserLevel();
-    return userResponse;
-  }
-
-  ///
-  /// Update pin code of user
-  /// The [pincode] is for entered pin code
-  /// After success it will redirects to [UserDashboardPage.routeName]
-  /// On error it will throw [RestError]
-  ///
-  static Future<UserDatum> updateUserPinCode(String pinCode) async {
-    final resultMap = await ApiCall.patch(
-      ApiRoutes.user,
-      id: SharedPreferenceHelper.user!.user!.id,
-      body: {"pinCode": pinCode},
-      query: {'\$populate': 'business'},
-    );
-    final userResponse = UserDatum.fromJson(resultMap.data);
-    final user = SharedPreferenceHelper.user;
-    user!.user = userResponse;
-    SharedPreferenceHelper.storeUser(user: user);
-    final userController = Get.find<UserController>();
-    userController.updateUser(user.user);
-    return userResponse;
-  }
-
-  ///
   /// Checks the user on-boarding
   ///
-  static Future<void> checkUserLevel() async {
-    UserResponse? user = SharedPreferenceHelper.user;
+  static Future<void> checkUserLevel(
+      {String? parentPath, String? phone}) async {
+    final UserResponse? user = SharedPreferenceHelper.user;
+    final accessToken = SharedPreferenceHelper.accessToken;
+    log('USER ${user?.toJson()} TOKEN $accessToken');
+    final userController = Get.isRegistered()
+        ? Get.find<UserController>()
+        : Get.put<UserController>(UserController(), permanent: true);
     if (user != null) {
-      // if (user.user!.phone?.isEmpty ?? true) {
-      //   Get.offAllNamed(OtpVerificationPage.routeName);
-      // } else if (user.pinCode?.isEmpty ?? true) {
-      //   Get.offAllNamed(ChooseLocationPage.routeName);
-      // } else {
-      //   Get.offAllNamed(DashboardPage.routeName);
-      // }
-    } else {
-      Get.offAllNamed(IntroPage.routeName);
-    }
-  }
-
-  static Future<Map<String, dynamic>> checkForgotUser(String field) async {
-    final result = await ApiCall.get(ApiRoutes.checkForgotUser, query: {
-      if (GetUtils.isEmail(field)) 'email': field,
-      if (GetUtils.isPhoneNumber(field)) 'phone': field
-    });
-    return result.data;
-  }
-
-  static Future<Map<String, dynamic>> sendResetOtp(
-      String userId, bool isEmailChecked) async {
-    final result = await ApiCall.post(ApiRoutes.requestResetToken,
-        body: {'user': userId, 'type': isEmailChecked ? 'email' : 'phone'});
-    log('sendResetOtp ${result.data}');
-    return result.data;
-  }
-
-  static Future<Map<String, dynamic>> getResetToken(
-      String otp, String user) async {
-    final result = await ApiCall.patch(ApiRoutes.requestResetToken,
-        body: {'otp': otp, 'user': user});
-    return result.data;
-  }
-
-  static Future<Map<String, dynamic>> changePassword(
-      String password, String userId, String _token) async {
-    SharedPreferenceHelper.storeAccessToken(_token);
-    final result = await ApiCall.patch(ApiRoutes.user,
-        id: userId, body: {'password': password});
-    SharedPreferenceHelper.storeAccessToken("");
-    return result.data;
+      if (user.user == null) {
+        Get.offNamed(OnboardingPage.routeName,
+            arguments: {'phone': phone, 'parent': parentPath});
+      } else if ((user.user?.phone?.isEmpty ?? true) ||
+          (user.user?.name?.isEmpty ?? true) ||
+          (user.user?.userDetails == null) ||
+          (user.user?.userDetails!.gender == 0) ||
+          (user.user?.userDetails!.dob == null)) {
+        Get.offNamed(OnboardingPage.routeName, arguments: {
+          'phone': user.user?.phone,
+          'name': user.user?.name,
+          'gender': user.user?.userDetails?.gender,
+          'dob': user.user?.userDetails?.dob,
+          'parent': parentPath
+        });
+      } else {
+        userController.updateUser(user.user);
+        if (parentPath != null) {
+          Get.until((route) => route.settings.name == parentPath);
+        } else {
+          Get.offAllNamed(DashboardPage.routeName);
+        }
+      }
+    } else if (user == null && accessToken != null) {
+      Get.offNamed(OnboardingPage.routeName);
+    } else
+      Get.offAllNamed(LoginPage.routeName);
   }
 
   static Future<String?> refreshAccessToken() async {
-    final String? oldToken = SharedPreferenceHelper.accessToken;
+    if (SharedPreferenceHelper.user == null) return null;
+    final String? oldToken = SharedPreferenceHelper.user?.accessToken;
     if (oldToken?.isEmpty ?? true) return null;
-    final result = await ApiCall.post('authentication',
-        basePath: ApiRoutes.baseUrl,
-        isAuthNeeded: false,
-        body: {'accessToken': oldToken, 'strategy': 'jwt'});
+    final result = await ApiCall.post(ApiRoutes.authenticateJwt,
+        query: {'\$populate': 'userDetails'}, body: {'accessToken': oldToken});
     final String accessToken = result.data['accessToken'];
     final user = UserResponse.fromJson(result.data);
     SharedPreferenceHelper.storeUser(user: user);
-    // UserBloc().add(LoadUserEvent(user: user.user));
+    final userController = Get.isRegistered()
+        ? Get.find<UserController>()
+        : Get.put<UserController>(UserController(), permanent: true);
+    userController.updateUser(user.user);
     return accessToken;
   }
 
-  static Future<UserDatum?> updateUser(Map<String, dynamic> body) async {
+  static Future<String?> logoutUser() async {
+    await ApiCall.post('authentication', basePath: ApiRoutes.baseUrl);
+  }
+
+  static Future<UserResponse> signUpUser(Map<String, dynamic> body) async {
+    final fcmId = await FirebaseMessaging.instance.getToken();
+    final Position latLng = await CheckPermissions.getCurrentLocation();
+    final deviceInfo = await getDeviceDetails();
+
+    body.addAll({
+      "accessToken": SharedPreferenceHelper.accessToken,
+      "fcmId": fcmId,
+      "deviceId": deviceInfo['deviceId'],
+      "deviceType": deviceInfo['deviceType'],
+      "deviceName": deviceInfo['deviceName'],
+      "coordinates": [latLng.longitude, latLng.latitude],
+      "role": 1
+    });
+    final result = await ApiCall.post(ApiRoutes.user,
+        body: body, query: {'\$populate': 'userDetails'});
+    final user = UserResponse.fromJson(result.data);
+    SharedPreferenceHelper.storeUser(user: user);
+    SharedPreferenceHelper.storeAccessToken(user.accessToken);
+
+    final userController = Get.isRegistered()
+        ? Get.find<UserController>()
+        : Get.put<UserController>(UserController(), permanent: true);
+    userController.updateUser(user.user);
+    return user;
+  }
+
+  static Future<User?> updateUser(Map<String, dynamic> body) async {
     final u = SharedPreferenceHelper.user;
     if (u!.user == null) return null;
-    final result =
-        await ApiCall.patch(ApiRoutes.user, id: u.user!.id, body: body);
-    final user = UserDatum.fromJson(result.data);
+    final result = await ApiCall.patch(ApiRoutes.user,
+        id: u.user!.id, body: body, query: {'\$populate': 'userDetails'});
+    final user = User.fromJson(result.data);
     u.user = user;
     SharedPreferenceHelper.storeUser(user: u);
 
-    final userController = Get.find<UserController>();
-    userController.updateUser(user);
+    final userController = Get.isRegistered()
+        ? Get.find<UserController>()
+        : Get.put<UserController>(UserController(), permanent: true);
+    userController.updateUser(u.user);
     return user;
+  }
+
+  static Future<User?> updateUserDetails(Map<String, dynamic> body) async {
+    final u = SharedPreferenceHelper.user;
+    if (u!.user == null || u.user?.userDetails == null) return null;
+    final result = await ApiCall.patch(ApiRoutes.userDetails,
+        id: u.user!.userDetails!.id, body: body);
+    final userDetails = UserDetails.fromJson(result.data);
+    u.user!.userDetails = userDetails;
+    SharedPreferenceHelper.storeUser(user: u);
+
+    final userController = Get.isRegistered()
+        ? Get.find<UserController>()
+        : Get.put<UserController>(UserController(), permanent: true);
+    userController.updateUser(u.user);
+    return u.user;
   }
 }

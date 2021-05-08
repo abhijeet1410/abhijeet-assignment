@@ -1,5 +1,5 @@
+import 'package:ausicare_doctor/widgets/app_buttons/app_primary_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
 
 Future<bool?> showAppAlertSheet() {
@@ -11,11 +11,10 @@ class AlertSheet extends StatelessWidget {
   final String description;
   final String positiveText, negativeText;
 
-  AlertSheet(
-      {this.title = 'Alert',
-      this.positiveText = 'Ok',
-      this.description = '',
-      this.negativeText = 'Cancel'});
+  AlertSheet({this.title = 'Alert',
+    this.positiveText = 'Ok',
+    this.description = '',
+    this.negativeText = 'Cancel'});
 
   @override
   Widget build(BuildContext context) {

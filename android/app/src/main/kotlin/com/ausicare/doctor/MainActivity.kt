@@ -1,4 +1,4 @@
-package com.smarttersstudio.flutter_mobile_template
+package com.ausicare.doctor
 
 import android.content.Context
 import android.content.Intent
@@ -26,7 +26,7 @@ class MainActivity: FlutterActivity() {
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine)
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.smarttersstudio.flutter_mobile_template/toast").setMethodCallHandler { call, result ->
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.ausicare.doctor/toast").setMethodCallHandler { call, result ->
             if (call.method == "toast") {
                 val message = call.argument<String>("message")
                 val isLong = call.argument<Boolean>("isLong")

@@ -1,14 +1,14 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
+import 'package:ausicare_doctor/app_configs/environment.dart';
+import 'package:ausicare_doctor/utils/check_permissions.dart';
+import 'package:ausicare_doctor/utils/snackbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:flutter_mobile_template/app_configs/environment.dart';
-import 'package:flutter_mobile_template/utils/check_permissions.dart';
-import 'package:flutter_mobile_template/utils/snackbar_helper.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:location/location.dart' as myLocation;
 
 import 'app_loader.dart';
 
@@ -87,11 +87,10 @@ class _PlacePickerState extends PlacesAutocompleteState {
           FocusScope.of(context).unfocus();
           Navigator.push(context, LoaderOverlay());
           try {
-            myLocation.LocationData data =
-                await CheckPermissions.requestLocation();
+            final Position data = await CheckPermissions.getCurrentLocation();
 
-            final geocodingResult = await _geocoding
-                .searchByLocation(Location(data.latitude, data.longitude));
+            final geocodingResult = await _geocoding.searchByLocation(
+                Location(lat: data.latitude, lng: data.longitude));
             Navigator.pop(context);
             Navigator.pop(context, geocodingResult.results[0]);
           } catch (e) {
@@ -119,21 +118,21 @@ class _PlacePickerState extends PlacesAutocompleteState {
   @override
   void onResponseError(PlacesAutocompleteResponse response) {
     super.onResponseError(response);
-    SnackBarHelper.show('Error', response.errorMessage);
+    SnackBarHelper.show('Error', response.errorMessage!);
   }
 
-  @override
-  void onResponse(PlacesAutocompleteResponse response) {
-    super.onResponse(response);
-  }
+  // @override
+  // void onResponse(PlacesAutocompleteResponse response) {
+  //   super.onResponse(response);
+  // }
 
-  Future<Null> displayPrediction(Prediction p) async {
+  Future<Null> displayPrediction(Prediction? p) async {
     if (p != null) {
       try {
         FocusScope.of(context).unfocus();
         Navigator.push(context, LoaderOverlay());
         final geocodingResult = await _geocoding.searchByPlaceId(
-          p.placeId,
+          p.placeId!,
         );
         Navigator.pop(context);
         Navigator.pop(context, geocodingResult.results[0]);
