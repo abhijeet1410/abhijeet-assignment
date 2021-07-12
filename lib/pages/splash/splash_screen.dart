@@ -1,8 +1,8 @@
-import 'package:ausicare_doctor/app_configs/app_assets.dart';
-import 'package:ausicare_doctor/app_configs/app_decorations.dart';
-import 'package:ausicare_doctor/utils/app_auth_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:god_flutter/app_configs/app_assets.dart';
+import 'package:god_flutter/app_configs/app_decorations.dart';
+import 'package:god_flutter/utils/app_auth_helper.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate

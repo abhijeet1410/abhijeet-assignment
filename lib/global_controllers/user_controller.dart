@@ -1,11 +1,11 @@
 import 'dart:developer';
 
-import 'package:ausicare_doctor/api_services/base_api.dart';
-import 'package:ausicare_doctor/app_configs/api_routes.dart';
-import 'package:ausicare_doctor/data_models/user.dart';
-import 'package:ausicare_doctor/utils/shared_preference_helper.dart';
-import 'package:ausicare_doctor/utils/snackbar_helper.dart';
 import 'package:get/get.dart';
+import 'package:god_flutter/api_services/base_api.dart';
+import 'package:god_flutter/app_configs/api_routes.dart';
+import 'package:god_flutter/data_models/user.dart';
+import 'package:god_flutter/utils/shared_preference_helper.dart';
+import 'package:god_flutter/utils/snackbar_helper.dart';
 
 ///
 /// Created by Kumar Sunil from Boiler plate

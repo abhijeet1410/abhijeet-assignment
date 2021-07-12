@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:ausicare_doctor/utils/app_auth_helper.dart';
-import 'package:ausicare_doctor/utils/shared_preference_helper.dart';
-import 'package:ausicare_doctor/utils/snackbar_helper.dart';
-import 'package:ausicare_doctor/widgets/app_buttons/app_primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sms_autofill/sms_autofill.dart';
+import 'package:god_flutter/utils/app_auth_helper.dart';
+import 'package:god_flutter/utils/shared_preference_helper.dart';
+import 'package:god_flutter/utils/snackbar_helper.dart';
+import 'package:god_flutter/widgets/app_buttons/app_primary_button.dart';
+// import 'package:sms_autofill/sms_autofill.dart';
 
 ///
 /// Created by Kumar Sunil from Boiler plate
@@ -36,9 +36,9 @@ class OtpController extends GetxController {
   void onInit() {
     super.onInit();
     textController = TextEditingController();
-    SmsAutoFill().getAppSignature.then((value) {
-      log("APP SIGNATURE $value");
-    });
+    // SmsAutoFill().getAppSignature.then((value) {
+    //   log("APP SIGNATURE $value");
+    // });
     final Map<String, dynamic>? map = Get.arguments as Map<String, dynamic>;
     if (map != null) {
       phone = map['phone'];
@@ -63,7 +63,7 @@ class OtpController extends GetxController {
   }
 
   Future<void> _listenOtp() async {
-    await SmsAutoFill().listenForCode;
+    // await SmsAutoFill().listenForCode;
   }
 
   ///Timer

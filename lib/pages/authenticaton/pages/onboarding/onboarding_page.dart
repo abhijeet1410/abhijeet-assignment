@@ -1,13 +1,13 @@
-import 'package:ausicare_doctor/app_configs/app_assets.dart';
-import 'package:ausicare_doctor/app_configs/app_colors.dart';
-import 'package:ausicare_doctor/app_configs/app_decorations.dart';
-import 'package:ausicare_doctor/pages/authenticaton/controllers/onboarding_controller.dart';
-import 'package:ausicare_doctor/widgets/app_buttons/app_back_button.dart';
-import 'package:ausicare_doctor/widgets/app_buttons/app_primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:god_flutter/app_configs/app_assets.dart';
+import 'package:god_flutter/app_configs/app_colors.dart';
+import 'package:god_flutter/app_configs/app_decorations.dart';
+import 'package:god_flutter/pages/authenticaton/controllers/onboarding_controller.dart';
+import 'package:god_flutter/widgets/app_buttons/app_back_button.dart';
+import 'package:god_flutter/widgets/app_buttons/app_primary_button.dart';
 import 'package:intl/intl.dart';
 
 class OnboardingPage extends StatefulWidget {

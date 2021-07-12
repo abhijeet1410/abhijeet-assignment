@@ -1,14 +1,14 @@
 import 'dart:developer';
 
-import 'package:ausicare_doctor/pages/authenticaton/pages/onboarding/onboarding_page.dart';
-import 'package:ausicare_doctor/pages/authenticaton/pages/onboarding/otp_verification_page.dart';
-import 'package:ausicare_doctor/pages/dashboard/dashboard_page.dart';
-import 'package:ausicare_doctor/utils/app_auth_helper.dart';
-import 'package:ausicare_doctor/utils/shared_preference_helper.dart';
-import 'package:ausicare_doctor/utils/snackbar_helper.dart';
-import 'package:ausicare_doctor/widgets/app_buttons/app_primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:god_flutter/pages/authenticaton/pages/onboarding/onboarding_page.dart';
+import 'package:god_flutter/pages/authenticaton/pages/onboarding/otp_verification_page.dart';
+import 'package:god_flutter/pages/dashboard/dashboard_page.dart';
+import 'package:god_flutter/utils/app_auth_helper.dart';
+import 'package:god_flutter/utils/shared_preference_helper.dart';
+import 'package:god_flutter/utils/snackbar_helper.dart';
+import 'package:god_flutter/widgets/app_buttons/app_primary_button.dart';
 
 ///
 /// Created By Sunil Kumar (sunil@smarttersstudio.com) on 14/04/2021

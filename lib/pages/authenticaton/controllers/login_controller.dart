@@ -1,13 +1,11 @@
 import 'dart:developer';
 
-import 'package:ausicare_doctor/data_models/user.dart';
-import 'package:ausicare_doctor/pages/authenticaton/pages/onboarding/otp_verification_page.dart';
-import 'package:ausicare_doctor/utils/app_auth_helper.dart';
-import 'package:ausicare_doctor/utils/snackbar_helper.dart';
-import 'package:ausicare_doctor/widgets/app_buttons/app_primary_button.dart';
-import 'package:ausicare_doctor/widgets/app_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:god_flutter/pages/authenticaton/pages/onboarding/otp_verification_page.dart';
+import 'package:god_flutter/utils/app_auth_helper.dart';
+import 'package:god_flutter/utils/snackbar_helper.dart';
+import 'package:god_flutter/widgets/app_buttons/app_primary_button.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate
@@ -67,34 +65,6 @@ class LoginController extends GetxController {
         log("loginPhoneNumber", error: e, stackTrace: s);
         SnackBarHelper.show('', e.toString());
       }).whenComplete(() => buttonKey.currentState?.hideLoader());
-    }
-  }
-
-  void socialSignIn(int type) async {
-    Get.key.currentState!.push(LoaderOverlay());
-    try {
-      UserResponse? user;
-      switch (type) {
-        case 1:
-          user = await AuthHelper.userLoginWithGoogle();
-          break;
-
-        case 2:
-          user = await AuthHelper.userLoginWithFacebook();
-          break;
-
-        case 3:
-          user = await AuthHelper.userLoginWithApple();
-          break;
-      }
-      if (user != null) {
-        AuthHelper.checkUserLevel();
-      } else {
-        Get.key.currentState!.pop();
-      }
-    } catch (err, s) {
-      Get.key.currentState!.pop();
-      log('$err $s');
     }
   }
 }

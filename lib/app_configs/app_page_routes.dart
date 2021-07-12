@@ -1,9 +1,9 @@
-import 'package:ausicare_doctor/pages/authenticaton/pages/login/login_page.dart';
-import 'package:ausicare_doctor/pages/dashboard/bindings/dashboard_binding.dart';
-import 'package:ausicare_doctor/pages/dashboard/dashboard_page.dart';
-import 'package:ausicare_doctor/pages/splash/binding/splash_binding.dart';
-import 'package:ausicare_doctor/pages/splash/splash_screen.dart';
 import 'package:get/get.dart';
+import 'package:god_flutter/pages/authenticaton/pages/login/login_page.dart';
+import 'package:god_flutter/pages/dashboard/bindings/dashboard_binding.dart';
+import 'package:god_flutter/pages/dashboard/dashboard_page.dart';
+import 'package:god_flutter/pages/splash/binding/splash_binding.dart';
+import 'package:god_flutter/pages/splash/splash_screen.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate

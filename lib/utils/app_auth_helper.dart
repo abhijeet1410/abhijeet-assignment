@@ -1,24 +1,18 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:ausicare_doctor/api_services/base_api.dart';
-import 'package:ausicare_doctor/app_configs/api_routes.dart';
-import 'package:ausicare_doctor/app_configs/environment.dart';
-import 'package:ausicare_doctor/data_models/user.dart';
-import 'package:ausicare_doctor/global_controllers/user_controller.dart';
-import 'package:ausicare_doctor/pages/authenticaton/pages/login/login_page.dart';
-import 'package:ausicare_doctor/pages/authenticaton/pages/onboarding/onboarding_page.dart';
-import 'package:ausicare_doctor/pages/dashboard/dashboard_page.dart';
-import 'package:ausicare_doctor/utils/check_permissions.dart';
-import 'package:ausicare_doctor/utils/shared_preference_helper.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:god_flutter/api_services/base_api.dart';
+import 'package:god_flutter/app_configs/api_routes.dart';
+import 'package:god_flutter/data_models/user.dart';
+import 'package:god_flutter/global_controllers/user_controller.dart';
+import 'package:god_flutter/pages/authenticaton/pages/login/login_page.dart';
+import 'package:god_flutter/pages/authenticaton/pages/onboarding/onboarding_page.dart';
+import 'package:god_flutter/pages/dashboard/dashboard_page.dart';
+import 'package:god_flutter/utils/shared_preference_helper.dart';
 
 import 'snackbar_helper.dart';
 
@@ -44,7 +38,7 @@ class AuthHelper {
 
   static Future<UserResponse> verifyLoginOtp(String phone, String otp) async {
     // final fcmId = await FirebaseMessaging.instance.getToken();
-    final Position latLng = await CheckPermissions.getCurrentLocation();
+    // final Position latLng = await CheckPermissions.getCurrentLocation();
 
     final deviceInfo = await getDeviceDetails();
     final fcmId = await FirebaseMessaging.instance.getToken();
@@ -58,7 +52,7 @@ class AuthHelper {
           "deviceId": deviceInfo['deviceId'],
           "deviceType": deviceInfo['deviceType'],
           "deviceName": deviceInfo['deviceName'],
-          "coordinates": [latLng.longitude, latLng.latitude],
+          // "coordinates": [latLng.longitude, latLng.latitude],
           "role": 1
         },
         query: {'\$populate': 'userDetails'},
@@ -93,144 +87,6 @@ class AuthHelper {
       "deviceName": deviceName,
       "deviceType": deviceType
     };
-  }
-
-  ///
-  /// Normal user Google login
-  /// On error it will throw [RestError]
-  /// If cancelled it will return null
-  ///
-  static Future<UserResponse?> userLoginWithGoogle() async {
-    GoogleSignIn _googleSignIn =
-        GoogleSignIn(scopes: ['email'], clientId: Environment.googleClientId);
-    try {
-      final Position latLng = await CheckPermissions.getCurrentLocation();
-
-      final deviceInfo = await getDeviceDetails();
-      final fcmId = await FirebaseMessaging.instance.getToken();
-      GoogleSignInAccount? result = await _googleSignIn.signIn();
-      if (result == null) {
-        return null;
-      }
-      GoogleSignInAuthentication googleAuth = await result.authentication;
-      log('TOKEN ${googleAuth.accessToken}');
-      final resultMap = await ApiCall.post(ApiRoutes.signInWithGoogle,
-          query: {'\$populate': 'userDetails'},
-          body: {
-            "accessToken": googleAuth.accessToken,
-            "fcmId": fcmId,
-            "deviceId": deviceInfo['deviceId'],
-            "deviceType": deviceInfo['deviceType'],
-            "deviceName": deviceInfo['deviceName'],
-            "coordinates": [latLng.longitude, latLng.latitude],
-            "role": 1
-          },
-          isAuthNeeded: false);
-      final userResponse = UserResponse.fromJson(resultMap.data);
-      SharedPreferenceHelper.storeUser(user: userResponse);
-      SharedPreferenceHelper.storeAccessToken(userResponse.accessToken);
-      return userResponse;
-    } catch (e) {
-      rethrow;
-    } finally {
-      _googleSignIn.signOut();
-    }
-  }
-
-  ///
-  /// Normal user Facebook login
-  /// After success it will check for pincode is empty or not. If empty or null it will redirects to [ChooseLocationPage.routeName]
-  /// On error it will throw [RestError]
-  /// If cancelled it will return null
-  ///
-  static Future<UserResponse?> userLoginWithFacebook() async {
-    final fcmId = await FirebaseMessaging.instance.getToken();
-    final Position latLng = await CheckPermissions.getCurrentLocation();
-    final deviceInfo = await getDeviceDetails();
-
-    final facebookLogin = FacebookLogin();
-    final facebookLoginResult = await facebookLogin.logIn(['email']);
-    switch (facebookLoginResult.status) {
-      case FacebookLoginStatus.error:
-        throw FacebookLoginStatus.error.toString();
-      case FacebookLoginStatus.cancelledByUser:
-        return null;
-      case FacebookLoginStatus.loggedIn:
-        log('TOKEN ${facebookLoginResult.accessToken.token}');
-
-        final resultMap = await ApiCall.post(ApiRoutes.signInWithFacebook,
-            query: {'\$populate': 'business'},
-            body: {
-              "accessToken": facebookLoginResult.accessToken.token,
-              "fcmId": fcmId,
-              "deviceId": deviceInfo['deviceId'],
-              "deviceType": deviceInfo['deviceType'],
-              "deviceName": deviceInfo['deviceName'],
-              "coordinates": [latLng.longitude, latLng.latitude],
-              "role": 1
-            },
-            isAuthNeeded: false);
-
-        await facebookLogin.logOut();
-
-        final userResponse = UserResponse.fromJson(resultMap.data);
-        SharedPreferenceHelper.storeUser(user: userResponse);
-        SharedPreferenceHelper.storeAccessToken(userResponse.accessToken);
-        return userResponse;
-      default:
-        return null;
-    }
-  }
-
-  ///
-  /// Normal user Apple login
-  /// After success it will check for pincode is empty or not. If empty or null it will redirects to [ChooseLocationPage.routeName]
-  /// On error it will throw [RestError]
-  /// If cancelled it will return null
-  ///
-  static Future<UserResponse?> userLoginWithApple() async {
-    final fcmId = await FirebaseMessaging.instance.getToken();
-    final Position latLng = await CheckPermissions.getCurrentLocation();
-    final deviceInfo = await getDeviceDetails();
-    try {
-      final credential = await SignInWithApple.getAppleIDCredential(
-        // TODO: set client id and redirect url
-
-        webAuthenticationOptions:
-            WebAuthenticationOptions(clientId: '', redirectUri: Uri.parse('')),
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
-      final resultMap = await ApiCall.post(ApiRoutes.signInWithApple,
-          query: {'\$populate': 'business'},
-          body: {
-            "accessToken": credential.identityToken,
-            "fcmId": fcmId,
-            "deviceId": deviceInfo['deviceId'],
-            "deviceType": deviceInfo['deviceType'],
-            "deviceName": deviceInfo['deviceName'],
-            "coordinates": [latLng.longitude, latLng.latitude],
-            "role": 1
-          },
-          isAuthNeeded: false);
-
-      final userResponse = UserResponse.fromJson(resultMap.data);
-      SharedPreferenceHelper.storeUser(user: userResponse);
-      SharedPreferenceHelper.storeAccessToken(userResponse.accessToken);
-      return userResponse;
-    } catch (e) {
-      if (e is SignInWithAppleAuthorizationException) {
-        switch (e.code) {
-          case AuthorizationErrorCode.canceled:
-            return null;
-          default:
-            throw 'Unable to login with apple';
-        }
-      }
-      throw e.toString();
-    }
   }
 
   ///
@@ -296,7 +152,7 @@ class AuthHelper {
 
   static Future<UserResponse> signUpUser(Map<String, dynamic> body) async {
     final fcmId = await FirebaseMessaging.instance.getToken();
-    final Position latLng = await CheckPermissions.getCurrentLocation();
+    // final Position latLng = await CheckPermissions.getCurrentLocation();
     final deviceInfo = await getDeviceDetails();
 
     body.addAll({
@@ -305,7 +161,7 @@ class AuthHelper {
       "deviceId": deviceInfo['deviceId'],
       "deviceType": deviceInfo['deviceType'],
       "deviceName": deviceInfo['deviceName'],
-      "coordinates": [latLng.longitude, latLng.latitude],
+      // "coordinates": [latLng.longitude, latLng.latitude],
       "role": 1
     });
     final result = await ApiCall.post(ApiRoutes.user,

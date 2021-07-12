@@ -1,8 +1,5 @@
 // import 'package:geolocation/geolocation.dart';
 
-import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
-
 class CheckPermissions {
   // static Future requestGpsService() async {
   //   try {
@@ -72,43 +69,43 @@ class CheckPermissions {
   ///
   /// When the location services are not enabled or permissions
   /// are denied the `Future` will return an error.
-  static Future<Position> getCurrentLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      await Geolocator.openLocationSettings();
-      return Future.error('Location services are disabled.');
-    }
-    return await Geolocator.getCurrentPosition();
-  }
-
-  static Future<bool> storagePermission() async {
-    var status = await Permission.storage.status;
-    if (status.isGranted) {
-      return true;
-    } else if (status.isDenied || status.isPermanentlyDenied) {
-      var result = await Permission.storage.request();
-      if (result.isDenied) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      return false;
-    }
-  }
+  // static Future<Position> getCurrentLocation() async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
+  //
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       return Future.error('Location permissions are denied');
+  //     }
+  //   }
+  //
+  //   if (permission == LocationPermission.deniedForever) {
+  //     return Future.error(
+  //         'Location permissions are permanently denied, we cannot request permissions.');
+  //   }
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     await Geolocator.openLocationSettings();
+  //     return Future.error('Location services are disabled.');
+  //   }
+  //   return await Geolocator.getCurrentPosition();
+  // }
+  //
+  // static Future<bool> storagePermission() async {
+  //   var status = await Permission.storage.status;
+  //   if (status.isGranted) {
+  //     return true;
+  //   } else if (status.isDenied || status.isPermanentlyDenied) {
+  //     var result = await Permission.storage.request();
+  //     if (result.isDenied) {
+  //       return false;
+  //     } else {
+  //       return true;
+  //     }
+  //   } else {
+  //     return false;
+  //   }
+  // }
 }

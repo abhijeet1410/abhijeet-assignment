@@ -1,15 +1,14 @@
-import 'package:ausicare_doctor/app_configs/app_colors.dart';
-import 'package:ausicare_doctor/app_configs/environment.dart';
-import 'package:ausicare_doctor/pages/authenticaton/controllers/otp_controller.dart';
-import 'package:ausicare_doctor/widgets/app_buttons/app_back_button.dart';
-import 'package:ausicare_doctor/widgets/app_buttons/app_primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:god_flutter/app_configs/app_colors.dart';
+import 'package:god_flutter/app_configs/environment.dart';
+import 'package:god_flutter/pages/authenticaton/controllers/otp_controller.dart';
+import 'package:god_flutter/widgets/app_buttons/app_back_button.dart';
+import 'package:god_flutter/widgets/app_buttons/app_primary_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 
 ///
 /// Created by Kumar Sunil from Boiler plate
@@ -21,8 +20,8 @@ class OtpVerificationPage extends StatefulWidget {
   _OtpVerificationPageState createState() => _OtpVerificationPageState();
 }
 
-class _OtpVerificationPageState extends State<OtpVerificationPage>
-    with CodeAutoFill {
+class _OtpVerificationPageState
+    extends State<OtpVerificationPage> /*with CodeAutoFill */ {
   late OtpController _otpController;
 
   @override
@@ -34,8 +33,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage>
 
   @override
   void dispose() {
-    unregisterListener();
-    cancel();
+    // unregisterListener();
+    // cancel();
     _otpController.dispose();
     super.dispose();
   }
@@ -159,6 +158,6 @@ class _OtpVerificationPageState extends State<OtpVerificationPage>
     );
   }
 
-  @override
-  void codeUpdated() => _otpController.onCodeUpdated(code!);
+// @override
+// void codeUpdated() => _otpController.onCodeUpdated(code!);
 }

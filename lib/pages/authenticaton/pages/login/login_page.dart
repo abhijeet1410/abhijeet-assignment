@@ -1,19 +1,19 @@
 import 'dart:math';
 
-import 'package:ausicare_doctor/app_configs/app_assets.dart';
-import 'package:ausicare_doctor/app_configs/app_colors.dart';
-import 'package:ausicare_doctor/app_configs/app_decorations.dart';
-import 'package:ausicare_doctor/pages/authenticaton/controllers/login_controller.dart';
-import 'package:ausicare_doctor/pages/authenticaton/pages/login/login_animator.dart';
-import 'package:ausicare_doctor/widgets/app_buttons/app_back_button.dart';
-import 'package:ausicare_doctor/widgets/app_buttons/app_outline_button.dart';
-import 'package:ausicare_doctor/widgets/app_buttons/app_primary_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:god_flutter/app_configs/app_assets.dart';
+import 'package:god_flutter/app_configs/app_colors.dart';
+import 'package:god_flutter/app_configs/app_decorations.dart';
+import 'package:god_flutter/pages/authenticaton/controllers/login_controller.dart';
+import 'package:god_flutter/pages/authenticaton/pages/login/login_animator.dart';
+import 'package:god_flutter/widgets/app_buttons/app_back_button.dart';
+import 'package:god_flutter/widgets/app_buttons/app_outline_button.dart';
+import 'package:god_flutter/widgets/app_buttons/app_primary_button.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate
@@ -239,51 +239,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     alignment: Alignment.center,
                     clipBehavior: Clip.none,
                     children: [
-                      Positioned(
-                        left: 16,
-                        right: 16,
-                        top: 104,
-                        child: Column(
-                          children: [
-                            socialSignInButton(
-                                'Sign in with Google',
-                                AppAssets.google,
-                                () => _loginController.socialSignIn(1)),
-                            SizedBox(height: 22),
-                            socialSignInButton(
-                                'Sign in with Facebook',
-                                AppAssets.facebook,
-                                () => _loginController.socialSignIn(2)),
-                            SizedBox(height: 22),
-                            socialSignInButton(
-                                'Sign in with Apple',
-                                AppAssets.apple,
-                                () => _loginController.socialSignIn(3)),
-                            // SignInWithAppleButton(
-                            //   height: 48,
-                            //   iconAlignment: IconAlignment.left,
-                            //   onPressed: () => _loginController.socialSignIn(3),
-                            //   style: SignInWithAppleButtonStyle.whiteOutlined,
-                            // ),
-                            SizedBox(height: 48),
-                            RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  style: theme.textTheme.bodyText2,
-                                  children: [
-                                    TextSpan(
-                                        text:
-                                            '*By continuing, you agree to our',
-                                        style: TextStyle(color: Colors.grey)),
-                                    TextSpan(
-                                        text: ' Terms & Conditions',
-                                        style: TextStyle(
-                                            color: theme.primaryColor)),
-                                  ],
-                                )),
-                          ],
-                        ),
-                      ),
                       Positioned(
                         left: 0,
                         right: 0,

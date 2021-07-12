@@ -1,7 +1,7 @@
-import 'package:ausicare_doctor/app_configs/app_assets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:god_flutter/app_configs/app_assets.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate

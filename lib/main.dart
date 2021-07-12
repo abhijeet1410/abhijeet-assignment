@@ -1,9 +1,9 @@
-import 'package:ausicare_doctor/app_configs/app_theme.dart';
-import 'package:ausicare_doctor/pages/splash/splash_screen.dart';
-import 'package:ausicare_doctor/utils/shared_preference_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:god_flutter/app_configs/app_theme.dart';
+import 'package:god_flutter/pages/splash/splash_screen.dart';
+import 'package:god_flutter/utils/shared_preference_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_configs/app_page_routes.dart';

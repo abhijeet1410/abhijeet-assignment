@@ -1,4 +1,4 @@
-name: flutter_mobile_template
+name: god_flutter
 description: A new Flutter application.
 publish_to: "none"
 version: 1.0.0+1
@@ -11,28 +11,22 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cached_network_image: ^2.5.1
-  carousel_slider: ^4.0.0-nullsafety.0
+  cached_network_image: ^3.0.0
   cupertino_icons: ^1.0.2
   dio: ^4.0.0
-  file_picker: ^3.0.0
-  firebase_messaging: ^9.0.0
-  flutter_facebook_login: ^3.0.0
-  flutter_google_places: ^0.2.8
-  flutter_local_notifications: ^5.0.0
-  flutter_svg: ^0.19.3
-  get: ^4.1.1
-  google_sign_in: ^5.0.1
-  image_cropper: ^1.4.0
+  firebase_messaging: ^10.0.3
+  flutter_local_notifications: ^6.0.0
+  flutter_svg: ^0.22.0
+  get: ^4.1.4
+  image_cropper: ^1.4.1
   image_picker: null
   intl: ^0.17.0
   location: null
-  permission_handler: ^6.1.1
-  pin_code_fields: ^7.0.0
-  qr_code_scanner: ^0.4.0-nullsafety.0
-  shared_preferences: ^2.0.5
-  sign_in_with_apple: ^3.0.0
+  permission_handler: ^8.1.2
+  pin_code_fields: ^7.2.0
+  shared_preferences: ^2.0.6
   url_launcher: ^6.0.2
+  device_info: ^2.0.2
 
 #dependency_override:
 #  http_parser: ^4.0.0
