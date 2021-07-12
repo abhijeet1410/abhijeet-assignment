@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:44600699291:android:5f9eb99e7bcc8d82",
         "android_client_info": {
-          "package_name": "com.example.kumarsunil.loginwithgoogle"
+          "package_name": "com.godsowndiva.app"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "44600699291-5bj1crbu8rke8r4mtbp0ts01bcfifhct.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.kumarsunil.loginwithgoogle",
+            "package_name": "com.godsowndiva.app",
             "certificate_hash": "4339bea2e5329bdb5dd6f80981b9602116e8e593"
           }
         },
