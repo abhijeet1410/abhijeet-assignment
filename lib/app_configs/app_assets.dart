@@ -6,15 +6,14 @@ mixin AppAssets {
 
   static const String userProfile = 'assets/icons/user_profile.svg';
 
-  static const String google = 'assets/icons/google_icon.svg';
-  static const String facebook = 'assets/icons/facebook_icon.svg';
-  static const String phone = 'assets/icons/phone_icon.svg';
-  static const String apple = 'assets/icons/apple_icon.svg';
   static const String logo = 'assets/icons/logo.svg';
-  static const String loginVector = 'assets/icons/login_vector.svg';
-  static const String user = 'assets/icons/user.svg';
-  static const String calendar = 'assets/icons/calendar.svg';
-  static const String female = 'assets/icons/female.svg';
-  static const String male = 'assets/icons/male.svg';
-  static const String others = 'assets/icons/others.svg';
+  static const String addFeedPhoto = 'assets/icons/add_feed_photo.svg';
+  static const String addFeedVideo = 'assets/icons/add_feed_video.svg';
+  static const String appbarMenu = 'assets/icons/appbar_menu.svg';
+  static const String feedCommentFilled =
+      'assets/icons/feed_comment_filled.svg';
+  static const String feedCommentOutlined =
+      'assets/icons/feed_comment_outlined.svg';
+  static const String feedLikeFilled = 'assets/icons/feed_like_filled.svg';
+  static const String feedLikeOutlined = 'assets/icons/feed_like_outlined.svg';
 }

@@ -23,7 +23,7 @@ mixin AppThemes {
     brightness: Brightness.light,
     appBarTheme: AppBarTheme(
       elevation: 0,
-      iconTheme: IconThemeData(color: Colors.black),
+      iconTheme: IconThemeData(color: Colors.white),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(primary: AppColors.brightPrimary),

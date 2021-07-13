@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:god_flutter/app_configs/app_theme.dart';
-import 'package:god_flutter/pages/splash/splash_screen.dart';
+import 'package:god_flutter/pages/dashboard/dashboard_page.dart';
 import 'package:god_flutter/utils/shared_preference_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'AusiCare Doctor',
+      title: 'GODs Own Diva',
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: AppThemes.lightTheme,
@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
       ],
-      initialRoute: SplashPage.routeName,
+      initialRoute: DashboardPage.routeName,
       getPages: AppPages.pages,
     );
   }
