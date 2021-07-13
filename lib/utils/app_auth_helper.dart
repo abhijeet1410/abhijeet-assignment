@@ -9,8 +9,8 @@ import 'package:god_flutter/api_services/base_api.dart';
 import 'package:god_flutter/app_configs/api_routes.dart';
 import 'package:god_flutter/data_models/user.dart';
 import 'package:god_flutter/global_controllers/user_controller.dart';
-import 'package:god_flutter/pages/authenticaton/pages/login/login_page.dart';
-import 'package:god_flutter/pages/authenticaton/pages/onboarding/onboarding_page.dart';
+import 'package:god_flutter/pages/authentication/intro/intro_page.dart';
+import 'package:god_flutter/pages/authentication/onboarding/onboarding_page.dart';
 import 'package:god_flutter/pages/dashboard/dashboard_page.dart';
 import 'package:god_flutter/utils/shared_preference_helper.dart';
 
@@ -127,7 +127,7 @@ class AuthHelper {
     } else if (user == null && accessToken != null) {
       Get.offNamed(OnboardingPage.routeName);
     } else
-      Get.offAllNamed(LoginPage.routeName);
+      Get.offAllNamed(IntroPage.routeName);
   }
 
   static Future<String?> refreshAccessToken() async {

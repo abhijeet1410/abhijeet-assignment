@@ -8,7 +8,7 @@ import 'package:god_flutter/utils/app_auth_helper.dart';
 /// Created by Sunil Kumar from Boiler plate
 ///
 class SplashPage extends StatefulWidget {
-  static const routeName = '/';
+  static const routeName = '/splash';
 
   @override
   _SplashPageState createState() => _SplashPageState();

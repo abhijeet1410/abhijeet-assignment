@@ -16,4 +16,6 @@ mixin AppAssets {
       'assets/icons/feed_comment_outlined.svg';
   static const String feedLikeFilled = 'assets/icons/feed_like_filled.svg';
   static const String feedLikeOutlined = 'assets/icons/feed_like_outlined.svg';
+
+  static const String search = 'assets/icons/search.svg';
 }
