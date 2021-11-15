@@ -1,4 +1,4 @@
-import 'package:pro_health/data_models/user.dart';
+import 'package:flutter_mobile_template/data_models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceHelper {

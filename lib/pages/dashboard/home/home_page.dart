@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_template/global_controllers/user_controller.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
-import 'package:pro_health/global_controllers/user_controller.dart';
-import 'package:pro_health/widgets/app_buttons/app_primary_button.dart';
 
 ///
 /// Created by Kumar Sunil from Boiler plate
@@ -23,15 +23,11 @@ class HomePage extends GetView<UserController> {
           ),
           Center(
             child: AppPrimaryButton(
-                child: Text('Show in app notification'),
-                onPressed: () {
-                }),
+                child: Text('Show in app notification'), onPressed: () {}),
           ),
           Center(
             child: AppPrimaryButton(
-                child: Text('Go to Explore'),
-                onPressed: () {
-                }),
+                child: Text('Go to Explore'), onPressed: () {}),
           ),
         ],
       ),

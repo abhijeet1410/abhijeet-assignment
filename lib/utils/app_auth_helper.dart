@@ -1,13 +1,13 @@
 import 'dart:developer';
 
+import 'package:flutter_mobile_template/api_services/base_api.dart';
+import 'package:flutter_mobile_template/app_configs/api_routes.dart';
+import 'package:flutter_mobile_template/data_models/user.dart';
+import 'package:flutter_mobile_template/global_controllers/user_controller.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/login_phone/login_phone_page.dart';
+import 'package:flutter_mobile_template/pages/dashboard/dashboard_page.dart';
+import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
 import 'package:get/get.dart';
-import 'package:pro_health/api_services/base_api.dart';
-import 'package:pro_health/app_configs/api_routes.dart';
-import 'package:pro_health/data_models/user.dart';
-import 'package:pro_health/global_controllers/user_controller.dart';
-import 'package:pro_health/pages/authenticaton/login_phone/login_phone_page.dart';
-import 'package:pro_health/pages/dashboard/dashboard_page.dart';
-import 'package:pro_health/utils/shared_preference_helper.dart';
 
 import 'snackbar_helper.dart';
 

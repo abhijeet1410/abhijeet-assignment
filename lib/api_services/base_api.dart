@@ -1,16 +1,14 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:god_flutter/app_configs/api_routes.dart';
-import 'package:god_flutter/app_configs/environment.dart';
-import 'package:god_flutter/data_models/rest_error.dart';
-import 'package:god_flutter/utils/shared_preference_helper.dart';
+import 'package:flutter_mobile_template/app_configs/api_routes.dart';
+import 'package:flutter_mobile_template/app_configs/environment.dart';
+import 'package:flutter_mobile_template/data_models/rest_error.dart';
+import 'package:flutter_mobile_template/utils/app_auth_helper.dart';
+import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
 import 'package:http_parser/http_parser.dart' as p;
-import 'package:pro_health/app_configs/api_routes.dart';
-import 'package:pro_health/app_configs/environment.dart';
-import 'package:pro_health/data_models/rest_error.dart';
-import 'package:pro_health/utils/shared_preference_helper.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate
@@ -18,42 +16,41 @@ import 'package:pro_health/utils/shared_preference_helper.dart';
 enum RequestMethod { get, create, patch, remove }
 
 class ApiCall {
-  static Future<Response> _generalApiCall(
-    String path,
-    RequestMethod requestMethod, {
-    String id = '',
-    String basePath = Environment.baseApiUrl,
-    Map<String, dynamic> query = const {},
-    dynamic body = const {},
-    bool isAuthNeeded = true,
-  }) async {
-    final Dio _dio = Dio();
-    _dio.options.contentType = 'application/json';
+  static Future<Response<T>> _generalApiCall<T>(
+      String path, RequestMethod requestMethod,
+      {String id = '',
+      String basePath = Environment.baseApiUrl,
+      Map<String, dynamic> query = const {},
+      dynamic body = const {},
+      bool isAuthNeeded = true,
+      Options? extraOptions}) async {
+    Dio _dio = Dio();
+
     if (isAuthNeeded &&
         SharedPreferenceHelper.user != null &&
         SharedPreferenceHelper.user!.accessToken != null)
       _dio.options.headers['Authorization'] =
           SharedPreferenceHelper.user!.accessToken;
-    else
-      _dio.options.headers.remove('Authorization');
     try {
-      Response response;
+      log('URL $requestMethod $basePath/$path/$id $query ${jsonEncode(body)} ${SharedPreferenceHelper.user?.accessToken}');
+
+      Response<T> response;
       switch (requestMethod) {
         case RequestMethod.get:
           response =
-              await _dio.get('$basePath/$path/$id', queryParameters: query);
+              await _dio.get<T>('$basePath/$path/$id', queryParameters: query);
           break;
         case RequestMethod.create:
-          response = await _dio.post('$basePath/$path/$id',
-              data: body, queryParameters: query);
+          response = await _dio.post<T>('$basePath/$path/$id',
+              data: body, queryParameters: query, options: extraOptions);
           break;
         case RequestMethod.patch:
-          response = await _dio.patch('$basePath/$path/$id',
-              data: body, queryParameters: query);
+          response = await _dio.patch<T>('$basePath/$path/$id',
+              data: body, queryParameters: query, options: extraOptions);
           break;
         case RequestMethod.remove:
-          response =
-              await _dio.delete('$basePath/$path/$id', queryParameters: query);
+          response = await _dio.delete<T>('$basePath/$path/$id',
+              queryParameters: query, options: extraOptions);
           break;
         default:
           throw ArgumentError('Invalid RequestMethod $requestMethod');
@@ -62,18 +59,18 @@ class ApiCall {
     } on SocketException {
       throw NoInternetError();
     } catch (error, s) {
-      log('ERROR URL $isAuthNeeded $basePath/$path/$id',
+      log('ERROR URL $basePath/$path/$id ${_dio.options.headers['Authorization']} ${jsonEncode(body)}',
           error: '$error', stackTrace: s);
       if ((error as dynamic).response == null) {
         throw NoInternetError();
       }
       if (error is DioError) {
-        if (error.response!.statusCode == 502) {
+        if (error.response?.statusCode == 502) {
           throw 'Server unreachable';
         } else {
           final restError = RestError.fromJson(error.response!.data);
           if (restError.code == 401) {
-            // Get.offAndToNamed(IntroPage.routeName);
+            if (isAuthNeeded) AuthHelper.logoutUser();
           }
           throw restError;
         }
@@ -83,60 +80,67 @@ class ApiCall {
     }
   }
 
-  static Future<Response> get(
-    String path, {
-    String id = '',
-    String basePath = Environment.baseApiUrl,
-    Map<String, dynamic> query = const {},
-    bool isAuthNeeded = true,
-  }) async {
-    return _generalApiCall(path, RequestMethod.get,
+  static Future<Response<T>> get<T>(String path,
+      {String id = '',
+      String basePath = Environment.baseApiUrl,
+      Map<String, dynamic> query = const {},
+      bool isAuthNeeded = true,
+      Options? extraOptions}) async {
+    return _generalApiCall<T>(path, RequestMethod.get,
         id: id, basePath: basePath, query: query, isAuthNeeded: isAuthNeeded);
   }
 
-  static Future<Response> post(
-    String path, {
-    String id = '',
-    String basePath = Environment.baseApiUrl,
-    Map<String, dynamic> query = const {},
-    dynamic body = const {},
-    bool isAuthNeeded = true,
-  }) async {
-    return _generalApiCall(path, RequestMethod.create,
+  static Future<Response<T>> post<T>(String path,
+      {String id = '',
+      String basePath = Environment.baseApiUrl,
+      Map<String, dynamic> query = const {},
+      dynamic body = const {},
+      bool isAuthNeeded = true,
+      Options? extraOptions}) async {
+    return _generalApiCall<T>(path, RequestMethod.create,
         id: id,
         basePath: basePath,
         query: query,
         isAuthNeeded: isAuthNeeded,
-        body: body);
+        body: body,
+        extraOptions: extraOptions);
   }
 
-  static Future<Response> patch(
+  static Future<Response<T>> patch<T>(
     String path, {
     String id = '',
     String basePath = Environment.baseApiUrl,
     Map<String, dynamic> query = const {},
     Map<String, dynamic> body = const {},
     bool isAuthNeeded = true,
+    Options? extraOptions,
   }) async {
-    return _generalApiCall(path, RequestMethod.patch,
+    return _generalApiCall<T>(path, RequestMethod.patch,
         id: id,
         basePath: basePath,
         query: query,
         isAuthNeeded: isAuthNeeded,
+        extraOptions: extraOptions,
         body: body);
   }
 
-  static Future<Response> delete(String path,
+  static Future<Response<T>> delete<T>(String path,
       {String id = '',
       String basePath = Environment.baseApiUrl,
-      Map<String, dynamic> query = const {}}) async {
-    return _generalApiCall(path, RequestMethod.remove,
-        id: id, basePath: basePath, query: query, isAuthNeeded: true);
+      Map<String, dynamic> query = const {},
+      Options? extraOptions}) async {
+    return _generalApiCall<T>(path, RequestMethod.remove,
+        id: id,
+        basePath: basePath,
+        query: query,
+        isAuthNeeded: true,
+        extraOptions: extraOptions);
   }
 
   /// Single file upload
-  static Future<String?> singleFileUpload(File file, String purpose,
-      {String path = ApiRoutes.upload}) async {
+  static Future<String?> singleFileUpload(File file,
+      {String path = ApiRoutes.upload,
+      Function(int count, int total)? onReceiveProgress}) async {
     try {
       if (SharedPreferenceHelper.user == null ||
           SharedPreferenceHelper.user!.accessToken == null) {
@@ -147,12 +151,14 @@ class ApiCall {
             SharedPreferenceHelper.user!.accessToken;
         Response response = await dio.post('${ApiRoutes.baseUrl}/$path',
             data: FormData.fromMap({
-              "purpose": purpose,
-              "photo": await MultipartFile.fromFile(file.path,
-                  filename: file.path.split('/').last,
-                  contentType: p.MediaType('image', 'jpeg'))
-            }));
-        return response.data['imagePath'];
+              "": await MultipartFile.fromFile(
+                file.path,
+                filename: file.path.split('/').last,
+                // contentType: p.MediaType('image', 'jpeg')
+              )
+            }),
+            onReceiveProgress: onReceiveProgress);
+        return response.data['path'];
       }
     } on SocketException {
       throw NoInternetError();

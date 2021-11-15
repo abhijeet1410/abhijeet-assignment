@@ -1,11 +1,11 @@
 import 'dart:developer';
 
+import 'package:flutter_mobile_template/api_services/base_api.dart';
+import 'package:flutter_mobile_template/app_configs/api_routes.dart';
+import 'package:flutter_mobile_template/data_models/user.dart';
+import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
+import 'package:flutter_mobile_template/utils/snackbar_helper.dart';
 import 'package:get/get.dart';
-import 'package:pro_health/api_services/base_api.dart';
-import 'package:pro_health/app_configs/api_routes.dart';
-import 'package:pro_health/data_models/user.dart';
-import 'package:pro_health/utils/shared_preference_helper.dart';
-import 'package:pro_health/utils/snackbar_helper.dart';
 
 ///
 /// Created by Kumar Sunil from Boiler plate

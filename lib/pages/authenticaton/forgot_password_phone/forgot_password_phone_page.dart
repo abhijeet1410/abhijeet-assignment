@@ -1,12 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobile_template/app_configs/app_decorations.dart';
+import 'package:flutter_mobile_template/app_configs/app_validators.dart';
+import 'package:flutter_mobile_template/app_configs/environment.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/login_phone/login_phone_page.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
-import 'package:pro_health/app_configs/app_decorations.dart';
-import 'package:pro_health/app_configs/app_validators.dart';
-import 'package:pro_health/app_configs/environment.dart';
-import 'package:pro_health/pages/authenticaton/login_phone/login_phone_page.dart';
-import 'package:pro_health/widgets/app_buttons/app_primary_button.dart';
 
 import 'forgot_password_phone_controller.dart';
 

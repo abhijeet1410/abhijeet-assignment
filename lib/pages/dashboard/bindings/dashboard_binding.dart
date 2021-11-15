@@ -1,5 +1,5 @@
+import 'package:flutter_mobile_template/pages/dashboard/controllers/dashboard_controller.dart';
 import 'package:get/get.dart';
-import 'package:pro_health/pages/dashboard/controllers/dashboard_controller.dart';
 
 ///
 /// Created by Kumar Sunil from Boiler plate

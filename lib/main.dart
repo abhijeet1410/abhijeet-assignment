@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_mobile_template/app_configs/app_theme.dart';
+import 'package:flutter_mobile_template/pages/splash/splash_screen.dart';
+import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
 import 'package:get/get.dart';
-import 'package:pro_health/app_configs/app_theme.dart';
-import 'package:pro_health/pages/splash/splash_screen.dart';
-import 'package:pro_health/utils/shared_preference_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_configs/app_page_routes.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobile_template/app_configs/app_decorations.dart';
+import 'package:flutter_mobile_template/app_configs/app_validators.dart';
+import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
+import 'package:flutter_mobile_template/widgets/user_circle_avatar.dart';
 import 'package:get/get.dart';
-import 'package:pro_health/app_configs/app_decorations.dart';
-import 'package:pro_health/app_configs/app_validators.dart';
-import 'package:pro_health/widgets/app_buttons/app_primary_button.dart';
-import 'package:pro_health/widgets/user_circle_avatar.dart';
 
 import 'forgot_password_update_password_controller.dart';
 

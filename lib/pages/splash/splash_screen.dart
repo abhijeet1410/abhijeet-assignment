@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_template/app_configs/app_assets.dart';
+import 'package:flutter_mobile_template/app_configs/app_decorations.dart';
+import 'package:flutter_mobile_template/utils/app_auth_helper.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pro_health/app_configs/app_assets.dart';
-import 'package:pro_health/app_configs/app_decorations.dart';
-import 'package:pro_health/utils/app_auth_helper.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate

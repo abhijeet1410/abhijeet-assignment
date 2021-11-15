@@ -1,9 +1,9 @@
 // import 'dart:developer';
 // import 'dart:math' as math;
 //
-// import 'package:pro_health/app_configs/environment.dart';
-// import 'package:pro_health/utils/check_permissions.dart';
-// import 'package:pro_health/utils/snackbar_helper.dart';
+// import 'package:flutter_mobile_template/app_configs/environment.dart';
+// import 'package:flutter_mobile_template/utils/check_permissions.dart';
+// import 'package:flutter_mobile_template/utils/snackbar_helper.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_google_places/flutter_google_places.dart';
 // import 'package:geolocator/geolocator.dart';

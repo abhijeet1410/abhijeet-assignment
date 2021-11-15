@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_template/utils/snackbar_helper.dart';
 import 'package:get/get.dart';
-import 'package:god_flutter/utils/snackbar_helper.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pro_health/utils/snackbar_helper.dart';
 
 ///
 /// Created by Sunil Kumar on 22-01-2021 08:29 PM.
@@ -14,11 +13,12 @@ import 'package:pro_health/utils/snackbar_helper.dart';
 
 class PhotoChooser extends StatelessWidget {
   final String? title;
-  const PhotoChooser({this.title});
+  final CropStyle? cropStyle;
+
+  const PhotoChooser({this.title, this.cropStyle, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -26,15 +26,15 @@ class PhotoChooser extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 22,
           ),
           Text(
             title ?? 'Choose from a source',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           DefaultTextStyle(
             style: DefaultTextStyle.of(context)
                 .style
@@ -48,11 +48,17 @@ class PhotoChooser extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(16, 16, 8, 16),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: [Icon(Icons.camera, size: 32), Text('Camera')],
+                      children: const [
+                        Icon(
+                          Icons.camera,
+                          size: 32,
+                        ),
+                        Text('Camera')
+                      ],
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 38,
                 ),
                 GestureDetector(
@@ -61,8 +67,11 @@ class PhotoChooser extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(8, 16, 16, 16),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.photo_library_rounded, size: 32),
+                      children: const [
+                        Icon(
+                          Icons.photo_library_rounded,
+                          size: 32,
+                        ),
                         Text('Gallery')
                       ],
                     ),
@@ -71,11 +80,10 @@ class PhotoChooser extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 8),
-          Divider(height: 0, color: Colors.grey),
+          const SizedBox(height: 8),
+          const Divider(height: 0, color: Colors.grey),
           TextButton(
-            style: ButtonStyle(),
-            child: SizedBox(
+            child: const SizedBox(
               width: double.infinity,
               height: 54,
               child: Center(child: Text('Cancel')),
@@ -89,27 +97,27 @@ class PhotoChooser extends StatelessWidget {
 
   _chooseImage(ImageSource source, BuildContext context) {
     ImagePicker()
-        .getImage(
+        .pickImage(
       source: source,
     )
         .then((file) {
       if (file != null && file.path.isNotEmpty) {
         ImageCropper.cropImage(
-                sourcePath: file.path,
-                maxWidth: 500,
-                maxHeight: 500,
-                cropStyle: CropStyle.circle,
+            sourcePath: file.path,
+                // maxWidth: 500,
+                // maxHeight: 500,
+                cropStyle: cropStyle ?? CropStyle.rectangle,
                 aspectRatioPresets: [
-                  CropAspectRatioPreset.square,
+                  // CropAspectRatioPreset.square,
                 ],
                 androidUiSettings: AndroidUiSettings(
                   toolbarTitle: 'Crop Your Image',
                   toolbarColor: Get.theme.primaryColor,
                   toolbarWidgetColor: Colors.white,
-                  initAspectRatio: CropAspectRatioPreset.square,
-                  lockAspectRatio: true,
+                  // initAspectRatio: CropAspectRatioPreset.square,
+                  // lockAspectRatio: true,
                 ),
-                iosUiSettings: IOSUiSettings(
+                iosUiSettings: const IOSUiSettings(
                     minimumAspectRatio: 1.0,
                     title: 'Crop Your Image',
                     aspectRatioLockEnabled: true,

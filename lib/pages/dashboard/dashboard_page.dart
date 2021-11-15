@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:god_flutter/app_configs/app_assets.dart';
 
 ///
 /// Created by Kumar Sunil from Boiler plate
@@ -13,9 +11,7 @@ class DashboardPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Gods Own Diva'),
-        actions: [
-          IconButton(onPressed: () {}, icon: SvgPicture.asset(AppAssets.search))
-        ],
+        actions: [],
       ),
       drawer: Drawer(),
       body: DefaultTabController(

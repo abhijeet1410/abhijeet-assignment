@@ -1,4 +1,4 @@
-name: pro_health
+name: flutter_mobile_template
 description: A new Flutter application.
 publish_to: "none"
 version: 1.0.0+1
@@ -26,7 +26,7 @@ dependencies:
   intl: ^0.17.0
   #  location: null
   #  permission_handle
-  : ^8.1.4+1
+  #  : ^8.1.4+1
   pin_code_fields: ^7.3.0
   #  qr_code_scanner: ^0.5.2
   shared_preferences: ^2.0.8
