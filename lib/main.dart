@@ -1,21 +1,20 @@
-import 'package:ausicare_doctor/app_configs/app_theme.dart';
-import 'package:ausicare_doctor/pages/splash/splash_screen.dart';
-import 'package:ausicare_doctor/utils/shared_preference_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:pro_health/app_configs/app_theme.dart';
+import 'package:pro_health/pages/splash/splash_screen.dart';
+import 'package:pro_health/utils/shared_preference_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_configs/app_page_routes.dart';
 import 'generated/l10n.dart';
-import 'utils/notification_services/in_app_notification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferenceHelper.preferences = await SharedPreferences.getInstance();
 
   /// Setup for notification services
-  InAppNotification.configureInAppNotification();
+  // InAppNotification.configureInAppNotification();
   runApp(MyApp());
 }
 

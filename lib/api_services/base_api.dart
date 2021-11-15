@@ -1,12 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:ausicare_doctor/app_configs/api_routes.dart';
-import 'package:ausicare_doctor/app_configs/environment.dart';
-import 'package:ausicare_doctor/data_models/rest_error.dart';
-import 'package:ausicare_doctor/utils/shared_preference_helper.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart' as p;
+import 'package:pro_health/app_configs/api_routes.dart';
+import 'package:pro_health/app_configs/environment.dart';
+import 'package:pro_health/data_models/rest_error.dart';
+import 'package:pro_health/utils/shared_preference_helper.dart';
 
 ///
 /// Created by Sunil Kumar from Boiler plate

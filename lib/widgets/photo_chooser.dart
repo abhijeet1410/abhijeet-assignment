@@ -1,12 +1,11 @@
 import 'dart:io';
 
-import 'package:ausicare_doctor/utils/snackbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pro_health/utils/snackbar_helper.dart';
 
 ///
 /// Created by Sunil Kumar on 22-01-2021 08:29 PM.
@@ -48,14 +47,7 @@ class PhotoChooser extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(16, 16, 8, 16),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/camera.svg',
-                          height: 60,
-                          width: 60,
-                        ),
-                        Text('Camera')
-                      ],
+                      children: [Icon(Icons.camera, size: 32), Text('Camera')],
                     ),
                   ),
                 ),
@@ -69,11 +61,7 @@ class PhotoChooser extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SvgPicture.asset(
-                          'assets/icons/gallery.svg',
-                          height: 60,
-                          width: 60,
-                        ),
+                        Icon(Icons.photo_library_rounded, size: 32),
                         Text('Gallery')
                       ],
                     ),
@@ -99,23 +87,26 @@ class PhotoChooser extends StatelessWidget {
   }
 
   _chooseImage(ImageSource source, BuildContext context) {
-    ImagePicker.pickImage(
+    ImagePicker()
+        .getImage(
       source: source,
-    ).then((file) {
-      if (file != null && file.path != null && file.path.isNotEmpty) {
+    )
+        .then((file) {
+      if (file != null && file.path.isNotEmpty) {
         ImageCropper.cropImage(
                 sourcePath: file.path,
-                // maxWidth: 500,
-                // maxHeight: 500,
+                maxWidth: 500,
+                maxHeight: 500,
+                cropStyle: CropStyle.circle,
                 aspectRatioPresets: [
-                  // CropAspectRatioPreset.square,
+                  CropAspectRatioPreset.square,
                 ],
                 androidUiSettings: AndroidUiSettings(
                   toolbarTitle: 'Crop Your Image',
-                  toolbarColor: Get.theme!.primaryColor,
+                  toolbarColor: Get.theme.primaryColor,
                   toolbarWidgetColor: Colors.white,
-                  // initAspectRatio: CropAspectRatioPreset.square,
-                  // lockAspectRatio: true,
+                  initAspectRatio: CropAspectRatioPreset.square,
+                  lockAspectRatio: true,
                 ),
                 iosUiSettings: IOSUiSettings(
                     minimumAspectRatio: 1.0,
@@ -123,13 +114,13 @@ class PhotoChooser extends StatelessWidget {
                     aspectRatioLockEnabled: true,
                     showCancelConfirmationDialog: true))
             .then((File? value) {
-          if (value != null && value.path != null && value.path.isNotEmpty) {
+          if (value != null && value.path.isNotEmpty) {
             Navigator.pop(context, value);
           }
         });
       }
     }).catchError((error) {
-      SnackBarHelper.show('Error', 'Please allow permission to upload image.');
+      SnackBarHelper.show('Please allow permission to upload image.');
     });
   }
 }

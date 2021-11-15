@@ -1,12 +1,11 @@
 import 'package:flutter/services.dart';
 
 class SnackBarHelper {
-  static const platform = MethodChannel('net.mylocalstore.my_localstore/toast');
+  static const platform = MethodChannel('com.kumarsunil17.pro_health/toast');
 
-  static Future<void> show(String title, String message,
-      {isLong = false}) async {
+  static Future<void> show(String message, {isLong = false}) async {
     await platform
-        .invokeMethod('toast', {"message": message,"title":title, "isLong": isLong});
+        .invokeMethod('toast', {"message": message, "isLong": isLong});
   }
   // static void show(String title, String message) {
   //   Get.snackbar(title, message,

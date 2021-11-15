@@ -1,4 +1,4 @@
-import 'package:ausicare_doctor/data_models/user.dart';
+import 'package:pro_health/data_models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceHelper {

@@ -1,11 +1,11 @@
 import 'dart:developer';
 
-import 'package:ausicare_doctor/api_services/base_api.dart';
-import 'package:ausicare_doctor/app_configs/api_routes.dart';
-import 'package:ausicare_doctor/data_models/user.dart';
-import 'package:ausicare_doctor/utils/shared_preference_helper.dart';
-import 'package:ausicare_doctor/utils/snackbar_helper.dart';
 import 'package:get/get.dart';
+import 'package:pro_health/api_services/base_api.dart';
+import 'package:pro_health/app_configs/api_routes.dart';
+import 'package:pro_health/data_models/user.dart';
+import 'package:pro_health/utils/shared_preference_helper.dart';
+import 'package:pro_health/utils/snackbar_helper.dart';
 
 ///
 /// Created by Kumar Sunil from Boiler plate
@@ -42,7 +42,7 @@ class UserController extends GetxController with StateMixin<User> {
       // updateUser(updatedData);
       change(updatedData, status: RxStatus.success());
     } catch (e, s) {
-      SnackBarHelper.show("", e.toString());
+      SnackBarHelper.show(e.toString());
       log("refreshUser", error: e, stackTrace: s);
     }
   }

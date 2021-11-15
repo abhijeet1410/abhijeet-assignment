@@ -1,5 +1,5 @@
-import 'package:ausicare_doctor/global_controllers/user_controller.dart';
 import 'package:get/get.dart';
+import 'package:pro_health/global_controllers/user_controller.dart';
 
 ///
 /// Created by Kumar Sunil from Boiler plate
