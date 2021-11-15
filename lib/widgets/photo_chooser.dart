@@ -103,7 +103,7 @@ class PhotoChooser extends StatelessWidget {
         .then((file) {
       if (file != null && file.path.isNotEmpty) {
         ImageCropper.cropImage(
-            sourcePath: file.path,
+                sourcePath: file.path,
                 // maxWidth: 500,
                 // maxHeight: 500,
                 cropStyle: cropStyle ?? CropStyle.rectangle,
