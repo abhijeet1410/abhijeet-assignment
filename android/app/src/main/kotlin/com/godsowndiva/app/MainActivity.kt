@@ -1,4 +1,4 @@
-package com.ausicare.doctor
+package com.godsowndiva.app
 
 import android.content.Context
 import android.content.Intent
@@ -26,11 +26,18 @@ class MainActivity: FlutterActivity() {
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine)
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.ausicare.doctor/toast").setMethodCallHandler { call, result ->
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            "com.godsowndiva.app/toast"
+        ).setMethodCallHandler { call, result ->
             if (call.method == "toast") {
                 val message = call.argument<String>("message")
                 val isLong = call.argument<Boolean>("isLong")
-                Toast.makeText(applicationContext, message, if (isLong!!) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    applicationContext,
+                    message,
+                    if (isLong!!) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
+                ).show()
                 result.success(true)
             } else {
                 result.notImplemented()

@@ -1,17 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ausicare.doctor">
+    package="com.godsowndiva.app">
 
     <application
         android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name="com.ausicare.doctor.MainActivity"
+            android:name="com.godsowndiva.app.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize"
-            android:usesCleartextTraffic="true">
+            android:windowSoftInputMode="adjustResize">
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
@@ -70,15 +70,6 @@
            android:name="com.google.firebase.messaging.default_notification_channel_id"
            android:value="high_importance_channel" />
 
-       <provider
-           android:name="androidx.core.content.FileProvider"
-           android:authorities="com.ausicare.doctor"
-           android:exported="false"
-           android:grantUriPermissions="true">
-           <!-- ressource file to create -->
-           <meta-data
-               android:name="android.support.FILE_PROVIDER_PATHS"
-               android:resource="@xml/paths"></meta-data>
-       </provider>
-   </application>
+
+    </application>
 </manifest>

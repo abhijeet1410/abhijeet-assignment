@@ -11,31 +11,22 @@ mixin AppColors {
   static const green = Color(0xff56AB18);
   static const divider = Color(0xffF1F1F1);
   static const darkGrey = Color(0xff676F75);
-  static const prescriptionEnabled = Color(0xff24A7FF);
 
   static const MaterialColor brightPrimary =
-      MaterialColor(_brightPrimaryValue, <int, Color>{
-    50: Color(0xFF284796),
-    100: Color(0xFF284796),
-    200: Color(0xFF284796),
-    300: Color(0xFF284796),
-    400: Color(0xFF284796),
-    500: Color(_brightPrimaryValue),
-    600: Color(0xFF284796),
-    700: Color(0xFF284796),
-    800: Color(0xFF284796),
-    900: Color(0xFF284796),
+      MaterialColor(brightPrimaryValue, <int, Color>{
+    50: Color(0xFFFCE9F0),
+    100: Color(0xFFF8C8DA),
+    200: Color(0xFFF4A3C2),
+    300: Color(0xFFEF7EA9),
+    400: Color(0xFFEB6296),
+    500: Color(brightPrimaryValue),
+    600: Color(0xFFE53F7C),
+    700: Color(0xFFE23771),
+    800: Color(0xFFDE2F67),
+    900: Color(0xFFD82054),
   });
-  static const int _brightPrimaryValue = 0xFF284796;
+  static const int brightPrimaryValue = 0xFFE84684;
 
-  static const MaterialColor brightAccent =
-      MaterialColor(_brightAccentValue, <int, Color>{
-    100: Color(0xFFFFFFFF),
-    200: Color(_brightAccentValue),
-    400: Color(0xFFB8E4FF),
-    700: Color(0xFF9FDAFF),
-  });
-  static const int _brightAccentValue = 0xFFEBF8FF;
   static const MaterialColor darkprimary =
       MaterialColor(_darkprimaryPrimaryValue, <int, Color>{
     50: Color(0xFFFFE1E9),
