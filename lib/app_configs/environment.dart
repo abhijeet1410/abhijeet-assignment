@@ -13,7 +13,7 @@ mixin Environment {
       ? '681620975257-tbfnmcf058mutbln18rra1kv2riinn2t.apps.googleusercontent.com'
       : '681620975257-tbfnmcf058mutbln18rra1kv2riinn2t.apps.googleusercontent.com';
 
-  static const fontFamily = 'Sf-Pro-Display';
+  static const fontFamily = 'Gilory';
 
   static const mapApiKey = 'AIzaSyA0MFZxHOCAO0Suy9MRWS0wIg6_FFynHvg';
 

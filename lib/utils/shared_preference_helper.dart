@@ -40,13 +40,14 @@ class SharedPreferenceHelper {
   //             .toList();
 
   static void storeUser({UserResponse? user, String? response}) {
-    if (user != null)
+    if (user != null) {
       preferences?.setString(USER_KEY, userResponseToJson(user));
-    else {
-      if (response == null || response.isEmpty)
+    } else {
+      if (response == null || response.isEmpty) {
         throw 'No value to store. Either a User object or a String response is required to store in preference.';
-      else
+      } else {
         preferences?.setString(USER_KEY, response);
+      }
     }
   }
 

@@ -28,9 +28,10 @@ class ApiCall {
 
     if (isAuthNeeded &&
         SharedPreferenceHelper.user != null &&
-        SharedPreferenceHelper.user!.accessToken != null)
+        SharedPreferenceHelper.user!.accessToken != null) {
       _dio.options.headers['Authorization'] =
           SharedPreferenceHelper.user!.accessToken;
+    }
     try {
       log('URL $requestMethod $basePath/$path/$id $query ${jsonEncode(body)} ${SharedPreferenceHelper.user?.accessToken}');
 

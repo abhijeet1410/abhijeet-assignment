@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobile_template/app_configs/app_theme.dart';
 import 'package:flutter_mobile_template/pages/splash/splash_screen.dart';
+import 'package:flutter_mobile_template/utils/notification_services/in_app_notification.dart';
 import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +15,7 @@ void main() async {
   SharedPreferenceHelper.preferences = await SharedPreferences.getInstance();
 
   /// Setup for notification services
-  // InAppNotification.configureInAppNotification();
+  InAppNotification.configureInAppNotification();
   runApp(MyApp());
 }
 
@@ -58,7 +59,7 @@ class _MyAppState extends State<MyApp> {
       themeMode: ThemeMode.light,
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,
-      localizationsDelegates: [
+      localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
