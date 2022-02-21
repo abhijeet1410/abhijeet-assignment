@@ -46,7 +46,7 @@ class LoaderOverlay extends ModalRoute<void> {
           AppProgress(color: Get.theme.primaryColor),
           Text(
             message ?? 'Please wait...',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
           )
         ],
       ),
