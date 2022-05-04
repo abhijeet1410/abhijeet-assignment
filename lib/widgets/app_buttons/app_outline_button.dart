@@ -81,7 +81,7 @@ class AppOutlineButtonState extends State<AppOutlineButton> {
               padding: widget.padding ??
                   const EdgeInsets.symmetric(vertical: 14, horizontal: 48),
               textStyle: widget.textStyle ??
-                  TextStyle(
+                  const TextStyle(
                       fontSize: 18,
                       fontFamily: Environment.fontFamily,
                       letterSpacing: 1.4,

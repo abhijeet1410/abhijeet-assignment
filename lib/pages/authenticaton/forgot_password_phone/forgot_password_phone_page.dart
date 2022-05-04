@@ -16,6 +16,8 @@ import 'forgot_password_phone_controller.dart';
 class ForgotPasswordPhonePage extends StatefulWidget {
   static const String routeName = '/ForgotPasswordPhonePage';
 
+  const ForgotPasswordPhonePage({Key? key}) : super(key: key);
+
   @override
   _ForgotPasswordPhonePageState createState() =>
       _ForgotPasswordPhonePageState();

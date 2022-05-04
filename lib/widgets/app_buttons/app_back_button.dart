@@ -10,7 +10,8 @@ class AppBackButton extends StatelessWidget {
   final EdgeInsets? padding;
   final VoidCallback? onPressed;
 
-  const AppBackButton({this.color, this.padding, this.onPressed});
+  const AppBackButton({Key? key, this.color, this.padding, this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

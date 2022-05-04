@@ -14,6 +14,8 @@ import 'package:get/get.dart';
 class RegisterPage extends StatefulWidget {
   static const String routeName = '/register';
 
+  const RegisterPage({Key? key}) : super(key: key);
+
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }

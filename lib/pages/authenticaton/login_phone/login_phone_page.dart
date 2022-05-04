@@ -16,6 +16,8 @@ import 'login_phone_controller.dart';
 class LoginPhonePage extends StatefulWidget {
   static const String routeName = '/LoginPhonePage';
 
+  const LoginPhonePage({Key? key}) : super(key: key);
+
   @override
   _LoginPhonePageState createState() => _LoginPhonePageState();
 }

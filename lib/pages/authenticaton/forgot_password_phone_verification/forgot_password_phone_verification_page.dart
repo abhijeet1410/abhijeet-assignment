@@ -15,6 +15,8 @@ import 'forgot_password_phone_verification_controller.dart';
 class ForgotPasswordVerificationPage extends StatefulWidget {
   static const String routeName = '/ForgotPasswordVerificationPage';
 
+  const ForgotPasswordVerificationPage({Key? key}) : super(key: key);
+
   @override
   _ForgotPasswordVerificationPageState createState() =>
       _ForgotPasswordVerificationPageState();

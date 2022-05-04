@@ -1,4 +1,4 @@
-import 'dart:math' as Math;
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,7 @@ class LoaderOverlay extends ModalRoute<void> {
   LoaderOverlay({this.message});
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: 300);
+  Duration get transitionDuration => const Duration(milliseconds: 300);
 
   @override
   bool get opaque => false;
@@ -86,14 +86,14 @@ class _AppProgressState extends State<AppProgress>
   void initState() {
     super.initState();
 
-    this._controller =
+    _controller =
         AnimationController(duration: const Duration(seconds: 1), vsync: this);
-    this._controller.repeat();
+    _controller.repeat();
   }
 
   @override
   void dispose() {
-    this._controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -104,7 +104,7 @@ class _AppProgressState extends State<AppProgress>
       child: AspectRatio(
         aspectRatio: 1,
         child: AnimatedBuilder(
-          animation: this._controller,
+          animation: _controller,
           builder: (ctx, child) => CustomPaint(
             child: Container(),
             foregroundPainter: _CircleProgressBarPainter(
@@ -113,7 +113,7 @@ class _AppProgressState extends State<AppProgress>
                     .animate(CurvedAnimation(
                         curve: Curves.fastOutSlowIn, parent: _controller))
                     .value,
-                strokeWidth: this.widget.strokeWidth),
+                strokeWidth: widget.strokeWidth),
           ),
         ),
       ),
@@ -130,26 +130,26 @@ class _CircleProgressBarPainter extends CustomPainter {
     @required this.color,
     @required this.percentage,
     double? strokeWidth,
-  }) : this.strokeWidth = strokeWidth ?? 6;
+  }) : strokeWidth = strokeWidth ?? 6;
 
   @override
   void paint(Canvas canvas, Size size) {
     final Offset center = size.center(Offset.zero);
 
-    final shortestSide = Math.min(size.width, size.height);
+    final shortestSide = math.min(size.width, size.height);
     final foregroundPaint = Paint()
-      ..color = this.color!
-      ..strokeWidth = this.strokeWidth
+      ..color = color!
+      ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
-    final radius = (shortestSide / 2) - ((this.strokeWidth) / 2).ceil();
+    final radius = (shortestSide / 2) - ((strokeWidth) / 2).ceil();
 
-    final double startAngle = 2 * Math.pi * (percentage ?? 0);
+    final double startAngle = 2 * math.pi * (percentage ?? 0);
 
-    final count = 8;
-    final gapSize = 20;
-    final double gap = Math.pi / 180 * gapSize;
-    final double singleAngle = (Math.pi * 2) / count;
+    const count = 8;
+    const gapSize = 20;
+    const double gap = math.pi / 180 * gapSize;
+    const double singleAngle = (math.pi * 2) / count;
 
     final Paint paint = Paint()
       ..color = color!
@@ -172,6 +172,6 @@ class _CircleProgressBarPainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     final oldPainter = (oldDelegate as _CircleProgressBarPainter);
-    return oldPainter.percentage != this.percentage;
+    return oldPainter.percentage != percentage;
   }
 }

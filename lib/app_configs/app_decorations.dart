@@ -6,19 +6,14 @@ import 'app_colors.dart';
 /// Created by Sunil Kumar from Boiler plate
 ///
 mixin AppDecorations {
-  static const introLinearGradient = LinearGradient(
-      begin: Alignment.bottomLeft,
-      end: Alignment.topRight,
-      colors: [Color(0xff312A87), Color(0xff213068)]);
-
   static InputDecoration textFieldDecoration(BuildContext context,
       {double radius = 8}) {
     return InputDecoration(
         // fillColor: Colors.grey.shade200,
         filled: false,
         counterText: '',
-        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-        contentPadding: EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 16.0),
+        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+        contentPadding: const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 16.0),
         disabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(radius),
             borderSide: BorderSide(

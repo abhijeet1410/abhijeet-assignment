@@ -12,7 +12,9 @@ class AppErrorWidget extends StatelessWidget {
       this.buttonText,
       this.assetPath,
       this.onRetry,
-      this.textColor});
+      this.textColor,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,9 @@ class AppEmptyWidget extends StatelessWidget {
       this.buttonText,
       this.assetPath,
       this.onReload,
-      this.textColor});
+      this.textColor,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +94,9 @@ class AppNoInternetWidget extends StatelessWidget {
       this.textColor,
       this.buttonText,
       this.assetPath,
-      this.onRetry});
+      this.onRetry,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +125,7 @@ class AppNoInternetWidget extends StatelessWidget {
         if (onRetry != null)
           MaterialButton(
             textColor: Colors.white,
-            color: Get.theme!.primaryColor,
+            color: Get.theme.primaryColor,
             onPressed: onRetry,
             child: Text(buttonText ?? 'Retry'),
           )

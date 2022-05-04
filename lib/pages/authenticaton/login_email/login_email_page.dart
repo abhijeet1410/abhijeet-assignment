@@ -16,6 +16,8 @@ import 'login_email_controller.dart';
 class LoginEmailPage extends StatefulWidget {
   static const String routeName = '/login-email';
 
+  const LoginEmailPage({Key? key}) : super(key: key);
+
   @override
   _LoginEmailPageState createState() => _LoginEmailPageState();
 }

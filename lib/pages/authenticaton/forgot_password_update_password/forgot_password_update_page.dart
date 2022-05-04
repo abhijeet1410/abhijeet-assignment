@@ -14,6 +14,8 @@ import 'forgot_password_update_password_controller.dart';
 class ForgotPasswordUpdatePage extends StatefulWidget {
   static const String routeName = '/ForgotPasswordUpdatePage';
 
+  const ForgotPasswordUpdatePage({Key? key}) : super(key: key);
+
   @override
   _ForgotPasswordUpdatePageState createState() =>
       _ForgotPasswordUpdatePageState();

@@ -203,13 +203,12 @@ class AuthHelper {
   static Future<void> checkUserLevel(
       {String? parentPath, String? phone}) async {
     final UserResponse? user = SharedPreferenceHelper.user;
-    final accessToken = SharedPreferenceHelper.accessToken;
     final userController = Get.isRegistered()
         ? Get.find<UserController>()
         : Get.put<UserController>(UserController(), permanent: true);
     if (user != null) {
       Get.offAllNamed(DashboardPage.routeName);
-    } else if (user == null && accessToken != null) {
+    } else if (user == null && user?.accessToken != null) {
       // Get.offNamed(OnboardingPage.routeName);
     } else
       Get.offAllNamed(LoginPhonePage.routeName);

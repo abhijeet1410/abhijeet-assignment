@@ -15,20 +15,20 @@ import 'package:get/get.dart';
 class AppPages {
   /// NOT TO BE USE NOW
   static final pages = [
-    GetPage(name: SplashPage.routeName, page: () => SplashPage()),
-    GetPage(name: LoginEmailPage.routeName, page: () => LoginEmailPage()),
+    GetPage(name: SplashPage.routeName, page: () => const SplashPage()),
+    GetPage(name: LoginEmailPage.routeName, page: () => const LoginEmailPage()),
     GetPage(name: LoginOtpPage.routeName, page: () => const LoginOtpPage()),
-    GetPage(name: LoginPhonePage.routeName, page: () => LoginPhonePage()),
-    GetPage(name: RegisterPage.routeName, page: () => RegisterPage()),
+    GetPage(name: LoginPhonePage.routeName, page: () => const LoginPhonePage()),
+    GetPage(name: RegisterPage.routeName, page: () => const RegisterPage()),
     GetPage(
         name: ForgotPasswordPhonePage.routeName,
-        page: () => ForgotPasswordPhonePage()),
+        page: () => const ForgotPasswordPhonePage()),
     GetPage(
         name: ForgotPasswordUpdatePage.routeName,
-        page: () => ForgotPasswordUpdatePage()),
+        page: () => const ForgotPasswordUpdatePage()),
     GetPage(
         name: ForgotPasswordVerificationPage.routeName,
-        page: () => ForgotPasswordVerificationPage()),
+        page: () => const ForgotPasswordVerificationPage()),
     GetPage(
         name: DashboardPage.routeName,
         page: () => DashboardPage(),

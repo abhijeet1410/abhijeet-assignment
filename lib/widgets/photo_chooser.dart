@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_template/utils/snackbar_helper.dart';
 import 'package:get/get.dart';
@@ -14,8 +13,11 @@ import 'package:image_picker/image_picker.dart';
 class PhotoChooser extends StatelessWidget {
   final String? title;
   final CropStyle? cropStyle;
+  final List<CropAspectRatioPreset>? aspectRatioPresets;
 
-  const PhotoChooser({this.title, this.cropStyle, Key? key}) : super(key: key);
+  const PhotoChooser(
+      {this.title, this.cropStyle, this.aspectRatioPresets, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -102,30 +104,36 @@ class PhotoChooser extends StatelessWidget {
     )
         .then((file) {
       if (file != null && file.path.isNotEmpty) {
-        ImageCropper()
-            .cropImage(
-                sourcePath: file.path,
-                // maxWidth: 500,
-                // maxHeight: 500,
-                cropStyle: cropStyle ?? CropStyle.rectangle,
-                aspectRatioPresets: [
-                  // CropAspectRatioPreset.square,
-                ],
-                androidUiSettings: AndroidUiSettings(
-                  toolbarTitle: 'Crop Your Image',
-                  toolbarColor: Get.theme.primaryColor,
-                  toolbarWidgetColor: Colors.white,
-                  // initAspectRatio: CropAspectRatioPreset.square,
-                  // lockAspectRatio: true,
-                ),
-                iosUiSettings: const IOSUiSettings(
-                    minimumAspectRatio: 1.0,
-                    title: 'Crop Your Image',
-                    aspectRatioLockEnabled: true,
-                    showCancelConfirmationDialog: true))
-            .then((File? value) {
+        ImageCropper().cropImage(
+          sourcePath: file.path,
+          maxWidth: 500,
+          maxHeight: 500,
+          cropStyle: cropStyle ?? CropStyle.rectangle,
+          aspectRatioPresets: aspectRatioPresets ??
+              const [
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio16x9
+              ],
+          uiSettings: [
+            AndroidUiSettings(
+              toolbarTitle: 'Crop Your Image',
+              toolbarColor: Get.theme.primaryColor,
+              toolbarWidgetColor: Colors.white,
+              // initAspectRatio: CropAspectRatioPreset.square,
+              // lockAspectRatio: true,
+            ),
+            IOSUiSettings(
+                minimumAspectRatio: 1.0,
+                title: 'Crop Your Image',
+                aspectRatioLockEnabled: true,
+                showCancelConfirmationDialog: true),
+          ],
+        ).then((CroppedFile? value) {
           if (value != null && value.path.isNotEmpty) {
-            Navigator.pop(context, value);
+            Navigator.pop(context, File(value.path));
           }
         });
       }

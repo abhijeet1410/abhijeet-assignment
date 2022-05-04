@@ -2,26 +2,16 @@ import 'package:flutter_mobile_template/data_models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceHelper {
-  static const ACCESS_TOKEN_KEY = 'accessToken';
   static const USER_KEY = 'user';
   static const LOCATION_KEY = 'location';
 
   static SharedPreferences? preferences;
-
-  static void storeAccessToken(String? token) {
-    if (token != null) {
-      preferences?.setString(ACCESS_TOKEN_KEY, token);
-    }
-  }
-
-  static String? get accessToken => preferences?.getString(ACCESS_TOKEN_KEY);
 
   static void clear() {
     preferences?.clear();
   }
 
   static void logout() {
-    preferences?.remove(ACCESS_TOKEN_KEY);
     preferences?.remove(USER_KEY);
   }
 

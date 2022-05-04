@@ -11,8 +11,7 @@ class AppPrimaryButton extends StatefulWidget {
       {required this.child,
       Key? key,
       this.onPressed,
-      this.height,
-      this.width,
+      this.size,
       this.color,
       this.shape,
       this.padding,
@@ -22,7 +21,7 @@ class AppPrimaryButton extends StatefulWidget {
   final ShapeBorder? shape;
   final Widget child;
   final VoidCallback? onPressed;
-  final double? height, width;
+  final Size? size;
   final Color? color;
   final EdgeInsets? padding;
   final TextStyle? textStyle;
@@ -51,7 +50,7 @@ class AppPrimaryButtonState extends State<AppPrimaryButton> {
     final theme = Theme.of(context);
 
     return _isLoading
-        ? AppProgress(color: widget.color ?? theme.primaryColor)
+        ? Center(child: AppProgress(color: widget.color ?? theme.primaryColor))
         : ElevatedButton(
             // style: ButtonStyle(
             //   padding: MaterialStateProperty.all(
@@ -78,9 +77,10 @@ class AppPrimaryButtonState extends State<AppPrimaryButton> {
             style: ElevatedButton.styleFrom(
               primary: theme.primaryColor,
               padding: widget.padding ??
-                  const EdgeInsets.symmetric(vertical: 14, horizontal: 48),
+                  const EdgeInsets.symmetric(vertical: 14, horizontal: 32),
+              minimumSize: widget.size,
               textStyle: widget.textStyle ??
-                  TextStyle(
+                  const TextStyle(
                       fontSize: 18,
                       fontFamily: Environment.fontFamily,
                       letterSpacing: 1.4,

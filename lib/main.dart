@@ -13,13 +13,16 @@ import 'generated/l10n.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferenceHelper.preferences = await SharedPreferences.getInstance();
+  // SharedPreferenceHelper.clear();
 
   /// Setup for notification services
   InAppNotification.configureInAppNotification();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -54,7 +57,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'V Pay',
+      title: 'Boiler Plate',
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: AppThemes.lightTheme,

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_template/app_configs/environment.dart';
+import 'package:flutter_mobile_template/widgets/place_picker.dart';
+import 'package:place_picker/place_picker.dart';
 
 ///
 /// Created by Kumar Sunil from Boiler plate
@@ -6,25 +9,23 @@ import 'package:flutter/material.dart';
 class DashboardPage extends StatelessWidget {
   static const routeName = '/';
 
+  const DashboardPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Gods Own Diva'),
-        actions: [],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          LocationResult? result =
+              await Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => AppPlacePicker(
+                        Environment.mapApiKey,
+                      )));
+          if (result != null) {}
+        },
       ),
-      drawer: Drawer(),
-      body: DefaultTabController(
-        length: 2,
-        child: Column(
-          children: [
-            TabBar(tabs: [Tab(text: 'Groups'), Tab(text: 'Community')]),
-            Expanded(
-                child: TabBarView(
-              children: [],
-            ))
-          ],
-        ),
+      appBar: AppBar(
+        title: const Text('Boiler Plate'),
       ),
     );
   }

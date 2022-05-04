@@ -168,7 +168,6 @@ class _LoginOtpPageState extends State<LoginOtpPage> /*with CodeAutoFill*/ {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: AppPrimaryButton(
-                    width: Get.width,
                     key: _otpController.buttonKey,
                     onPressed: _otpController.loginUsingOtp,
                     child: Text('Verify'),
