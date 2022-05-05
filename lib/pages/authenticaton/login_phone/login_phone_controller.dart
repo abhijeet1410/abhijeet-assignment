@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_template/pages/authenticaton/login_otp/login_otp_page.dart';
 import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
 
@@ -39,7 +40,7 @@ class LoginPhoneController extends GetxController {
       // buttonKey.currentState?.showLoader();
       //
       // AuthHelper.loginWithPhonePassword(_phone, _password).then((value) {
-      //   AuthHelper.checkUserLevel();
+      Get.toNamed(LoginOtpPage.routeName, arguments: {"phone": "1234567890"});
       // }).catchError((e, s) {
       //   SnackBarHelper.show(e.toString());
       // }).whenComplete(() => buttonKey.currentState?.hideLoader());

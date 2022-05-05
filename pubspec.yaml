@@ -27,7 +27,7 @@ dependencies:
   firebase_messaging: ^11.3.0
   awesome_notifications: ^0.6.21
   place_picker: ^0.9.20-nullsafety
-
+  flutter_staggered_animations: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

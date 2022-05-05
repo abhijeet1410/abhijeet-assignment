@@ -43,93 +43,80 @@ class _LoginPhonePageState extends State<LoginPhonePage> {
     final theme = Theme.of(context);
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Obx(
-                () => Form(
-                  key: _loginController.formKey,
-                  autovalidateMode: _loginController.autoValidateMode.value,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 22),
-                        child: TextFormField(
-                          textInputAction: TextInputAction.done,
-                          keyboardType: TextInputType.phone,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(10),
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          onSaved: _loginController.onPhoneSaved,
-                          // onFieldSubmitted: (s) => FocusScope.of(context).nextFocus(),
-                          validator: (value) =>
-                              AppFormValidators.validatePhone(value, context),
-                          decoration:
-                              AppDecorations.textFieldDecoration(context)
-                                  .copyWith(
-                            labelText: 'Enter Phone Number',
-                          ),
-                        ),
-                      ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Obx(
+              () => Form(
+                key: _loginController.formKey,
+                autovalidateMode: _loginController.autoValidateMode.value,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 22),
+                  child: TextFormField(
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(10),
+                      FilteringTextInputFormatter.digitsOnly
                     ],
+                    onSaved: _loginController.onPhoneSaved,
+                    // onFieldSubmitted: (s) => FocusScope.of(context).nextFocus(),
+                    validator: (value) =>
+                        AppFormValidators.validatePhone(value, context),
+                    decoration:
+                        AppDecorations.textFieldDecoration(context).copyWith(
+                      labelText: 'Enter Phone Number',
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 6),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 22),
-                  child: TextButton(
-                      style: TextButton.styleFrom(primary: Colors.white),
-                      onPressed: () {
-                        Get.toNamed(ForgotPasswordPhonePage.routeName);
-                      },
-                      child: Text("Forgot Password? Click Here")),
+            ),
+            const SizedBox(height: 6),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 22),
+                child: TextButton(
+                    style: TextButton.styleFrom(primary: Colors.white),
+                    onPressed: () {
+                      Get.toNamed(ForgotPasswordPhonePage.routeName);
+                    },
+                    child: Text("Forgot Password? Click Here")),
+              ),
+            ),
+            const SizedBox(height: 46),
+            Center(
+              child: AppPrimaryButton(
+                child: Text('Login'),
+                onPressed: _loginController.loginPhoneNumber,
+                key: _loginController.buttonKey,
+              ),
+            ),
+            const SizedBox(height: 54),
+            Text(
+              'Don\'t have An account?\nRegister Now',
+              style: theme.textTheme.bodyText1!
+                  .copyWith(fontSize: 16, height: 1.3),
+              textAlign: TextAlign.center,
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 22,
+                  vertical: 14,
+                ),
+                textStyle: TextStyle(
+                  fontSize: 22,
+                  fontFamily: Environment.fontFamily,
                 ),
               ),
-              const SizedBox(height: 46),
-              Center(
-                child: AppPrimaryButton(
-                  child: Text('Login'),
-                  onPressed: _loginController.loginPhoneNumber,
-                  key: _loginController.buttonKey,
-                ),
-              ),
-              const SizedBox(height: 54),
-              Text(
-                'Don\'t have An account?\nRegister Now',
-                style: theme.textTheme.bodyText1!
-                    .copyWith(fontSize: 16, height: 1.3),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 42),
-              TextButton(
-                style: TextButton.styleFrom(
-                    primary: Colors.white,
-                    fixedSize: Size(
-                        MediaQuery.of(context).size.width -
-                            MediaQuery.of(context).size.width / 3,
-                        52),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 14,
-                    ),
-                    textStyle: TextStyle(
-                      fontSize: 22,
-                      fontFamily: Environment.fontFamily,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12))),
-                child: Text("Register Now"),
-                onPressed: () {
-                  Get.toNamed(RegisterPage.routeName);
-                },
-              ),
-              const SizedBox(height: 22),
-            ],
-          ),
+              child: Text("Register Now"),
+              onPressed: () {
+                Get.toNamed(RegisterPage.routeName);
+              },
+            ),
+            const SizedBox(height: 22),
+          ],
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_template/pages/dashboard/dashboard_page.dart';
 import 'package:flutter_mobile_template/utils/snackbar_helper.dart';
 import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
@@ -99,6 +100,7 @@ class LoginOtpController extends GetxController {
     if (pin.isEmpty || pin.length != 6) {
       SnackBarHelper.show('Please enter pin to continue');
     } else {
+      Get.offAllNamed(DashboardPage.routeName);
       // buttonKey.currentState?.showLoader();
       // AuthHelper.verifyLoginPhoneOtp(phone, pin).then((value) {
       //   SharedPreferenceHelper.storeUser(user: value);
