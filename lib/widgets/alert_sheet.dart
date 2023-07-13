@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
+import 'package:assignment_pay/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
 
 Future<bool?> showAppAlertSheet() {

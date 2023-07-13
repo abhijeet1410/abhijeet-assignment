@@ -1,12 +1,15 @@
+import 'package:assignment_pay/pages/dashboard/dashboard_page.dart';
+import 'package:assignment_pay/pages/lock_screen/lock_screen.dart';
+import 'package:assignment_pay/utils/shared_preference_helper.dart';
+import 'package:assignment_pay/utils/snackbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
+import 'package:assignment_pay/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 class LoginEmailController extends GetxController {
   String? _email, _password;
+
+  RxBool isPasswordhidden = RxBool(true);
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<AppPrimaryButtonState> buttonKey =
@@ -40,13 +43,30 @@ class LoginEmailController extends GetxController {
       autoValidateMode.value = AutovalidateMode.always;
     } else {
       state.save();
-      // buttonKey.currentState?.showLoader();
-      //
-      // AuthHelper.loginWithPhonePassword(_phone, _password).then((value) {
-      //   AuthHelper.checkUserLevel();
-      // }).catchError((e, s) {
-      //   SnackBarHelper.show(e.toString());
-      // }).whenComplete(() => buttonKey.currentState?.hideLoader());
     }
+  }
+
+  void onLogin() {
+    final state = formKey.currentState;
+    if (state == null) return;
+    if (!state.validate()) {
+      autoValidateMode.value = AutovalidateMode.always;
+    } else {
+      state.save();
+      if (SharedPreferenceHelper.user == null) {
+        SnackBarHelper.show("You must sign up to continue");
+      } else {
+        if (SharedPreferenceHelper.user!.user!.email == _email &&
+            SharedPreferenceHelper.user!.user!.password == _password) {
+          Get.offAllNamed(DashboardPage.routeName);
+        } else {
+          SnackBarHelper.show("Invalid username or password");
+        }
+      }
+    }
+  }
+
+  void updateObsecure() {
+    isPasswordhidden.value = !isPasswordhidden.value;
   }
 }

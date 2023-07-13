@@ -1,4 +1,4 @@
-package com.godsowndiva.app
+package com.assignment.pay
 
 import android.content.Context
 import android.content.Intent

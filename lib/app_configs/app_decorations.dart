@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 mixin AppDecorations {
   static InputDecoration textFieldDecoration(BuildContext context,
       {double radius = 8}) {

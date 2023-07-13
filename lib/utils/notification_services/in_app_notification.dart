@@ -65,8 +65,8 @@ class InAppNotification {
   }
 
   static Future<void> showNotification(
-      {String title = 'Ausi Care',
-      String description = 'New notification.',
+      {String title = 'title',
+      String description = 'description',
       String imageUrl = 'http://via.placeholder.com/128x128/00FF00/000000',
       Map<String, String>? data}) async {
     awesomeNotifications.createNotification(
@@ -74,8 +74,8 @@ class InAppNotification {
             id: 1,
             payload: data,
             channelKey: channelId,
-            title: 'Simple Notification',
-            body: 'Simple body'));
+            title: title,
+            body: description));
   }
 }
 

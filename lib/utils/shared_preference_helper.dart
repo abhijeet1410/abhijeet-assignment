@@ -1,4 +1,4 @@
-import 'package:flutter_mobile_template/data_models/user.dart';
+import 'package:assignment_pay/data_models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceHelper {

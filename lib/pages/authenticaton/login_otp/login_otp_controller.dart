@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/pages/dashboard/dashboard_page.dart';
-import 'package:flutter_mobile_template/utils/snackbar_helper.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
+import 'package:assignment_pay/pages/dashboard/dashboard_page.dart';
+import 'package:assignment_pay/utils/snackbar_helper.dart';
+import 'package:assignment_pay/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
 // import 'package:sms_autofill/sms_autofill.dart';
 

@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-///
-/// Created by Sunil Kumar (sunil@smarttersstudio.com)
-/// On 15-11-2021 01:24 PM
-///
 mixin AppFormValidators {
   static String? validateEmpty(dynamic data, BuildContext context) {
-    if (data == null) return "*required";
+    if (data == null) return "Field can't be blank";
     if (data is String) {
-      if (data.toString().trim().isEmpty) return "*required";
+      if (data.toString().trim().isEmpty) return "Field can't be blank";
     }
     if (data is Iterable || data is Map) {
-      if (data.isEmpty) return "*required";
+      if (data.isEmpty) return "Field can't be blank";
     }
   }
 
   static String? validateAmount(String? data, BuildContext context) {
-    if (data == null) return "*required";
+    if (data == null) return "Field can't be blank";
     if (data.isNotEmpty) {
       double amount = double.parse(data);
       if (amount <= 0)
@@ -30,18 +26,29 @@ mixin AppFormValidators {
   }
 
   static String? validateMail(String? email, BuildContext context) {
-    if (email == null) return "*required";
+    if (email == null) return "Field can't be blank";
     if (email.isEmpty) {
-      return "*required";
+      return "Field can't be blank";
     } else if (!GetUtils.isEmail(email)) {
-      return "Invalid email id.";
+      return "Invalid email id";
+    }
+  }
+
+  static String? validatePassword(String? password, BuildContext context) {
+    String  pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regExp = RegExp(pattern);
+    if (password == null) return "Field can't be blank";
+    if (password.isEmpty) {
+      return "Field can't be blank";
+    } else if (!regExp.hasMatch(password)) {
+      return "Must have uppercase, lowercase, numbers and symbols";
     }
   }
 
   static String? validatePhone(String? phone, BuildContext context) {
-    if (phone == null) return "*required";
+    if (phone == null) return "Field can't be blank";
     if (phone.isEmpty) {
-      return "*required";
+      return "Field can't be blank";
     } else if (!GetUtils.isPhoneNumber(phone)) {
       return "Invalid phone no.";
     }

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 class AppCircleButton extends StatelessWidget {
   final Color? color;
   final EdgeInsets? padding;

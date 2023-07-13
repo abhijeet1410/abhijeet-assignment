@@ -1,14 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/utils/snackbar_helper.dart';
+import 'package:assignment_pay/utils/snackbar_helper.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-
-///
-/// Created by Sunil Kumar on 22-01-2021 08:29 PM.
-///
 
 class PhotoChooser extends StatelessWidget {
   final String? title;

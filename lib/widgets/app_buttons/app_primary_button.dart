@@ -1,27 +1,27 @@
+import 'package:assignment_pay/app_configs/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/app_configs/environment.dart';
+import 'package:assignment_pay/app_configs/environment.dart';
+import 'package:get/get.dart';
 
 import '../app_loader.dart';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 class AppPrimaryButton extends StatefulWidget {
   const AppPrimaryButton(
       {required this.child,
-      Key? key,
-      this.onPressed,
-      this.size,
-      this.color,
-      this.shape,
-      this.padding,
-      this.textStyle})
+        Key? key,
+        this.onPressed,
+        this.height,
+        this.width,
+        this.color,
+        this.shape,
+        this.padding,
+        this.textStyle})
       : super(key: key);
 
   final ShapeBorder? shape;
   final Widget child;
   final VoidCallback? onPressed;
-  final Size? size;
+  final double? height, width;
   final Color? color;
   final EdgeInsets? padding;
   final TextStyle? textStyle;
@@ -48,47 +48,29 @@ class AppPrimaryButtonState extends State<AppPrimaryButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return _isLoading
-        ? Center(child: AppProgress(color: widget.color ?? theme.primaryColor))
+        ? AppProgress(color: widget.color ?? theme.primaryColor)
         : ElevatedButton(
-            // style: ButtonStyle(
-            //   padding: MaterialStateProperty.all(
-            //     widget.padding ??
-            //         const EdgeInsets.symmetric(vertical: 14, horizontal: 48),
-            //   ),
-            //   textStyle: MaterialStateProperty.resolveWith(
-            //       (Set<MaterialState> states) {
-            //     if (states.contains(MaterialState.disabled))
-            //       return TextStyle(color: Colors.grey.shade500);
+      style: ElevatedButton.styleFrom(
+        primary: Get.isDarkMode
+            ? AppColors.lightPurple
+            : AppColors.brightPrimary,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15)),
+        padding: widget.padding ??
+            const EdgeInsets.symmetric(vertical: 14, horizontal: 48),
+        fixedSize: Size(MediaQuery.of(context).size.width, 52),
 
-            //     return TextStyle(color: AppColors.brightPrimary);
-            //   }),
-            //   foregroundColor: MaterialStateProperty.resolveWith<Color?>(
-            //     (Set<MaterialState> states) {
-            //       if (states.contains(MaterialState.pressed))
-            //         return AppColors.brightPrimary.shade800;
-            //       else if (states.contains(MaterialState.disabled))
-            //         return Colors.grey.shade500;
-            //         return AppColors.brightPrimary;
-            //     },
-            //   )
-            // ),
-            style: ElevatedButton.styleFrom(
-              primary: theme.primaryColor,
-              padding: widget.padding ??
-                  const EdgeInsets.symmetric(vertical: 14, horizontal: 32),
-              minimumSize: widget.size,
-              textStyle: widget.textStyle ??
-                  const TextStyle(
-                      fontSize: 18,
-                      fontFamily: Environment.fontFamily,
-                      letterSpacing: 1.4,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500),
-            ),
-            onPressed: widget.onPressed,
-            child: widget.child,
-          );
+        textStyle: widget.textStyle ??
+            const TextStyle(
+                fontSize: 14,
+                fontFamily: Environment.fontFamily,
+                letterSpacing: 1.4,
+                color: Colors.white,
+                fontWeight: FontWeight.w500),
+      ),
+      onPressed: widget.onPressed,
+      child: widget.child,
+    );
   }
 }

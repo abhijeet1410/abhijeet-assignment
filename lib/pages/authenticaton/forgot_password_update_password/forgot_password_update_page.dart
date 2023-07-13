@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_mobile_template/app_configs/app_decorations.dart';
-import 'package:flutter_mobile_template/app_configs/app_validators.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
-import 'package:flutter_mobile_template/widgets/user_circle_avatar.dart';
+import 'package:assignment_pay/app_configs/app_decorations.dart';
+import 'package:assignment_pay/app_configs/app_validators.dart';
+import 'package:assignment_pay/widgets/app_buttons/app_primary_button.dart';
+import 'package:assignment_pay/widgets/user_circle_avatar.dart';
 import 'package:get/get.dart';
 
 import 'forgot_password_update_password_controller.dart';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 class ForgotPasswordUpdatePage extends StatefulWidget {
   static const String routeName = '/ForgotPasswordUpdatePage';
 

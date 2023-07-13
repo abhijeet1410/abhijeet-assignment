@@ -1,6 +1,3 @@
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 mixin Environment {
   static const String environment =
       String.fromEnvironment("env", defaultValue: 'dev');

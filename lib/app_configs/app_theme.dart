@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/app_configs/environment.dart';
+import 'package:assignment_pay/app_configs/environment.dart';
 
 import 'app_colors.dart';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 mixin AppThemes {
   static final lightTheme = ThemeData(
     fontFamily: Environment.fontFamily,
@@ -18,10 +15,10 @@ mixin AppThemes {
         cursorColor: AppColors.brightPrimary,
         selectionHandleColor: AppColors.brightPrimary,
         selectionColor: AppColors.brightPrimary.withOpacity(0.3)),
-    iconTheme: IconThemeData(color: Colors.black),
+    iconTheme: const IconThemeData(color: Colors.black),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     brightness: Brightness.light,
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       elevation: 0,
       iconTheme: IconThemeData(color: Colors.black),
     ),
@@ -39,22 +36,22 @@ mixin AppThemes {
     fontFamily: Environment.fontFamily,
     canvasColor: AppColors.darkBackground,
     backgroundColor: AppColors.darkBackground,
-    primarySwatch: AppColors.darkprimary,
-    primaryColor: AppColors.darkprimary,
-    accentColor: AppColors.darkprimary,
+    primarySwatch: AppColors.brightPrimary,
+    primaryColor: AppColors.brightPrimary,
+    accentColor: AppColors.brightPrimary,
     textSelectionTheme: TextSelectionThemeData(
-        cursorColor: AppColors.darkprimary,
-        selectionHandleColor: AppColors.darkprimary,
+        cursorColor: AppColors.brightPrimary,
+        selectionHandleColor: AppColors.brightPrimary,
         selectionColor: AppColors.brightPrimary.withOpacity(0.3)),
-    iconTheme: IconThemeData(color: Colors.black),
+    iconTheme: const IconThemeData(color: Colors.black),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     brightness: Brightness.dark,
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       elevation: 0,
       iconTheme: IconThemeData(color: Colors.white),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
-      style: OutlinedButton.styleFrom(primary: AppColors.darkprimary),
+      style: OutlinedButton.styleFrom(primary: AppColors.brightPrimary),
     ),
     // textTheme: TextTheme(
     //   bodyText1:

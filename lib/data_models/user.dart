@@ -32,31 +32,42 @@ class UserResponse {
 class User {
   User(
       {required this.id,
-      this.name,
+      this.firstName,
+      this.lastName,
+      this.avatar,
       this.phone,
+      this.password,
       this.role,
       this.status,
       this.createdAt,
       this.updatedAt,
       this.newUserLogin,
-      this.email,
-      this.avatar});
+      this.address,
+      this.dob,
+      this.email});
 
   String id;
-  String? name;
+  String? firstName;
+  String? lastName;
   String? phone;
+  String? avatar;
+  String? password;
   int? role;
   int? status;
   DateTime? createdAt;
   DateTime? updatedAt;
   bool? newUserLogin;
   String? email;
-  String? avatar;
+  Address? address;
+  DateTime? dob;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["_id"],
-        name: json["name"] ?? '',
+        firstName: json["firstName"],
+        lastName: json["lastName"],
+        avatar: json["avatar"],
         phone: json["phone"] ?? '',
+        password: json["password"] ?? '',
         role: json["role"] ?? 1,
         status: json["status"] ?? 1,
         createdAt: json["createdAt"] != null
@@ -67,20 +78,28 @@ class User {
             : null,
         newUserLogin: json["newUserLogin"] ?? false,
         email: json["email"] ?? '',
-        avatar: json["avatar"] ?? '',
+        address:
+            json["address"] != null && json["address"] is Map<String, dynamic>
+                ? Address.fromJson(json["address"])
+                : null,
+        dob: json["dob"] != null ? DateTime.parse(json["dob"]) : null,
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "name": name,
+        "firstName": firstName,
+        "lastName": lastName,
         "phone": phone,
+        "dob": dob != null ? dob!.toIso8601String() : null,
+        "password": password,
         "role": role,
         "status": status,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
         "newUserLogin": newUserLogin,
         "email": email,
-        'avatar': avatar
+        'avatar': avatar,
+        "address": address,
       };
 
   @override
@@ -90,4 +109,36 @@ class User {
 
   @override
   int get hashCode => id.hashCode;
+}
+
+class Address {
+  Address({
+    this.addressLine1,
+    this.addressLine2,
+    this.street,
+    this.city,
+    this.pinCode,
+  });
+
+  String? addressLine1;
+  String? addressLine2;
+  String? street;
+  String? city;
+  String? pinCode;
+
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+        addressLine1: json["addressLine1"],
+        addressLine2: json["addressLine2"],
+        street: json["street"],
+        city: json["city"],
+        pinCode: json["pinCode"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "addressLine1": addressLine1,
+        "addressLine2": addressLine2,
+        "street": street,
+        "city": city,
+        "pinCode": pinCode,
+      };
 }

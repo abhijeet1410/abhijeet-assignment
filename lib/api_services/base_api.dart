@@ -1,18 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:flutter_mobile_template/app_configs/api_routes.dart';
-import 'package:flutter_mobile_template/app_configs/environment.dart';
-import 'package:flutter_mobile_template/data_models/rest_error.dart';
-import 'package:flutter_mobile_template/utils/app_auth_helper.dart';
-import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
+import 'package:assignment_pay/app_configs/api_routes.dart';
+import 'package:assignment_pay/app_configs/environment.dart';
+import 'package:assignment_pay/data_models/rest_error.dart';
+import 'package:assignment_pay/utils/shared_preference_helper.dart';
 import 'package:http_parser/http_parser.dart' as p;
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
+
 enum RequestMethod { get, create, patch, remove }
 
 class ApiCall {
@@ -71,7 +67,7 @@ class ApiCall {
         } else {
           final restError = RestError.fromJson(error.response!.data);
           if (restError.code == 401) {
-            if (isAuthNeeded) AuthHelper.logoutUser();
+
           }
           throw restError;
         }

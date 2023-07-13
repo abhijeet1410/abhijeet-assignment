@@ -1,16 +1,17 @@
+import 'package:assignment_pay/app_configs/app_assets.dart';
+import 'package:assignment_pay/app_configs/app_colors.dart';
+import 'package:assignment_pay/widgets/app_buttons/app_back_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_mobile_template/app_configs/app_decorations.dart';
-import 'package:flutter_mobile_template/app_configs/app_validators.dart';
-import 'package:flutter_mobile_template/app_configs/environment.dart';
-import 'package:flutter_mobile_template/pages/authenticaton/register/register_controller.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
+import 'package:assignment_pay/app_configs/app_decorations.dart';
+import 'package:assignment_pay/app_configs/app_validators.dart';
+import 'package:assignment_pay/app_configs/environment.dart';
+import 'package:assignment_pay/pages/authenticaton/register/register_controller.dart';
+import 'package:assignment_pay/widgets/app_buttons/app_primary_button.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 class RegisterPage extends StatefulWidget {
   static const String routeName = '/register';
 
@@ -38,61 +39,171 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final bool showResetPassword =
+        MediaQuery.of(context).viewInsets.bottom == 0.0;
     return Scaffold(
+      appBar: AppBar(
+        leading: const AppBackButton(),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+      ),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 56),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 32, 16, 22),
-                child: Text(
-                    "Please enter your details, a verification code will be sent to you",
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyText1!
-                        .copyWith(fontSize: 16, height: 1.3)),
-              ),
-              const SizedBox(height: 32),
-              Obx(
-                () => Form(
-                  key: _loginController.formKey,
-                  autovalidateMode: _loginController.autoValidateMode.value,
-                  child: Column(
+              Expanded(
+                child: ScrollConfiguration(
+                  behavior: const ScrollBehavior().copyWith(overscroll: false),
+                  child: ListView(
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 22),
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.words,
-                          textInputAction: TextInputAction.done,
-                          onSaved: _loginController.onNameSaved,
-                          // onFieldSubmitted: (s) => FocusScope.of(context).nextFocus(),
-                          validator: (value) =>
-                              AppFormValidators.validateEmpty(value, context),
-                          decoration:
-                              AppDecorations.textFieldDecoration(context)
-                                  .copyWith(
-                            labelText: 'Enter Full Name',
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 22),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 22),
-                        child: TextFormField(
-                          textInputAction: TextInputAction.done,
-                          keyboardType: TextInputType.phone,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(10),
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          onSaved: _loginController.onPhoneSaved,
-                          // onFieldSubmitted: (s) => FocusScope.of(context).nextFocus(),
-                          validator: (value) =>
-                              AppFormValidators.validatePhone(value, context),
-                          decoration:
-                              AppDecorations.textFieldDecoration(context)
-                                  .copyWith(
-                            labelText: 'Enter Phone Number',
+                      const Text("Create your Login \ncredentials.",
+                          style: TextStyle(
+                              fontSize: 32, fontWeight: FontWeight.w700)),
+                      const SizedBox(height: 32),
+                      const Text(
+                          "Enter a password for your verified email ID to register to your account.",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400)),
+                      Obx(
+                        () => Form(
+                          key: _loginController.formKey,
+                          autovalidateMode:
+                              _loginController.autoValidateMode.value,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 32),
+                              TextFormField(
+                                textInputAction: TextInputAction.next,
+                                initialValue: _loginController.email,
+                                keyboardType: TextInputType.emailAddress,
+                                onSaved: _loginController.onEmailSaved,
+                                // onFieldSubmitted: (s) => FocusScope.of(context).nextFocus(),
+                                validator: (value) =>
+                                    AppFormValidators.validateMail(
+                                        value, context),
+                                decoration:
+                                    AppDecorations.textFieldDecoration(context)
+                                        .copyWith(
+                                  hintText: 'Enter email ID',
+                                  prefixIcon: Padding(
+                                    padding: const EdgeInsets.all(18),
+                                    child: SvgPicture.asset(AppAssets.email,
+                                        color: Theme.of(context).brightness ==
+                                                Brightness.light
+                                            ? AppColors.lightModeDisabled
+                                            : AppColors.darkModeDisabled),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              TextFormField(
+                                  obscureText: _loginController
+                                      .isNewPasswordHidden.value,
+                                  onSaved: _loginController.onPasswordSaved,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  onChanged: _loginController.onPasswordSaved,
+                                  // onFieldSubmitted: (s) => FocusScope.of(context).nextFocus(),
+                                  validator: (value) =>
+                                      AppFormValidators.validatePassword(
+                                          value, context),
+                                  textInputAction: TextInputAction.next,
+                                  onFieldSubmitted: (s) =>
+                                      FocusScope.of(context).nextFocus(),
+                                  decoration:
+                                      AppDecorations.textFieldDecoration(
+                                              context)
+                                          .copyWith(
+                                    hintText: 'Set Password',
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.all(18),
+                                      child: SizedBox(
+                                        width: 16,
+                                        height: 15,
+                                        child: SvgPicture.asset(AppAssets.lock,
+                                            color:
+                                                Theme.of(context).brightness ==
+                                                        Brightness.light
+                                                    ? AppColors.darkGray
+                                                    : AppColors.greyWhite),
+                                      ),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      splashColor: Get.theme.backgroundColor,
+                                      highlightColor: Colors.transparent,
+                                      onPressed: () {
+                                        _loginController
+                                                .isNewPasswordHidden.value =
+                                            !_loginController
+                                                .isNewPasswordHidden.value;
+                                      },
+                                      icon: SvgPicture.asset(
+                                          _loginController
+                                                  .isNewPasswordHidden.value
+                                              ? AppAssets.eye
+                                              : AppAssets.hideEye,
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? AppColors.darkGray
+                                              : AppColors.greyWhite),
+                                    ),
+                                  )),
+                              const SizedBox(height: 24),
+                              TextFormField(
+                                  obscureText: _loginController
+                                      .isConfirmPasswordHidden.value,
+                                  textInputAction: TextInputAction.done,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  onSaved:
+                                      _loginController.onConfirmPasswordSaved,
+                                  onChanged:
+                                      _loginController.onConfirmPasswordSaved,
+                                  // onFieldSubmitted: (s) => FocusScope.of(context).nextFocus(),
+                                  validator: (value) => _loginController
+                                      .confirmPasswordValidator(value, context),
+                                  decoration:
+                                      AppDecorations.textFieldDecoration(
+                                              context)
+                                          .copyWith(
+                                    hintText: 'Confirm Password',
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.all(18),
+                                      child: SizedBox(
+                                        width: 16,
+                                        height: 15,
+                                        child: SvgPicture.asset(AppAssets.lock,
+                                            color:
+                                                Theme.of(context).brightness ==
+                                                        Brightness.light
+                                                    ? AppColors.darkGray
+                                                    : AppColors.greyWhite),
+                                      ),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      splashColor: Get.theme.backgroundColor,
+                                      color: Get.theme.backgroundColor,
+                                      highlightColor: Colors.transparent,
+                                      onPressed: () {
+                                        _loginController
+                                                .isConfirmPasswordHidden.value =
+                                            !_loginController
+                                                .isConfirmPasswordHidden.value;
+                                      },
+                                      icon: SvgPicture.asset(
+                                          _loginController
+                                                  .isConfirmPasswordHidden.value
+                                              ? AppAssets.eye
+                                              : AppAssets.hideEye,
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? AppColors.darkGray
+                                              : AppColors.greyWhite),
+                                    ),
+                                  )),
+                            ],
                           ),
                         ),
                       ),
@@ -100,36 +211,18 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 46),
-              AppPrimaryButton(
-                child: Text('Continue'),
-                onPressed: _loginController.registerPhoneNumber,
-                key: _loginController.buttonKey,
-              ),
-              const SizedBox(height: 22),
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                    style: TextStyle(
-                        fontFamily: Environment.fontFamily,
-                        color: Colors.white),
-                    children: [
-                      TextSpan(
-                          text: 'Already Have An Account?\n Click',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, height: 1.4),
-                          recognizer: TapGestureRecognizer()..onTap = () {}),
-                      TextSpan(
-                          text: ' Here to Login',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              height: 1.4,
-                              color: theme.primaryColor),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Get.back();
-                            }),
-                    ]),
+              Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: showResetPassword
+                    ? AppPrimaryButton(
+                        child: const Text('NEXT'),
+                        onPressed: _loginController.updatePassword,
+                        key: _loginController.buttonKey,
+                      )
+                    : const SizedBox(
+                        width: 0,
+                        height: 0,
+                      ),
               ),
             ],
           ),

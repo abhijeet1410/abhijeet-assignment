@@ -1,18 +1,18 @@
+import 'package:assignment_pay/app_configs/app_assets.dart';
+import 'package:assignment_pay/app_configs/app_colors.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_mobile_template/app_configs/app_decorations.dart';
-import 'package:flutter_mobile_template/app_configs/app_validators.dart';
-import 'package:flutter_mobile_template/app_configs/environment.dart';
-import 'package:flutter_mobile_template/pages/authenticaton/forgot_password_phone/forgot_password_phone_page.dart';
-import 'package:flutter_mobile_template/pages/authenticaton/register/register_page.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
+import 'package:assignment_pay/app_configs/app_decorations.dart';
+import 'package:assignment_pay/app_configs/app_validators.dart';
+import 'package:assignment_pay/app_configs/environment.dart';
+import 'package:assignment_pay/pages/authenticaton/register/register_page.dart';
+import 'package:assignment_pay/widgets/app_buttons/app_primary_button.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'login_email_controller.dart';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 class LoginEmailPage extends StatefulWidget {
   static const String routeName = '/login-email';
 
@@ -40,114 +40,209 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final bool showSignUp = MediaQuery.of(context).viewInsets.bottom == 0.0;
     return Scaffold(
-      appBar: AppBar(),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Obx(
-                () => Form(
-                  key: _loginController.formKey,
-                  autovalidateMode: _loginController.autoValidateMode.value,
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                keyboardDismissBehavior:
+                ScrollViewKeyboardDismissBehavior.onDrag,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                  ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 22),
-                        child: TextFormField(
-                          textInputAction: TextInputAction.done,
-                          keyboardType: TextInputType.phone,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(10),
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          onSaved: _loginController.onEmailSaved,
-                          // onFieldSubmitted: (s) => FocusScope.of(context).nextFocus(),
-                          validator: (value) =>
-                              AppFormValidators.validateMail(value, context),
-                          decoration:
-                              AppDecorations.textFieldDecoration(context)
-                                  .copyWith(
-                            labelText: 'Enter email id',
+                      const SizedBox(height: 54),
+                      const Text(
+                        "Hey!",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        "Welcome back.",
+                        style: TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(height: 40),
+                      const Text(
+                        "Enter your registered email ID and \npassword.",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      Obx(
+                            () => Form(
+                          key: _loginController.formKey,
+                          autovalidateMode:
+                          _loginController.autoValidateMode.value,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.emailAddress,
+                                onSaved: _loginController.onEmailSaved,
+                                validator: (value) =>
+                                    AppFormValidators.validateMail(
+                                        value, context),
+                                decoration:
+                                AppDecorations.textFieldDecoration(context)
+                                    .copyWith(
+                                    hintText: 'Enter email ID',
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.all(18),
+                                      child: SvgPicture.asset(
+                                          AppAssets.email,
+                                          color: Theme.of(context)
+                                              .brightness ==
+                                              Brightness.light
+                                              ? AppColors.darkGray
+                                              : AppColors.greyWhite),
+                                    )),
+                              ),
+                              const SizedBox(height: 24),
+                              TextFormField(
+                                obscureText:
+                                _loginController.isPasswordhidden.value,
+                                keyboardType: TextInputType.visiblePassword,
+                                textInputAction: TextInputAction.done,
+                                onSaved: _loginController.onPasswordSaved,
+                                validator: (value) =>
+                                    AppFormValidators.validateEmpty(
+                                        value, context),
+                                decoration:
+                                AppDecorations.textFieldDecoration(context)
+                                    .copyWith(
+                                    hintText: 'Enter Password',
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.all(18),
+                                      child: SizedBox(
+                                        width: 16,
+                                        height: 15,
+                                        child: SvgPicture.asset(
+                                            AppAssets.lock,
+                                            fit: BoxFit.fill,
+                                            color: Theme.of(context)
+                                                .brightness ==
+                                                Brightness.light
+                                                ? AppColors.darkGray
+                                                : AppColors.greyWhite),
+                                      ),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      splashColor:
+                                      Get.theme.backgroundColor,
+                                      onPressed: () {
+                                        _loginController
+                                            .updateObsecure();
+                                      },
+                                      icon: SvgPicture.asset(
+                                          _loginController
+                                              .isPasswordhidden
+                                              .value
+                                              ? AppAssets.eye
+                                              : AppAssets.hideEye,
+                                          color: Theme.of(context)
+                                              .brightness ==
+                                              Brightness.light
+                                              ? AppColors.darkGray
+                                              : AppColors.greyWhite),
+                                    )),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      const SizedBox(height: 22),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 22),
-                        child: TextFormField(
-                          obscureText: true,
-                          textInputAction: TextInputAction.done,
-                          onSaved: _loginController.onPasswordSaved,
-                          // onFieldSubmitted: (s) => FocusScope.of(context).nextFocus(),
-                          validator: (value) =>
-                              AppFormValidators.validateEmpty(value, context),
-                          decoration:
-                              AppDecorations.textFieldDecoration(context)
-                                  .copyWith(
-                            labelText: 'Enter Password',
-                          ),
+                      const SizedBox(height: 32),
+                      Center(
+                        child: AppPrimaryButton(
+                          child: const Text('LOGIN'),
+                          onPressed: _loginController.onLogin,
+                          key: _loginController.buttonKey,
                         ),
                       ),
+                      const SizedBox(height: 24),
+                      // RichText(
+                      //   text: TextSpan(
+                      //     children: <TextSpan>[
+                      //       TextSpan(
+                      //           text: 'Forgot Password? ',
+                      //           style: TextStyle(
+                      //             fontFamily: Environment.fontFamily,
+                      //             fontSize: 16,
+                      //             color: Theme.of(context).brightness ==
+                      //                 Brightness.light
+                      //                 ? AppColors.lightBlack
+                      //                 : Colors.white,
+                      //             fontWeight: FontWeight.w400,
+                      //           )),
+                      //       TextSpan(
+                      //           text: 'RESET PASSWORD',
+                      //           recognizer: TapGestureRecognizer()
+                      //             ..onTap = () {
+                      //               Get.toNamed(
+                      //                   ForgotPasswordEmailPage.routeName);
+                      //             },
+                      //           style: TextStyle(
+                      //             fontFamily: Environment.fontFamily,
+                      //             fontSize: 16,
+                      //             color: Get.theme.primaryColor,
+                      //             fontWeight: FontWeight.w500,
+                      //           )),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 6),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 22),
-                  child: TextButton(
-                      style: TextButton.styleFrom(primary: Colors.white),
-                      onPressed: () {
-                        Get.toNamed(ForgotPasswordPhonePage.routeName);
-                      },
-                      child: Text("Forgot Password? Click Here")),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 40),
+              child: Center(
+                child: showSignUp
+                    ? RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: 'Don’t have an account? ',
+                          style: TextStyle(
+                            fontFamily: Environment.fontFamily,
+                            fontSize: 16,
+                            color: Theme.of(context).brightness ==
+                                Brightness.light
+                                ? AppColors.lightBlack
+                                : Colors.white,
+                            fontWeight: FontWeight.w400,
+                          )),
+                      TextSpan(
+                          text: 'SIGN UP',
+                          recognizer: TapGestureRecognizer()
+                            ..onTap =
+                                () => Get.toNamed(RegisterPage.routeName),
+                          style: TextStyle(
+                            fontFamily: Environment.fontFamily,
+                            fontSize: 16,
+                            color: Get.theme.primaryColor,
+                            fontWeight: FontWeight.w500,
+                          )),
+                    ],
+                  ),
+                )
+                    : const SizedBox(
+                  width: 0,
+                  height: 0,
                 ),
               ),
-              const SizedBox(height: 46),
-              Center(
-                child: AppPrimaryButton(
-                  child: Text('Login'),
-                  onPressed: _loginController.loginPhoneNumber,
-                  key: _loginController.buttonKey,
-                ),
-              ),
-              const SizedBox(height: 54),
-              Text(
-                'Don\'t have An account?\nRegister Now',
-                style: theme.textTheme.bodyText1!
-                    .copyWith(fontSize: 16, height: 1.3),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 42),
-              TextButton(
-                style: TextButton.styleFrom(
-                    primary: Colors.white,
-                    fixedSize: Size(
-                        MediaQuery.of(context).size.width -
-                            MediaQuery.of(context).size.width / 3,
-                        52),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 14,
-                    ),
-                    textStyle: TextStyle(
-                      fontSize: 22,
-                      fontFamily: Environment.fontFamily,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12))),
-                child: Text("Register Now"),
-                onPressed: () {
-                  Get.toNamed(RegisterPage.routeName);
-                },
-              ),
-              const SizedBox(height: 22),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/app_configs/environment.dart';
+import 'package:assignment_pay/app_configs/environment.dart';
 
 import '../app_loader.dart';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 class AppOutlineButton extends StatefulWidget {
   const AppOutlineButton(
       {required this.child,

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/app_configs/environment.dart';
+import 'package:assignment_pay/app_configs/environment.dart';
 import 'package:get/get.dart';
 
 Future<bool?> showAppAlertDialog(

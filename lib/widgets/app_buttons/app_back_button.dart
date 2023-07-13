@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/app_configs/app_assets.dart';
+import 'package:assignment_pay/app_configs/app_assets.dart';
 import 'package:flutter_svg/svg.dart';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 class AppBackButton extends StatelessWidget {
   final Color? color;
   final EdgeInsets? padding;

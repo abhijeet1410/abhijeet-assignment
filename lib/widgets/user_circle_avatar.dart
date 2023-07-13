@@ -1,9 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 class UserCircleAvatar extends StatelessWidget {
   final String? userId;
   final String? name;

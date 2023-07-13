@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/widgets/app_buttons/app_primary_button.dart';
+import 'package:assignment_pay/widgets/app_buttons/app_primary_button.dart';
 import 'package:get/get.dart';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 class ForgotPasswordUpdateController extends GetxController {
   String? _password, _confirmPassword;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();

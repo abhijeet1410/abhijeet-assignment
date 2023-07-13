@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_mobile_template/app_configs/app_theme.dart';
-import 'package:flutter_mobile_template/pages/splash/splash_screen.dart';
-import 'package:flutter_mobile_template/utils/notification_services/in_app_notification.dart';
-import 'package:flutter_mobile_template/utils/shared_preference_helper.dart';
+import 'package:assignment_pay/app_configs/app_theme.dart';
+import 'package:assignment_pay/pages/splash/splash_screen.dart';
+import 'package:assignment_pay/utils/notification_services/in_app_notification.dart';
+import 'package:assignment_pay/utils/shared_preference_helper.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Boiler Plate',
+      title: 'Assignment Pay',
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: AppThemes.lightTheme,

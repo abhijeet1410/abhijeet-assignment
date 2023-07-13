@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-///
-/// Created by Sunil Kumar from Boiler plate
-///
 RestError restErrorResponseFromJson(String str) =>
     RestError.fromJson(json.decode(str));
 

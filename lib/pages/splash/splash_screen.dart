@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_template/app_configs/app_assets.dart';
-import 'package:flutter_mobile_template/utils/app_auth_helper.dart';
+import 'package:assignment_pay/app_configs/app_assets.dart';
+import 'package:assignment_pay/utils/app_auth_helper.dart';
 import 'package:flutter_svg/svg.dart';
 
 ///
@@ -20,20 +20,14 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      AuthHelper.refreshAccessToken().whenComplete(() {
-        AuthHelper.checkUserLevel();
-      });
+      AuthHelper.checkUserLevel();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SvgPicture.asset(
-          AppAssets.logo,
-        ),
-      ),
+    return const Scaffold(
+      body: Center(),
     );
   }
 }
