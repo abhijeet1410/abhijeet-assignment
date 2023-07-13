@@ -6,7 +6,6 @@ import 'package:assignment_pay/data_models/user.dart';
 import 'package:assignment_pay/global_controllers/user_controller.dart';
 import 'package:assignment_pay/pages/authenticaton/login_email/login_email_page.dart';
 import 'package:assignment_pay/pages/dashboard/dashboard_page.dart';
-import 'package:assignment_pay/pages/lock_screen/lock_screen.dart';
 import 'package:assignment_pay/utils/shared_preference_helper.dart';
 import 'package:get/get.dart';
 
@@ -23,8 +22,8 @@ class AuthHelper {
     final userController = Get.isRegistered()
         ? Get.find<UserController>()
         : Get.put<UserController>(UserController(), permanent: true);
-    if (user != null) {
-      Get.offAllNamed(LockScreen.routeName);
+    if (user != null && !SharedPreferenceHelper.logoutVal!) {
+      Get.offAllNamed(DashboardPage.routeName);
     } else {
       Get.offAllNamed(LoginEmailPage.routeName);
     }

@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 
 import 'fcm_services.dart';
 
-const String channelId = 'com.ausicare.customer/notification';
-const String channelName = 'Ausi Care Notification';
-const String channelDescription = 'Ausi Care Notification Channel';
+const String channelId = 'com.assignment.pay';
+const String channelName = 'Assignment Pay Notification';
+const String channelDescription = 'Assignment Pay Notification Channel';
 const String notificationTicker = 'ticker';
 
 final AwesomeNotifications awesomeNotifications = AwesomeNotifications();

@@ -1,5 +1,4 @@
 import 'package:assignment_pay/pages/dashboard/dashboard_page.dart';
-import 'package:assignment_pay/pages/lock_screen/lock_screen.dart';
 import 'package:assignment_pay/utils/shared_preference_helper.dart';
 import 'package:assignment_pay/utils/snackbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +58,7 @@ class LoginEmailController extends GetxController {
         if (SharedPreferenceHelper.user!.user!.email == _email &&
             SharedPreferenceHelper.user!.user!.password == _password) {
           Get.offAllNamed(DashboardPage.routeName);
+          SharedPreferenceHelper.logout(false);
         } else {
           SnackBarHelper.show("Invalid username or password");
         }

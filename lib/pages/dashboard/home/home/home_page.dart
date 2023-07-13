@@ -129,7 +129,7 @@ class HomePageState extends BasePageState<HomePage> with TickerProviderStateMixi
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Hello, ${_controller.state!.firstName}!",
+                                        "Hello, ${SharedPreferenceHelper.user!.user!.firstName}!",
                                         style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,

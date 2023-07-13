@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreferenceHelper {
   static const USER_KEY = 'user';
   static const LOCATION_KEY = 'location';
+  static const LOGOUT_KEY = 'logout';
 
   static SharedPreferences? preferences;
 
@@ -11,9 +12,11 @@ class SharedPreferenceHelper {
     preferences?.clear();
   }
 
-  static void logout() {
-    preferences?.remove(USER_KEY);
+  static void logout(bool isLoggedOut) {
+    preferences!.setBool(LOGOUT_KEY, isLoggedOut);
   }
+
+  static bool? get logoutVal => preferences?.getBool(LOGOUT_KEY) ?? true;
 
   //
   // static void storeLocation(List<double> coordinates) {
